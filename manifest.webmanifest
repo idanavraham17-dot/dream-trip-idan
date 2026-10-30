@@ -1,0 +1,45 @@
+{
+ "name": "טיול החלומות של עידן ולורן",
+ "short_name": "טיול החלומות",
+ "lang": "he",
+ "dir": "rtl",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#0a1318",
+ "theme_color": "#0a6c9f",
+ "description": "מסלול, טיסות, לינות, הרפתקאות ותקציב לטיול בארגנטינה, פרו ומקסיקו, גם בלי קליטה.",
+ "icons": [
+  {
+   "src": "icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "icons/maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ],
+ "shortcuts": [
+  {
+   "name": "לינות",
+   "url": "./#stays"
+  },
+  {
+   "name": "הרפתקאות",
+   "url": "./#adventures"
+  },
+  {
+   "name": "תקציב",
+   "url": "./#budget"
+  }
+ ]
+}
