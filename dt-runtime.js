@@ -174,7 +174,7 @@
         } catch (err) {
           console.warn(err);
           const m = String(err && err.message || '');
-          msg.textContent = /already registered/i.test(m) ? 'למייל הזה כבר יש סיסמה. חזרו ל״כניסה״.' : /invalid login/i.test(m) ? 'האימייל או הסיסמה לא נכונים. פעם ראשונה? לחצו על ״יצירת סיסמה״.' : 'הכניסה נכשלה. בדקו חיבור ונסו שוב.';
+          msg.textContent = /already registered/i.test(m) ? 'למייל הזה כבר יש סיסמה. חזרו ל״כניסה״.' : /invalid login/i.test(m) ? 'האימייל או הסיסמה לא נכונים. פעם ראשונה? לחצו על ״יצירת סיסמה״.' : /logins are disabled|provider_disabled|signups not allowed/i.test(m + (err && err.code || '')) ? 'כניסה עם מייל כבויה ב-Supabase. הפעילו את ספק ה-Email (Authentication ← Sign In / Providers).' : /not confirmed/i.test(m) ? 'Supabase מבקש אישור במייל. כבו את Confirm email ונסו שוב.' : /password should be|at least/i.test(m) ? 'הסיסמה קצרה מדי. בחרו לפחות 6 תווים.' : navigator.onLine ? 'הכניסה נכשלה: ' + m : 'אין חיבור לאינטרנט. נסו שוב כשיש קליטה.';
         } finally { btn.disabled = false; }
       });
     });
