@@ -1070,6 +1070,15 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:color-mix(in srgb
       </div>
       <div class="row between" style="margin-top:12px"><span class="muted" id="xPreview" style="font-size:13px"></span><button class="btn pri" type="submit"><i data-lucide="plus"></i>הוספת הוצאה</button></div>
     </form>
+    <div class="glass pad swcard">
+      <div class="row between" style="gap:12px;flex-wrap:wrap">
+        <div style="min-width:0;flex:1 1 240px"><div class="row" style="margin-bottom:4px"><i data-lucide="file-up"></i><b>ייבוא מ-Splitwise</b></div>
+          <p class="muted small" style="margin:0">ב-Splitwise: הקבוצה ← גלגל השיניים ← Export as spreadsheet. בוחרים כאן את קובץ ה-CSV. הוצאות שכבר יובאו מתעדכנות ולא מוכפלות.</p></div>
+        <label class="btn" for="swFile" style="cursor:pointer"><i data-lucide="upload"></i>בחירת קובץ CSV</label>
+        <input id="swFile" type="file" accept=".csv,text/csv,text/comma-separated-values" class="sr">
+      </div>
+      <p class="muted small" id="swMsg" aria-live="polite" style="margin:8px 0 0"></p>
+    </div>
     <div class="twocol">
       <div class="glass pad"><div class="eyebrow" style="margin-bottom:12px">לפי קטגוריה</div><div class="cats" id="cats"></div></div>
       <div class="glass pad"><div class="eyebrow" style="margin-bottom:6px">הוצאות אחרונות</div><ul class="xlist" id="xlist"></ul></div>
@@ -1401,6 +1410,7 @@ const CATS = [
   { id:'transport', he:'תחבורה', ic:'bus', c:'var(--ar)' },
   { id:'activities', he:'אטרקציות', ic:'mountain', c:'var(--accent)' },
   { id:'stay', he:'לינה', ic:'bed-double', c:'var(--mx)' },
+  { id:'flight', he:'טיסות', ic:'plane', c:'var(--bue, #74acdf)' },
   { id:'shopping', he:'קניות', ic:'shopping-bag', c:'var(--pe)' },
   { id:'other', he:'אחר', ic:'circle-ellipsis', c:'var(--muted)' },
 ];
@@ -1695,8 +1705,13 @@ function packItems(){ return PACK.flatMap(g => [...g.items.map(([k, he, en, hl])
 function totals(){
   const done = ALL_ACTS.filter(a => state.act[a.id] === 'done').length, booked = ALL_ACTS.filter(a => state.act[a.id] === 'booked').length;
   const items = packItems(), packed = items.filter(i => state.pack[i.id]).length;
-  const spent = state.expenses.reduce((a, x) => a + toILS(x), 0), stays = STAYS.reduce((a, s) => a + (Number(state.stays[s.id]?.prepaidILS) || 0), 0);
-  return { done, booked, packAll: items.length, packed, spent, stays };
+  const X = state.expenses, sum = arr => arr.reduce((a, x) => a + toILS(x), 0);
+  const flightX = X.filter(x => x.category === 'flight'), stayX = X.filter(x => x.category === 'stay');
+  const paidStops = new Set(stayX.map(x => x.place).filter(Boolean));
+  const cardStays = STAYS.filter(s => !paidStops.has(s.stop || s.id)).reduce((a, s) => a + (Number(state.stays[s.id]?.prepaidILS) || 0), 0);
+  const flights = sum(flightX), stays = sum(stayX) + cardStays, otherX = X.filter(x => x.category !== 'flight' && x.category !== 'stay'), spent = sum(otherX);
+  const by = {}; X.forEach(x => { if (x.paidBy){ by[x.paidBy] = (by[x.paidBy] || 0) + toILS(x); } });
+  return { done, booked, packAll: items.length, packed, spent, stays, flights, flightN: flightX.length, stayN: stayX.length, otherN: otherX.length, by };
 }
 function setTheme(el, id){ [...el.classList].filter(c => c.startsWith('th-')).forEach(c => el.classList.remove(c)); el.classList.add('th-' + id); }
 /* ---------- today in the trip ---------- */
@@ -1821,7 +1836,7 @@ function renderOverview(){
       <div class="v num">${T.packAll ? Math.round(T.packed/T.packAll*100) : 0}%</div>
       <div class="bar" style="--c:var(--ar)"><span style="width:${T.packAll ? T.packed/T.packAll*100 : 0}%"></span></div><div class="s">${state.pack['pat-bags'] ? 'התיקים השכורים ארוזים ✓' : 'התיקים השכורים עוד לא סומנו'}</div></div>
     <div class="glass pad tile"><div class="k"><i data-lucide="wallet"></i>הוצאות בטיול</div>
-      <div class="v num">${ils(T.spent)}</div><div class="s">${state.expenses.length} הוצאות · בלי תשלומים מראש</div></div>`;
+      <div class="v num">${ils(T.spent)}</div><div class="s">${T.otherN} הוצאות · בלי טיסות ולינות</div></div>`;
   const s = cur || STOPS[0];
   setTheme(document.body, s.id);
   document.getElementById('ovNow').innerHTML = `
@@ -2209,22 +2224,23 @@ function renderConverter(){
   document.getElementById('cvNote').innerHTML = `מתעדכן תוך כדי הקלדה ועובד גם בלי חיבור. 1 USD = <span class="mono">${fmtCur(convert(1,'USD','ARS'),'ARS')}</span> ARS · <span class="mono">${fmtCur(convert(1,'USD','PEN'),'PEN')}</span> PEN · <span class="mono">${fmtCur(convert(1,'USD','MXN'),'MXN')}</span> MXN`;
 }
 function renderBudget(){
-  const T = totals(), FL = 20000;
+  const T = totals(), FL = T.flightN ? T.flights : 20000;
+  const who = Object.entries(T.by).map(([n, v]) => `${esc(n)} ${ils(v)}`).join(' · ');
   document.getElementById('bTiles').innerHTML = `
-    <div class="glass pad tile"><div class="k"><i data-lucide="plane"></i>טיסות ששולמו</div><div class="v num">~${ils(FL)}</div><div class="s ltr" style="text-align:right">$2,771 in logged segments</div></div>
-    <div class="glass pad tile"><div class="k"><i data-lucide="bed-double"></i>לינות ששולמו</div><div class="v num">${ils(T.stays)}</div><div class="s">מתעדכן מכרטיסי הלינה</div></div>
-    <div class="glass pad tile"><div class="k"><i data-lucide="receipt"></i>הוצאות בטיול</div><div class="v num">${ils(T.spent)}</div><div class="s">${state.expenses.length} רשומות</div></div>
-    <div class="glass pad tile total"><div class="k"><i data-lucide="sigma"></i>סה״כ עד עכשיו</div><div class="v num">${ils(FL + T.stays + T.spent)}</div><div class="s">מראש + בדרך</div></div>`;
+    <div class="glass pad tile"><div class="k"><i data-lucide="plane"></i>טיסות ששולמו</div><div class="v num">${T.flightN ? '' : '~'}${ils(FL)}</div><div class="s">${T.flightN ? `${T.flightN} טיסות מתועדות` : 'הערכה, עד שתתועדנה הטיסות'}</div></div>
+    <div class="glass pad tile"><div class="k"><i data-lucide="bed-double"></i>לינות ששולמו</div><div class="v num">${ils(T.stays)}</div><div class="s">${T.stayN ? 'מההוצאות, ומכרטיסי הלינה לשאר' : 'מתעדכן מכרטיסי הלינה'}</div></div>
+    <div class="glass pad tile"><div class="k"><i data-lucide="receipt"></i>שאר ההוצאות</div><div class="v num">${ils(T.spent)}</div><div class="s">${T.otherN} רשומות</div></div>
+    <div class="glass pad tile total"><div class="k"><i data-lucide="sigma"></i>סה״כ עד עכשיו</div><div class="v num">${ils(FL + T.stays + T.spent)}</div><div class="s">${who ? 'שילמו: ' + who : 'מראש + בדרך'}</div></div>`;
   const byCat = Object.fromEntries(CATS.map(c => [c.id, 0]));
   state.expenses.forEach(x => byCat[x.category in byCat ? x.category : 'other'] += toILS(x));
   const max = Math.max(1, ...Object.values(byCat));
-  document.getElementById('cats').innerHTML = T.spent ? CATS.map(c => `<div class="cat"><span class="row" style="gap:6px;flex-wrap:nowrap"><i data-lucide="${c.ic}" style="color:${c.c}"></i>${c.he}</span><div class="bar" style="--c:${c.c}"><span style="width:${byCat[c.id]/max*100}%"></span></div><b>${ils(byCat[c.id])}</b></div>`).join('')
+  document.getElementById('cats').innerHTML = state.expenses.length ? CATS.map(c => `<div class="cat"><span class="row" style="gap:6px;flex-wrap:nowrap"><i data-lucide="${c.ic}" style="color:${c.c}"></i>${c.he}</span><div class="bar" style="--c:${c.c}"><span style="width:${byCat[c.id]/max*100}%"></span></div><b>${ils(byCat[c.id])}</b></div>`).join('')
     : `<div class="empty">ההוצאה הראשונה שתתועד תופיע כאן מחולקת לקטגוריות.</div>`;
   const list = [...state.expenses].sort((a, b) => (b.date || '').localeCompare(a.date || '') || (b.createdAt || 0) - (a.createdAt || 0));
   document.getElementById('xlist').innerHTML = list.length ? list.slice(0, 60).map(x => {
-    const c = CATS.find(c => c.id === x.category) || CATS[5], s = stopOf(x.place), sure = confirmDel === x.id;
+    const c = CATS.find(c => c.id === x.category) || CATS.find(c => c.id === 'other'), s = stopOf(x.place), sure = confirmDel === x.id;
     return `<li style="--c:${c.c}"><span class="xico"><i data-lucide="${c.ic}"></i></span>
-      <div style="min-width:0"><div style="font-weight:600;overflow-wrap:anywhere">${esc(x.note || c.he)}</div><div class="muted" style="font-size:12px">${s ? esc(s.he) + ' · ' : ''}${isoD(x.date)}</div></div>
+      <div style="min-width:0"><div style="font-weight:600;overflow-wrap:anywhere">${esc(x.note || c.he)}</div><div class="muted" style="font-size:12px">${s ? esc(s.he) + ' · ' : ''}${isoD(x.date)}${x.paidBy ? ' · שולם ע״י ' + esc(x.paidBy) : ''}${x.source === 'splitwise' ? ' · Splitwise' : ''}</div></div>
       <div class="xamt"><b dir="ltr">${Number(x.amount).toLocaleString('en-US',{maximumFractionDigits:2})} ${esc(x.currency)}</b>${x.currency !== 'ILS' ? `<span>${ils(toILS(x))}</span>` : ''}</div>
       ${sure ? `<button type="button" class="btn danger" data-del="${x.id}" style="min-height:34px;padding:0 10px">למחוק?</button>` : `<button type="button" class="mini" data-delask="${x.id}" aria-label="מחיקת הוצאה"><i data-lucide="trash-2"></i></button>`}
     </li>`; }).join('') : `<li style="display:block"><div class="empty">אין עדיין הוצאות. הוסיפו את הראשונה בטופס למעלה, בכל מטבע.</div></li>`;
@@ -2417,6 +2433,66 @@ document.addEventListener('change', e => {
   if (t.dataset.pack){ const id = t.dataset.pack; state.pack[id] = t.checked; renderOverview(); renderPacking(); icons(); mergeDoc('trip/packing', { checked: { [id]: t.checked } }); }
   if (t.dataset.rate){ const v = Number(t.value); if (v > 0){ state.rates[t.dataset.rate] = v; state.rates.updatedAt = isoOf(today()); renderAll(); mergeDoc('settings/rates', { [t.dataset.rate]: v, updatedAt: state.rates.updatedAt }); } }
   if (t.dataset.jphoto){ const k = t.dataset.jphoto, f = t.files && t.files[0]; pendingPhoto[k] = f || null; document.getElementById('jpl-' + k).textContent = f ? 'תמונה נבחרה ✓' : 'תמונה'; }
+});
+/* ---------- Splitwise CSV import ---------- */
+function parseCSV(t){
+  const rows = []; let row = [], f = '', q = false;
+  t = t.replace(/^﻿/, '');
+  for (let i = 0; i < t.length; i++){
+    const c = t[i];
+    if (q){ if (c === '"'){ if (t[i + 1] === '"'){ f += '"'; i++; } else q = false; } else f += c; }
+    else if (c === '"') q = true;
+    else if (c === ','){ row.push(f); f = ''; }
+    else if (c === '\n' || c === '\r'){ if (c === '\r' && t[i + 1] === '\n') i++; row.push(f); rows.push(row); row = []; f = ''; }
+    else f += c;
+  }
+  if (f || row.length){ row.push(f); rows.push(row); }
+  return rows.filter(r => r.some(v => v.trim()));
+}
+const SW_PLACE = [[/אושוא|ushuaia/i,'ush'],[/קלפט|קפלט|calafate/i,'cal'],[/ברילו|bariloche/i,'bri'],[/בואנוס|buenos/i,'bue'],[/קוסקו|cusco|cuzco|מאצ|machu|salkantay|סלקנטאי/i,'cus'],[/לימה|lima\b/i,'lim'],[/קנקון|קאנקון|cancun|cancún|פלאיה|playa|מקסיקו|mexico|méxico|טולום|tulum|איסלה|isla|קוזומל|cozumel/i,'mex']];
+function swCategory(cat, desc){
+  const c = (cat || '').toLowerCase(), d = desc || '';
+  if (/plane|flight/.test(c) || /טיס|flight/i.test(d)) return 'flight';
+  if (/hotel|lodging|rent/.test(c) || /מלון|לינה|דירה|הוסטל|airbnb|hostel|hotel/i.test(d)) return 'stay';
+  if (/food|dining|grocer|liquor|restaurant/.test(c) || /אוכל|מסעד|ארוח/.test(d)) return 'food';
+  if (/bus|train|taxi|car|gas|fuel|parking|transport/.test(c) || /מונית|אוטובוס|uber|רכב/i.test(d)) return 'transport';
+  if (/entertain|sport|game|movie|music|activit/.test(c) || /טרק|סיור|כרטיס|טיול|צליל|tour|ticket/i.test(d)) return 'activities';
+  if (/cloth|electronic|gift|household|shopping/.test(c) || /ציוד|קני|בגד/.test(d)) return 'shopping';
+  return 'other';
+}
+const swName = h => /^(idan|עידן)/i.test(h.trim()) ? 'עידן' : /^(lauren|loren|לורן)/i.test(h.trim()) ? 'לורן' : h.trim();
+function swRows(text){
+  const rows = parseCSV(text), head = rows[0] ? rows[0].map(s => s.trim().toLowerCase()) : [];
+  const col = k => head.indexOf(k), iD = col('date'), iDe = col('description'), iC = col('category'), iCo = col('cost'), iCu = col('currency');
+  if ([iD, iDe, iCo, iCu].some(i => i < 0)) throw new Error('format');
+  const people = rows[0].map((h, i) => i > iCu ? [i, swName(h)] : null).filter(Boolean), seen = {}, out = [];
+  for (const r of rows.slice(1)){
+    const desc = (r[iDe] || '').trim(), cat = (r[iC] || '').trim(), cost = Number(String(r[iCo]).replace(/[^\d.\-]/g, '')), cur = (r[iCu] || 'USD').trim().toUpperCase();
+    const date = (r[iD] || '').trim().slice(0, 10);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !(cost > 0) || /^total balance$/i.test(desc) || /^payment$/i.test(cat)) continue;
+    let payer = '', best = 0; people.forEach(([i, n]) => { const v = Number(r[i]); if (v > best){ best = v; payer = n; } });
+    const key = `${date}-${Math.round(cost * 100)}-${cur}`; seen[key] = (seen[key] || 0) + 1;
+    const placeHit = SW_PLACE.find(([re]) => re.test(desc));
+    out.push({ id: `sw-${key}-${seen[key]}`.toLowerCase(), data: { amount: cost, currency: CURS[cur] ? cur : 'USD', category: swCategory(cat, desc), place: placeHit ? placeHit[1] : '', date, note: desc.slice(0, 120), paidBy: payer, source: 'splitwise', createdAt: Date.parse(date) || Date.now() } });
+  }
+  return out;
+}
+document.addEventListener('change', async e => {
+  if (e.target.id !== 'swFile') return;
+  const f = e.target.files && e.target.files[0], msg = document.getElementById('swMsg'); if (!f) return;
+  try {
+    const list = swRows(await f.text());
+    if (!list.length){ msg.textContent = 'לא נמצאו הוצאות בקובץ.'; return; }
+    let added = 0, updated = 0;
+    for (const { id, data } of list){
+      const i = state.expenses.findIndex(x => x.id === id);
+      if (i >= 0){ const old = state.expenses[i]; data.place = old.place || data.place; data.category = old.category || data.category; state.expenses[i] = { ...data, id }; updated++; }
+      else { state.expenses.push({ ...data, id }); added++; }
+      setDoc('expenses/' + id, data);
+    }
+    renderAll(); msg.textContent = `יובאו ${added} הוצאות חדשות${updated ? `, ${updated} עודכנו` : ''}.`; toast('הייבוא מ-Splitwise הושלם');
+  } catch (err) { console.warn(err); msg.textContent = 'לא הצלחתי לקרוא את הקובץ. ודאו שזה קובץ ה-CSV שיוצא מ-Splitwise.'; }
+  e.target.value = '';
 });
 document.addEventListener('submit', async e => {
   const f = e.target; e.preventDefault();
