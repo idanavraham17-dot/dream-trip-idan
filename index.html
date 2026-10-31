@@ -295,13 +295,19 @@ h3.sub{font-family:var(--f-display);font-weight:700;font-size:32px;line-height:.
 .fdate{text-align:center;min-width:56px}
 .fdate b{display:block;font-family:var(--f-display);font-size:40px;line-height:.85}
 .fdate span{font-size:12px;color:var(--muted)}
-.leg{display:flex;align-items:center;gap:10px;direction:ltr;justify-content:flex-end}
+.leg{display:flex;align-items:center;gap:10px;justify-content:space-between}
 .leg .ap{text-align:center}
 .leg .code{font:600 22px var(--f-mono);letter-spacing:.04em}
 .leg .city{font-size:12px;color:var(--muted)}
 .leg .t{font:600 14px var(--f-mono)}
 .leg .mid{flex:1;min-width:40px;max-width:160px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted)}
-.leg .mid .ln{width:100%;height:2px;background:repeating-linear-gradient(90deg,var(--muted) 0 4px,transparent 4px 8px);opacity:.6}
+.leg .mid .ln{position:relative;width:100%;height:2px;margin:6px 0;background:repeating-linear-gradient(90deg,color-mix(in srgb,var(--muted) 60%,transparent) 0 4px,transparent 4px 8px)}
+.leg .mid .ln svg{position:absolute;top:50%;left:50%;width:16px;height:16px;transform:translate(-50%,-50%) scaleX(-1);color:var(--c,var(--accent));background:var(--glass-strong);border-radius:50%;padding:1px}
+.leg .t span{opacity:.75}
+.fnote{grid-column:1/-1;margin:0;display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted)}
+.fnote svg{width:14px;height:14px;flex:none}
+.fcard .acts .linkbtn{justify-content:center;white-space:nowrap}
+.fbadges{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}
 .price{text-align:end;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
 .price b{font:600 18px var(--f-mono)}
 .fdet{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -466,8 +472,8 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
 .btiles .tile.total .k,.btiles .tile.total .s{color:color-mix(in srgb,var(--bg) 70%,transparent)}
 .conv{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:18px;align-items:start}
 .convin{display:flex;gap:8px}
-.convin input{font:600 28px var(--f-mono);min-height:58px;direction:ltr;text-align:left}
-.convin select{width:auto;min-height:58px;font:600 16px var(--f-mono)}
+.convin input{flex:1;min-width:0;font:600 28px var(--f-mono);min-height:58px;direction:ltr;text-align:left}
+.convin select{width:auto;flex:none;min-width:96px;min-height:58px;font:600 16px var(--f-mono);padding-inline:10px 28px}
 .qamts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 .qamts button{all:unset;cursor:pointer;font:600 13px var(--f-mono);padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--glass-strong)}
 .qamts button:focus-visible{outline:3px solid var(--accent)}
@@ -547,11 +553,24 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
 @media (max-width:560px){
   .dban{aspect-ratio:16/9}
   .brand{font-size:26px}
-  .brand small{display:none}
-  .fcard{grid-template-columns:auto minmax(0,1fr)}
-  .fcard .price{grid-column:1/-1;flex-direction:row;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:10px}
-  .leg .code{font-size:18px}
-  .tile .v{font-size:34px}
+  .brand small,.brand-x{display:none}
+  .fcard{grid-template-columns:minmax(0,1fr) auto;gap:12px}
+  .fcard .fdate{display:flex;align-items:baseline;gap:8px;text-align:start;min-width:0}
+  .fcard .fdate b{font-size:24px}
+  .fcard .leg{grid-column:1/-1;order:2}
+  .fcard .price{grid-column:2;grid-row:1;flex-direction:row;align-items:center;gap:8px}
+  .fcard .price .row{flex-wrap:wrap}
+  .fcard>.fdet,.fcard>.fnote,.fcard>.fform,.fcard>.fbadges{order:3}
+  .fcard .acts{order:4;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .fcard .acts .linkbtn{padding:0 6px;font-size:12.5px;gap:4px}
+  .leg .code{font-size:20px}
+  .leg .city{font-size:11.5px}
+  .tl>li{padding-inline-start:40px}
+  .tl::before{inset-inline-start:15px}
+  .tl .node{width:30px;height:30px;inset-inline-start:1px}
+  .tl .node svg{width:15px;height:15px}
+  .tl .stay .node{inset-inline-start:9px}
+  .tile .v{font-size:clamp(24px,7.4vw,32px);white-space:nowrap}
   .cat{grid-template-columns:86px minmax(0,1fr) auto}
   .xlist li{grid-template-columns:auto minmax(0,1fr) auto}
   .psum{grid-template-columns:1fr;justify-items:center}
@@ -626,6 +645,7 @@ h3.sub{font-family:var(--f-body);font-weight:700;font-size:21px;line-height:1.2;
 .destname{font-family:var(--f-display);font-weight:700;font-size:46px;line-height:.9;margin:0}
 .pkhead h3{font-family:var(--f-body);font-size:19px;font-weight:700;line-height:1.25}
 .tile .v{font-family:var(--f-body);font-size:32px;font-weight:700;line-height:1.1;letter-spacing:-.01em}
+@media (max-width:560px){.btiles .tile .v,.tiles .tile .v{font-size:clamp(22px,6.6vw,28px);white-space:nowrap}}
 .tile .k{font-size:12.5px;letter-spacing:.01em}
 .fdate b{font-family:var(--f-body);font-weight:700;font-size:30px;line-height:1}
 .dpd b{font-family:var(--f-body);font-weight:700;font-size:18px;line-height:1.1}
@@ -951,7 +971,7 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:color-mix(in srgb
 <header class="top">
   <div class="wrap">
     <div class="brandrow">
-      <div class="brand">טיול החלומות של עידן ולורן<small class="ltr">Idan &amp; Lauren's Dream Trip</small></div>
+      <div class="brand">טיול החלומות<span class="brand-x"> של עידן ולורן</span><small class="ltr">Idan &amp; Lauren's Dream Trip</small></div>
       <span id="sync" class="sync" role="status"><span class="dot"></span><span id="syncTxt">מתחבר…</span></span>
       <button id="themeBtn" class="iconbtn" type="button" aria-label="החלפת מצב כהה/בהיר"><i data-lucide="moon"></i></button>
     </div>
@@ -1856,18 +1876,20 @@ function wxBlock(s){
     <div class="trange" aria-label="טווח טמפרטורות ${s.tmin} עד ${s.tmax} מעלות"><div class="track"><div class="fill" style="left:${L}%;width:${W}%"></div></div><div class="scale"><span>0°</span><span>10°</span><span>20°</span><span>35°</span></div></div>
     <div class="cond"><span class="chip"><i data-lucide="thermometer"></i>${esc(s.wx)}</span>${s.cond.map(([ic, t]) => `<span class="chip"><i data-lucide="${ic}"></i>${esc(t)}</span>`).join('')}</div>`;
 }
+const estArr = f => { if (f.arr || !f.estMin) return f.arr || ''; const m = mins(f.dep) + f.estMin + (f.zt - f.zf) * 60; return `${String(Math.floor(m / 60) % 24).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`; };
+const durTxt = f => { const m = f.arr ? (mins(f.arr) - f.zt * 60) - (mins(f.dep) - f.zf * 60) : f.estMin; if (!m) return ''; const h = Math.floor(m / 60), r = m % 60; return `${h ? h + ' ש׳' : ''}${h && r ? ' ' : ''}${r ? r + ' ד׳' : ''}`; };
 function legHTML(f){
-  const d = dur(f);
-  return `<div class="leg">
+  const d = durTxt(f), arr = estArr(f);
+  return `<div class="leg" aria-label="${esc(f.fc)} ${f.dep} אל ${esc(f.tc)} ${arr}">
     <div class="ap"><div class="code">${f.f}</div><div class="city">${esc(f.fc)}</div><div class="t">${f.dep}</div></div>
-    <div class="mid"><span>${d ? d + 'h' : ''}${f.conn ? ' · via connection' : ''}</span><div class="ln"></div><i data-lucide="plane"></i></div>
-    <div class="ap"><div class="code">${f.t}</div><div class="city">${esc(f.tc)}</div><div class="t">${f.arr || '—'}</div></div>
+    <div class="mid"><span>${d ? (f.arr ? '' : 'כ-') + d : ''}</span><div class="ln"><i data-lucide="plane"></i></div><span>${f.conn ? 'עם קונקשן' : 'ישירה'}</span></div>
+    <div class="ap"><div class="code">${f.t}</div><div class="city">${esc(f.tc)}</div><div class="t">${arr ? (f.arr ? arr : `<span title="שעת נחיתה משוערת" dir="ltr">~${arr}</span>`) : '—'}</div></div>
   </div>`;
 }
 function renderFlights(){
   if (editingFlight && document.querySelector(`[data-fform="${editingFlight}"]`)) return;
   const nf = nextFlight();
-  const items = [`<li class="stay" style="--c:var(--ar)"><span class="node"></span><b style="color:var(--fg)">23.1 · נחיתה באושואיה</b> <span class="ltr">Arrival in Ushuaia, Argentina</span> · 6 לילות</li>`];
+  const items = [`<li class="stay" style="--c:var(--ar)"><span class="node"></span><b style="color:var(--fg)">23.1 · נחיתה באושואיה</b> · 6 לילות</li>`];
   FLIGHTS.forEach((f, i) => {
     const stop = STOPS[i + 1], x = state.flights[f.id] || {};
     const det = editingFlight === f.id
@@ -1881,9 +1903,11 @@ function renderFlights(){
       <article class="glass pad fcard" aria-label="טיסה מ-${f.fc} ל-${f.tc}, ${fmtD(f.d)}">
         <div class="fdate"><b class="num">${f.d.getDate()}</b><span>${f.d.toLocaleDateString('he-IL',{month:'short'})} · ${wd(f.d)}</span></div>
         ${legHTML(f)}
-        <div class="price"><b dir="ltr">$${f.usd}</b><div class="row" style="justify-content:flex-end">${nf === f ? '<span class="badge next-tag">הבאה בתור</span>' : ''}${f.paid ? `<span class="badge paid"><i data-lucide="check"></i>שולם ע״י ${f.paid}</span>` : ''}</div></div>
+        <div class="price"><b dir="ltr">$${f.usd}</b></div>
+        ${nf === f || f.paid ? `<div class="fbadges">${nf === f ? '<span class="badge next-tag">הבאה בתור</span>' : ''}${f.paid ? `<span class="badge paid"><i data-lucide="check"></i>שולם ע״י ${f.paid}</span>` : ''}</div>` : ''}
         ${det}
-        <div class="acts"><a class="linkbtn" href="${gcalFlight(f)}" target="_blank" rel="noopener"><i data-lucide="calendar-plus"></i>יומן גוגל</a>${editingFlight === f.id ? '' : `<button type="button" class="linkbtn" data-fedit="${f.id}"><i data-lucide="pencil"></i>${x.number || x.pnr ? 'עריכת פרטי טיסה' : 'מספר טיסה וקוד הזמנה'}</button>`}<button type="button" class="linkbtn" data-mapfly="${STOPS[i].id}"><i data-lucide="map"></i>במפה</button>${!f.arr ? '<span class="muted small">שעת נחיתה לא ידועה, ביומן מוגדרת הערכה של 2:20</span>' : ''}</div>
+        ${!f.arr ? '<p class="fnote"><i data-lucide="info"></i>שעת הנחיתה משוערת. הוסיפו את מספר הטיסה כשיהיה.</p>' : ''}
+        <div class="acts">${editingFlight === f.id ? '' : `<button type="button" class="linkbtn" data-fedit="${f.id}"><i data-lucide="${x.number || x.pnr ? 'pencil' : 'ticket'}"></i>${x.number || x.pnr ? 'עריכה' : 'פרטים'}</button>`}<a class="linkbtn" href="${gcalFlight(f)}" target="_blank" rel="noopener"><i data-lucide="calendar-plus"></i>ליומן</a><button type="button" class="linkbtn" data-mapfly="${STOPS[i].id}"><i data-lucide="map"></i>במפה</button></div>
       </article></li>`);
     if (stop) items.push(`<li class="stay" style="--c:${COUNTRY[stop.c]}"><span class="node"></span>${nights(stop)} לילות ב${esc(stop.he)}${stop.id === 'mex' ? ' · עד 4.3' : ''}</li>`);
   });
