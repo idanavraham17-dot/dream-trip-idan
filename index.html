@@ -1396,11 +1396,13 @@ const STAY_PRESET = {
   cus:{ name:'Casa Flamenco San Agustin', address:'Calle San Agustín 224, Cusco 08002, Peru', status:'confirmed' },
   mex:{ name:'The Palm at Playa', address:'Calle 8 Norte, entre 5ta y 10 Avenida, Playa del Carmen, Q.R. 77710, Mexico', checkIn:'2027-02-18', checkOut:'2027-02-22', status:'confirmed' },
   mex2:{ name:'Wyndham Alltra Playa del Carmen', address:'Av. Constituyentes 2, Playa del Carmen, Q.R., Mexico', checkIn:'2027-02-22', checkOut:'2027-02-25', status:'confirmed', notes:'הכל כלול · למבוגרים בלבד' },
-  mex3:{ name:'Sunscape Cancun by Hyatt', address:'Blvd. Kukulcan Km 11.5, Zona Hotelera, Cancún, Q.R., Mexico', checkIn:'2027-02-25', checkOut:'2027-03-04', status:'confirmed', notes:'הכל כלול' } };
+  mexi:{ notes:'נשאר לסגור מלון באיסלה מוחרס' },
+  mex3:{ name:'Sunscape Cancun by Hyatt', address:'Blvd. Kukulcan Km 11.5, Zona Hotelera, Cancún, Q.R., Mexico', checkIn:'2027-02-28', checkOut:'2027-03-04', status:'confirmed', notes:'הכל כלול' } };
 const STAYS = STOPS.flatMap(s => s.id !== 'mex' ? [s] : [
   { ...s, stop:'mex', he:'פלאיה דל כרמן', s:D(2,18), e:D(2,22), center:[20.6296,-87.0739] },
   { ...s, id:'mex2', stop:'mex', he:'פלאיה דל כרמן', s:D(2,22), e:D(2,25), center:[20.6395,-87.0680] },
-  { ...s, id:'mex3', stop:'mex', he:'קנקון', s:D(2,25), e:D(3,4), center:[21.1350,-86.7450] } ]);
+  { ...s, id:'mexi', stop:'mex', he:'איסלה מוחרס', s:D(2,25), e:D(2,28), center:[21.2320,-86.7310] },
+  { ...s, id:'mex3', stop:'mex', he:'קנקון', s:D(2,28), e:D(3,4), center:[21.1350,-86.7450] } ]);
 const stayById = id => STAYS.find(x => x.id === id);
 const staysOfStop = id => STAYS.filter(x => (x.stop || x.id) === id);
 function stayOf(id){
@@ -2507,14 +2509,16 @@ document.addEventListener('change', async e => {
   try {
     const list = swRows(await f.text());
     if (!list.length){ msg.textContent = 'לא נמצאו הוצאות בקובץ.'; return; }
-    let added = 0, updated = 0;
+    let added = 0, updated = 0, skipped = 0;
     for (const { id, data } of list){
       const i = state.expenses.findIndex(x => x.id === id);
+      const twin = i < 0 && state.expenses.find(x => x.source !== 'splitwise' && x.currency === data.currency && Math.abs(Number(x.amount) - data.amount) < 0.01 && Math.abs(Date.parse(x.date) - Date.parse(data.date)) < 8 * 864e5);
+      if (twin){ skipped++; continue; }
       if (i >= 0){ const old = state.expenses[i]; data.place = old.place || data.place; data.category = old.category || data.category; state.expenses[i] = { ...data, id }; updated++; }
       else { state.expenses.push({ ...data, id }); added++; }
       setDoc('expenses/' + id, data);
     }
-    renderAll(); msg.textContent = `יובאו ${added} הוצאות חדשות${updated ? `, ${updated} עודכנו` : ''}.`; toast('הייבוא מ-Splitwise הושלם');
+    renderAll(); msg.textContent = `יובאו ${added} הוצאות חדשות${updated ? `, ${updated} עודכנו` : ''}${skipped ? `, ${skipped} כבר הוזנו ידנית ודולגו` : ''}.`; toast('הייבוא מ-Splitwise הושלם');
   } catch (err) { console.warn(err); msg.textContent = 'לא הצלחתי לקרוא את הקובץ. ודאו שזה קובץ ה-CSV שיוצא מ-Splitwise.'; }
   e.target.value = '';
 });
