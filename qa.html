@@ -826,6 +826,7 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:color-mix(in srgb
 /* ===== stays & map vault ===== */
 .bnav{grid-template-columns:repeat(5,1fr)}
 .bnav button{font-size:11.5px}
+@media (max-width:560px){#syncTxt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.sync{padding:9px}.brandrow .iconbtn{width:40px;height:40px}}
 .fgrid4{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
 @media (max-width:900px){.fgrid4{grid-template-columns:repeat(2,minmax(0,1fr))}.fgrid4>:last-child:nth-child(odd){grid-column:1/-1}}
 .stiles{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -1150,8 +1151,9 @@ li.empty .lot{display:block;margin:0 auto 6px;width:72px;height:72px}
 .fk-go{all:unset;cursor:pointer;display:grid;place-items:center;width:84px;height:84px;border-radius:50%;background:var(--grad);color:#06121a;box-shadow:0 0 0 6px rgba(255,255,255,.08),0 12px 30px -8px color-mix(in srgb,var(--d1) 70%,transparent);font:800 14px var(--f-body);text-align:center;line-height:1.1}
 .fk-go svg{width:26px;height:26px;display:block;margin:0 auto 2px}
 .fk-go:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.fk-grid>*{min-width:0}
 .fk-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
-@media (max-width:900px){.fk-grid{grid-template-columns:1fr}}
+@media (max-width:900px){.fk-grid{grid-template-columns:minmax(0,1fr)}}
 .fk-h{display:flex;align-items:center;gap:8px;margin:0 0 12px;font:700 19px var(--f-body)}
 .fk-h svg{width:20px;height:20px;color:var(--accent)}
 .suntrack{position:relative;height:96px;margin:6px 0 10px}
