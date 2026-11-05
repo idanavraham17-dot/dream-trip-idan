@@ -1068,7 +1068,7 @@ html.noscroll,html.noscroll body{overflow:hidden}
 .pin.trek svg{rotate:45deg}
 .pin.food{background:#ff8a5c}
 .pin.food.night{background:#b98cff}
-.lg.sq{border-radius:4px}
+.lg.lgsq{border-radius:4px}
 .offline-pill{position:fixed;z-index:35;top:calc(env(safe-area-inset-top,0px) + 70px);left:50%;translate:-50% 0;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:99px;background:var(--fg);color:var(--bg);font-size:13px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:svIn .3s var(--ease)}
 .offline-pill svg{width:15px;height:15px}
 
@@ -1236,7 +1236,7 @@ li.empty .lot{display:block;margin:0 auto 6px;width:72px;height:72px}
       <div class="mapwrap"><div id="map" class="darkmap" dir="ltr" role="application" aria-label="מפה אינטראקטיבית של המסלול"></div><div class="globeover" id="globeMap" hidden><div class="globebox" id="globeMapBox" role="img" aria-label="גלובוס המסלול. לחיצה על יעד מקרבת אליו במפה"><div class="glabels"></div><div class="ghint">לחצו על יעד כדי להתקרב</div></div></div></div>
       <div class="mapinfo" id="mapInfo" aria-live="polite">
         <div class="t"><b>לחצו על נקודה במפה</b><span class="muted small">לינות שהוזמנו, טרקים, אוכל ובילוי. המיקומים של הטרקים הם נקודת היציאה, והקישור פותח ניווט מדויק.</span></div>
-        <div class="legend"><span><i class="lg sq" style="background:var(--fg)"></i>טיסה</span><span><i class="lg sq" style="background:linear-gradient(135deg,var(--d1),var(--d2))"></i>לינה מוזמנת</span><span><i class="lg" style="background:#ff8a5c"></i>אוכל</span><span><i class="lg" style="background:#b98cff"></i>בילוי</span><span><i class="lg" style="background:var(--tag-e)"></i>קל</span><span><i class="lg" style="background:var(--tag-m)"></i>בינוני</span><span><i class="lg" style="background:var(--tag-x)"></i>אקסטרים</span></div>
+        <div class="legend"><span><i class="lg lgsq" style="background:var(--fg)"></i>טיסה</span><span><i class="lg lgsq" style="background:linear-gradient(135deg,var(--d1),var(--d2))"></i>לינה מוזמנת</span><span><i class="lg" style="background:#ff8a5c"></i>אוכל</span><span><i class="lg" style="background:#b98cff"></i>בילוי</span><span><i class="lg" style="background:var(--tag-e)"></i>קל</span><span><i class="lg" style="background:var(--tag-m)"></i>בינוני</span><span><i class="lg" style="background:var(--tag-x)"></i>אקסטרים</span></div>
       </div>
     </div>
 
@@ -2942,7 +2942,7 @@ function GLL(ml){
     const api = { _m:m, _tiles:true, _ready:false, _q:[], _lines:new Set(), _style:'dark', _3d:false,
       zoomControl:{ setPosition(){} }, attributionControl:{ setPrefix(){}, addAttribution(){} },
       whenReady(f){ api._ready ? f() : api._q.push(f); },
-      fitBounds(b, op = {}){ const bb = toLLB(b); if (bb) m.fitBounds(bb, { padding: pad(op.padding), maxZoom: op.maxZoom || 14, duration:0 }); return api; },
+      fitBounds(b, op = {}){ const bb = toLLB(b); if (bb){ api._fit = [bb, { padding: pad(op.padding), maxZoom: op.maxZoom || 14, duration:0 }]; m.fitBounds(...api._fit); } return api; },
       flyToBounds(b, op = {}){ const bb = toLLB(b); if (bb) m.fitBounds(bb, { padding: pad(op.padding), maxZoom: op.maxZoom || 14, duration: (op.duration || .9) * 1000, essential:true, pitch: api._3d ? 55 : 0 }); },
       flyTo(ll, z, op = {}){ m.flyTo({ center:[ll[1], ll[0]], zoom: z, duration: (op.duration || .9) * 1000, essential:true, pitch: api._3d ? 60 : 0 }); },
       invalidateSize(){ try { m.resize(); } catch(e){} }, removeLayer(){}, remove(){ try { m.remove(); } catch(e){} },
@@ -2950,6 +2950,7 @@ function GLL(ml){
     const apply3d = () => api.whenReady(() => { try {
       if (api._3d){ if (!m.getSource('dem')) m.addSource('dem', GL_DEM); m.setTerrain({ source:'dem', exaggeration:1.35 }); m.easeTo({ pitch:62, duration:900 }); }
       else { m.setTerrain(null); m.easeTo({ pitch:0, bearing:0, duration:700 }); } } catch(e){ console.warn(e); } });
+    m.once('load', () => { m.resize(); if (api._fit) m.fitBounds(...api._fit); });
     m.on('style.load', () => { api._ready = true; api._lines.forEach(l => l.paint(api)); api._q.splice(0).forEach(f => f()); if (api._3d) apply3d(); });
     // controls: style switcher + zoom/compass + attribution
     const mk = (cls, html) => { const d = document.createElement('div'); d.className = 'maplibregl-ctrl ' + cls; d.innerHTML = html; return d; };
@@ -3103,7 +3104,7 @@ async function globeTexture(){
   const step = 7;
   for (let y = step / 2; y < H; y += step){ const lat = 90 - y / H * 180, cs = Math.max(.2, Math.cos(lat * Math.PI / 180)), sx = step / cs;
     for (let x = (y / step % 2) * sx / 2; x < W; x += sx){ const mx = Math.floor(x / 4), my = Math.floor(y / 4); if (!geo || md[(my * mask.width + mx) * 4] > 128){ const trip = geo && lat < 33 && lat > -56 && x / W * 360 - 180 > -92 && x / W * 360 - 180 < -34;
-      g.fillStyle = trip ? 'rgba(255,214,140,.95)' : 'rgba(214,178,104,.55)'; g.beginPath(); g.arc(x, y, trip ? 1.9 : 1.5, 0, 6.283); g.fill(); } } }
+      g.fillStyle = trip ? 'rgba(255,220,150,1)' : 'rgba(222,186,112,.78)'; g.beginPath(); g.arc(x, y, trip ? 2.1 : 1.8, 0, 6.283); g.fill(); } } }
   return c;
 }
 function createGlobe(box, opts = {}){
@@ -3144,6 +3145,7 @@ function createGlobe(box, opts = {}){
       const lb = document.createElement('span'); lb.className = 'glabel' + (stop ? '' : ' via'); lb.textContent = he; if (stop){ lb.dataset.gstop = stop; } labelsEl.appendChild(lb); labels[key] = { el: lb, p, ring };
     });
     // orientation: start over South America
+    const home = { yaw:-0.49, pitch:-0.38 };
     let yaw = -0.49, pitch = -0.38, vy = 0, drag = null, idleT = 0, active = null;
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const cnv = renderer.domElement;
@@ -3162,19 +3164,19 @@ function createGlobe(box, opts = {}){
     const tmp = new T.Vector3(), camDir = new T.Vector3();
     let target = null, t0 = performance.now(), last = t0;
     api.setActive = (stop) => { active = stop; Object.values(labels).forEach(x => x.el.classList.toggle('on', !!stop && x.el.dataset.gstop === stop)); atmoMat.uniforms.c.value = accent();
-      const code = Object.keys(GLOBE_STOP).find(k => GLOBE_STOP[k] === stop); if (code){ const [la, lo] = GLOBE_PTS[code]; target = { yaw: Math.PI / 2 - (lo + 180) * Math.PI / 180, pitch: la * Math.PI / 180 * .85 }; idleT = performance.now(); } };
+      const code = Object.keys(GLOBE_STOP).find(k => GLOBE_STOP[k] === stop); if (code){ const [la, lo] = GLOBE_PTS[code]; target = { yaw: Math.PI / 2 - (lo + 180) * Math.PI / 180, pitch: la * Math.PI / 180 * .85 }; home.yaw = target.yaw; home.pitch = target.pitch; idleT = performance.now(); } };
     function loop(now = performance.now()){
       raf = 0; if (!alive || !visible || document.hidden) return; raf = requestAnimationFrame(loop);
       const dt = Math.min(.05, (now - last) / 1000); last = now;
       if (!drag){ if (target){ let d = target.yaw - yaw; d = Math.atan2(Math.sin(d), Math.cos(d)); yaw += d * Math.min(1, dt * 3); pitch += (target.pitch - pitch) * Math.min(1, dt * 3); if (Math.abs(d) < .002 && Math.abs(target.pitch - pitch) < .002) target = null; }
-        else { yaw -= vy; vy *= .92; if (!still && now - idleT > 2500) yaw += dt * .09; } }
+        else { yaw -= vy; vy *= .92; if (!still && now - idleT > 2500){ const sw = home.yaw + Math.sin(now / 9000) * .55; let d = sw - yaw; d = Math.atan2(Math.sin(d), Math.cos(d)); yaw += d * Math.min(1, dt * .5); pitch += (home.pitch - pitch) * Math.min(1, dt * .5); } } }
       world.rotation.set(pitch, yaw, 0, 'XYZ');
       arcMat.uniforms.uT.value = (now - t0) / 2600;
-      const tt = ((now - t0) / 1600) % curves.length, ci = Math.floor(tt), cp = curves[ci].getPointAt(tt - ci); comet.position.copy(cp); halo.position.copy(cp);
+      const tt = (Math.max(0, now - t0) / 1600) % curves.length, ci = Math.min(curves.length - 1, Math.floor(tt)), cp = curves[ci].getPointAt(tt - ci); comet.position.copy(cp); halo.position.copy(cp);
       world.updateMatrixWorld(); cam.getWorldDirection(camDir);
       const w = box.clientWidth, hh = box.clientHeight || w;
       Object.values(labels).forEach(x => { tmp.copy(x.p).applyMatrix4(world.matrixWorld); const facing = tmp.clone().normalize().dot(cam.position.clone().normalize()) > .18; tmp.project(cam);
-        x.el.style.transform = `translate(${(tmp.x * .5 + .5) * w}px, ${(-tmp.y * .5 + .5) * hh}px)`; x.el.classList.toggle('back', !facing);
+        x.el.style.transform = `translate(${(tmp.x * .5 + .5) * w}px, ${(-tmp.y * .5 + .5) * hh}px)`; x.el.classList.toggle('back', !facing || (w < 470 && x.el.dataset.gstop && x.el.dataset.gstop !== active));
         const s = 1 + .5 * ((Math.sin(now / 500 + x.ring.userData.pulse) + 1) / 2); x.ring.scale.set(s, s, s); x.ring.material.opacity = .9 - (s - 1); });
       renderer.render(scene, cam);
     }
