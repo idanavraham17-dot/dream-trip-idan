@@ -15,6 +15,16 @@
     get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   };
+  /* IndexedDB: the primary offline store (bigger and sturdier than localStorage, which stays as a fast mirror) */
+  const idb = (() => {
+    let p = null;
+    const open = () => p || (p = new Promise((res, rej) => { if (!window.indexedDB) return rej(new Error('no idb')); const r = indexedDB.open('dreamtrip', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }));
+    return {
+      async get(k) { try { const d = await open(); return await new Promise((res, rej) => { const q = d.transaction('kv').objectStore('kv').get(k); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); }); } catch (e) { return undefined; } },
+      async set(k, v) { try { const d = await open(); await new Promise((res, rej) => { const t = d.transaction('kv', 'readwrite'); t.objectStore('kv').put(v, k); t.oncomplete = res; t.onerror = () => rej(t.error); }); } catch (e) {} },
+      async del(k) { try { const d = await open(); d.transaction('kv', 'readwrite').objectStore('kv').delete(k); } catch (e) {} }
+    };
+  })();
   const configured = !!(CFG.supabaseUrl && CFG.supabaseKey && window.supabase);
   const sb = configured ? window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }) : null;
 
@@ -33,8 +43,16 @@
   /* ---------- document store ---------- */
   const cache = new Map(Object.entries(ls.get(LSK.cache, {})));
   let outbox = ls.get(LSK.outbox, []);
+  let idbT = 0;
+  const idbSave = () => { clearTimeout(idbT); idbT = setTimeout(() => { idb.set(LSK.cache, { at: Date.now(), docs: Object.fromEntries(cache) }); idb.set(LSK.outbox, outbox.slice()); }, 150); };
+  const hydrate = (async () => {
+    const [c, o] = await Promise.all([idb.get(LSK.cache), idb.get(LSK.outbox)]);
+    if (c && c.docs) for (const [k, v] of Object.entries(c.docs)) if (!cache.has(k)) cache.set(k, v);
+    if (Array.isArray(o) && o.length > outbox.length) outbox = o;
+    idbSave();
+  })();
   const docL = new Map(), colL = new Map();
-  const persist = () => { ls.set(LSK.cache, Object.fromEntries(cache)); };
+  const persist = () => { ls.set(LSK.cache, Object.fromEntries(cache)); idbSave(); };
   const isObj = v => v && typeof v === 'object' && !Array.isArray(v);
   const deepMerge = (a, b) => { const o = { ...(isObj(a) ? a : {}) }; for (const [k, v] of Object.entries(b || {})) o[k] = isObj(v) && isObj(o[k]) ? deepMerge(o[k], v) : v; return o; };
   const snapDoc = path => ({ id: path.split('/').pop(), exists: cache.has(path), data: () => cache.get(path) });
@@ -68,12 +86,12 @@
     try {
       while (outbox.length) {
         if (!navigator.onLine) break;
-        try { await sendOp(outbox[0]); outbox.shift(); ls.set(LSK.outbox, outbox); }
+        try { await sendOp(outbox[0]); outbox.shift(); ls.set(LSK.outbox, outbox); idbSave(); }
         catch (e) { console.warn('sync retry later', e); break; }
       }
     } finally { flushing = false; setStatus(); }
   }
-  function queue(op) { applyLocal(op); outbox.push(op); ls.set(LSK.outbox, outbox); flush(); return Promise.resolve(); }
+  function queue(op) { applyLocal(op); outbox.push(op); ls.set(LSK.outbox, outbox); idbSave(); flush(); return Promise.resolve(); }
   window.addEventListener('online', flush);
   setInterval(flush, 30000);
 
@@ -185,7 +203,7 @@
     if (!navigator.onLine) return null;
     return loginUI();
   }
-  window.dtSignOut = async () => { if (sb) await sb.auth.signOut(); localStorage.removeItem(LSK.cache); localStorage.removeItem(LSK.outbox); location.reload(); };
+  window.dtSignOut = async () => { if (sb) await sb.auth.signOut(); localStorage.removeItem(LSK.cache); localStorage.removeItem(LSK.outbox); await idb.del(LSK.cache); await idb.del(LSK.outbox); location.reload(); };
 
   /* ---------- the window.claude.use shim the app already calls ---------- */
   let dbReady = null;
@@ -195,6 +213,7 @@
       if (!configured) return null;
       if (cap === 'assets') { const s = await (dbReady || (dbReady = session())); return s || cache.size ? assets : null; }
       if (cap === 'db') {
+        await hydrate;
         const s = await (dbReady || (dbReady = session()));
         if (!s && !cache.size) return null;
         if (s) { pullAll().then(flush).catch(e => console.warn(e)); listen(); }
