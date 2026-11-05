@@ -1440,7 +1440,7 @@ Object.assign(ARG, {
       { n:'קורס צלילה', en:'PADI Open Water · Cozumel', t:'water', df:'m', du:'3 ימים', area:'קנקון', lat:20.31, lon:-87.02, st:4, v:'good', day:7, span:3, why:'עם שבועיים במקסיקו יש זמן לקורס מלא. כדאי לעשות אותו בפלאיה, שממנה יוצאים לשוניות קוזומל ולסנוטות, שזה עדיף על קנקון.' },
       { n:'קוקו בונגו', en:'Coco Bongo Cancún', t:'night', df:'e', du:'לילה', area:'קנקון', lat:21.1336, lon:-86.7469, st:5, v:'must', day:13, why:'מועדון-מופע מטורף עם אקרובטים והופעות, לא רק דיסקו. כרטיס Gold Member שווה את התוספת.' },
       { n:'קניון קוקולקאן פלאזה', en:'Kukulcan Plaza', t:'city', df:'e', du:'1–2 ש׳', area:'קנקון', lat:21.111, lon:-86.762, st:2, v:'skip', day:0, why:'קניון ממוזג באזור המלונות. רק אם צריך משהו ספציפי.' },
-      { n:'שוק מרקדו 28', en:'Mercado 28', t:'food', df:'e', du:'2 ש׳', area:'קנקון', lat:21.1617, lon:-86.8285, st:3, v:'good', day:11, why:'מזכרות, טקילה ואוכל מקומי זול בדאונטאון. להתמקח.' },
+      { n:'שוק מרקדו 28', en:'Mercado 28', t:'food', df:'e', du:'2 ש׳', area:'קנקון', lat:21.1605, lon:-86.8337, st:3, v:'good', day:11, why:'מזכרות, טקילה ואוכל מקומי זול בדאונטאון. להתמקח.' },
       { n:'פארק שעשועים ונטורה', en:'Ventura Park', t:'air', df:'m', du:'חצי יום', area:'קנקון', lat:21.0758, lon:-86.7764, st:2, v:'skip', day:0, why:'מגלשות ומתקנים. אחרי Xplor ושקארט זה פחות מרשים.' },
       { n:'גלישת גלים', en:'Surf lesson · Playa Chac Mool', t:'water', df:'m', du:'2 ש׳', area:'קנקון', lat:21.1345, lon:-86.7445, st:3, v:'maybe', day:15, why:'הגלים בקנקון קטנים ולא עקביים. נחמד לשיעור ראשון בבוקר האחרון, אם יש גלים.' },
       { n:'שחייה עם דולפינים (קנקון)', en:'Dolphin swim', t:'water', df:'e', du:'1–2 ש׳', area:'קנקון', lat:21.08, lon:-86.77, st:3, v:'maybe', day:0, why:'הדולפינים חיים בשבי, ויש מטיילים שבוחרים לוותר בגלל זה. אם עושים, מספיקה פעם אחת, באיסלה או בקנקון.' },
@@ -1508,12 +1508,12 @@ function flightText(f){ const x = state.flights[f.id] || {}; return [`${f.f} →
 const flightTitle = f => { const x = state.flights[f.id] || {}; return `✈ ${f.fc} → ${f.tc}${x.number ? ' · ' + x.number : ''}`; };
 const STAY_PRESET = {
   ush:{ name:'בית Airbnb', status:'confirmed', platform:'Airbnb', notes:'הכתובת המדויקת מופיעה באפליקציית Airbnb, הוסיפו אותה כאן לניווט.' },
-  cal:{ name:'Hosteria Patagonia', address:'San Juan Bosco 160, El Calafate, Santa Cruz, Argentina', checkIn:'2027-01-29', checkOut:'2027-01-31', status:'confirmed', platform:'Booking.com' },
-  cus:{ name:'Casa Flamenco San Agustin', address:'Calle San Agustín 224, Cusco 08002, Peru', status:'confirmed' },
-  mex:{ name:'The Palm at Playa', address:'Calle 8 Norte, entre 5ta y 10 Avenida, Playa del Carmen, Q.R. 77710, Mexico', checkIn:'2027-02-18', checkOut:'2027-02-22', status:'confirmed' },
-  mex2:{ name:'Wyndham Alltra Playa del Carmen', address:'Av. Constituyentes 2, Playa del Carmen, Q.R., Mexico', checkIn:'2027-02-22', checkOut:'2027-02-25', status:'confirmed', notes:'הכל כלול · למבוגרים בלבד' },
+  cal:{ name:'Hosteria Patagonia', address:'San Juan Bosco 160, El Calafate, Santa Cruz, Argentina', coords:'-50.33942, -72.26327', checkIn:'2027-01-29', checkOut:'2027-01-31', status:'confirmed', platform:'Booking.com' },
+  cus:{ name:'Casa Flamenco San Agustin', address:'Calle San Agustín 224, Cusco 08002, Peru', coords:'-13.51821, -71.97544', status:'confirmed' },
+  mex:{ name:'The Palm at Playa', address:'Calle 8 Norte, entre 5ta y 10 Avenida, Playa del Carmen, Q.R. 77710, Mexico', coords:'20.62622, -87.07324', checkIn:'2027-02-18', checkOut:'2027-02-22', status:'confirmed' },
+  mex2:{ name:'Wyndham Alltra Playa del Carmen', address:'Av. Constituyentes 1, Playa del Carmen, Q.R. 77710, Mexico', coords:'20.63037, -87.07081', checkIn:'2027-02-22', checkOut:'2027-02-25', status:'confirmed', notes:'הכל כלול · למבוגרים בלבד' },
   mexi:{ notes:'נשאר לסגור מלון באיסלה מוחרס' },
-  mex3:{ name:'Sunscape Cancun by Hyatt', address:'Blvd. Kukulcan Km 11.5, Zona Hotelera, Cancún, Q.R., Mexico', checkIn:'2027-02-28', checkOut:'2027-03-04', status:'confirmed', notes:'הכל כלול' } };
+  mex3:{ name:'Sunscape Cancun by Hyatt', address:'Punta Cancún, Zona Hotelera, 77500 Cancún, Q.R., Mexico', coords:'21.12088, -86.75573', checkIn:'2027-02-28', checkOut:'2027-03-04', status:'confirmed', notes:'הכל כלול' } };
 const STAYS = STOPS.flatMap(s => s.id !== 'mex' ? [s] : [
   { ...s, stop:'mex', he:'פלאיה דל כרמן', s:D(2,18), e:D(2,22), center:[20.6296,-87.0739] },
   { ...s, id:'mex2', stop:'mex', he:'פלאיה דל כרמן', s:D(2,22), e:D(2,25), center:[20.6395,-87.0680] },
