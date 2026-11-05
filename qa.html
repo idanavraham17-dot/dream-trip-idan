@@ -1170,8 +1170,10 @@ li.empty .lot{display:block;margin:0 auto 6px;width:72px;height:72px}
 .sosbtn.alt{background:var(--glass-strong);color:var(--fg);border:1px solid var(--line);box-shadow:none}
 .sosbtn.alt b{font-size:18px}
 .sosbtn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.kv2{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 12px;font-size:14px;margin:12px 0 0}
-.kv2 dt{color:var(--muted);font-size:13px}
+.kv2{display:grid;grid-template-columns:minmax(0,1fr);gap:2px;font-size:14px;margin:14px 0 0}
+.kv2 dd+dt{margin-top:10px}
+.nw{white-space:nowrap}
+.kv2 dt{color:var(--muted);font-size:12.5px;font-weight:600}
 .kv2 dd{margin:0;overflow-wrap:anywhere}
 .clocks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .clock{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;background:var(--glass-strong);border:1px solid var(--line)}
@@ -1214,7 +1216,8 @@ li.empty .lot{display:block;margin:0 auto 6px;width:72px;height:72px}
 .trek .tm-btn svg{width:22px;height:22px}
 .trek .tm-note{font-size:14px;color:#c9d6da;line-height:1.6;margin:0}
 /* achievements */
-.ach{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:10px}
+.ach{display:grid;grid-template-columns:repeat(auto-fill,minmax(102px,1fr));gap:8px}
+@media (max-width:560px){.badge2{padding:10px 6px}.badge2 .medal{width:46px;height:46px}.badge2 .medal svg{width:22px;height:22px}.badge2 b{font-size:12.5px}.badge2 small{font-size:11px}}
 .badge2{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 10px;border-radius:18px;text-align:center;background:var(--glass-strong);border:1px solid var(--line);min-width:0}
 .badge2 .medal{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:var(--line);color:var(--muted)}
 .badge2 .medal svg{width:28px;height:28px}
@@ -3441,7 +3444,7 @@ function clockFace(tz){
 }
 const SOS = {
   AR:{ name:'ארגנטינה', nums:[['911','חירום כללי'],['107','אמבולנס'],['100','כיבוי אש'],['101','משטרה']], extra:[['+5491150503293','משטרת התיירים, בואנוס איירס','phone']],
-      emb:{ name:'שגרירות ישראל בבואנוס איירס', addr:'Av. de Mayo 701, Buenos Aires', phone:'+541137244525', phoneTxt:'‎+54 11 3724-4525 (קונסולריה)', url:'https://new.embassies.gov.il/argentina/en/contacts' } },
+      emb:{ name:'שגרירות ישראל בבואנוס איירס', addr:'Av. de Mayo 701, Buenos Aires', phone:'+541137244525', phoneTxt:'+54 11 3724-4525', phoneLbl:'קונסוליה', url:'https://new.embassies.gov.il/argentina/en/contacts' } },
   PE:{ name:'פרו', nums:[['105','משטרה'],['106','אמבולנס (SAMU)'],['116','כיבוי אש']], extra:[['911','חירום כללי (גם מנייד)','phone']],
       emb:{ name:'שגרירות ישראל בלימה', addr:'Ca. Coronel Andrés Reyes 437, San Isidro, Lima', url:'https://new.embassies.gov.il/peru/en/contacts' } },
   MX:{ name:'מקסיקו', nums:[['911','חירום: משטרה, אמבולנס, אש']], extra:[],
@@ -3450,8 +3453,8 @@ function sosHTML(c){
   const C = SOS[c], ins = (state.safety || {});
   return `<div class="sos">${C.nums.map(([n, t]) => `<a class="sosbtn" href="tel:${n}"><b>${n}</b><span>${t}</span></a>`).join('')}${C.extra.map(([n, t]) => `<a class="sosbtn alt" href="tel:${n}"><b dir="ltr">${n.length > 6 ? 'חיוג' : n}</b><span>${t}</span></a>`).join('')}</div>
     <dl class="kv2">
-      <dt>${C.emb.name}</dt><dd>${C.emb.addr}${C.emb.phone ? ` · <a href="tel:${C.emb.phone}" dir="ltr">${C.emb.phoneTxt}</a>` : ''} · <a href="${C.emb.url}" target="_blank" rel="noopener">טלפונים מעודכנים</a></dd>
-      <dt>משרד החוץ, מוקד חירום</dt><dd><a href="tel:+97225303155" dir="ltr">‎+972-2-530-3155</a></dd>
+      <dt>${C.emb.name}</dt><dd>${C.emb.addr}${C.emb.phone ? `<br>${C.emb.phoneLbl}: <a href="tel:${C.emb.phone}" class="nw"><bdi dir="ltr">${C.emb.phoneTxt}</bdi></a>` : ''}<br> <a href="${C.emb.url}" target="_blank" rel="noopener">כל הטלפונים באתר השגרירות</a></dd>
+      <dt>משרד החוץ, מוקד חירום</dt><dd><a href="tel:+97225303155" class="nw"><bdi dir="ltr">+972-2-530-3155</bdi></a> · 24/7</dd>
       <dt>ביטוח נסיעות</dt><dd>${ins.company || ins.policy ? `${esc(ins.company || '')} ${ins.policy ? `· פוליסה <span class="mono">${esc(ins.policy)}</span>` : ''} ${ins.phone ? `· <a href="tel:${esc(ins.phone.replace(/[^\d+]/g, ''))}" dir="ltr">${esc(ins.phone)}</a>` : ''}` : '<span class="muted">עוד לא הוזן</span>'} <button type="button" class="linkbtn" data-insedit style="min-height:32px;margin-inline-start:6px"><i data-lucide="pencil"></i>${ins.company || ins.policy ? 'עריכה' : 'הוספה'}</button></dd>
     </dl>
     <div class="row" style="margin-top:12px"><button type="button" class="btn" data-shareloc><i data-lucide="share-2"></i>שליחת המיקום שלי</button></div>`;
@@ -3543,19 +3546,19 @@ function trekTick(){
   const a = ALL_ACTS.find(x => x.id === TM.act); if (!a) return; const s = stopOf(a.stop), tz = TZ[s.id];
   const now = clockIn(tz), nm = (() => { const p = now.split(':'); return +p[0] * 60 + +p[1]; })();
   const dd = today(), d = dd >= s.s && dd < s.e ? dd : (a.day ? dayDate(s, a.day) : s.s), sn = sunTimes(d, a.lat, a.lon, tzOff(s));
-  const hrs = durMax(a.du), back = sn.setM - 30, start = Math.max(sn.riseM + 30, back - Math.round(hrs * 60) - 60), turn = start + Math.round((back - start) / 2);
+  const hrs = durMax(a.du), back = sn.setM - 30, start = Math.max(sn.riseM + 30, back - Math.round(hrs * 60) - 60), turn = back - Math.round(hrs * 60 / 2) - 15;
   document.getElementById('tmClock').textContent = now;
   document.getElementById('tmSub').textContent = `שעון מקומי · ${s.he} · ${wd(d)} ${fmtD(d)}`;
   document.getElementById('tmGrid').innerHTML = `
-    <div class="tm-cell go"><span>יציאה מומלצת עד</span><b>${hm(start)}</b></div>
-    <div class="tm-cell warn"><span>נקודת חזרה</span><b>${hm(turn)}</b></div>
+    <div class="tm-cell go"><span>לצאת לכל המאוחר</span><b>${hm(start)}</b></div>
+    <div class="tm-cell warn"><span>להסתובב לכל המאוחר</span><b>${hm(turn)}</b></div>
     <div class="tm-cell"><span>להיות בחזרה עד</span><b>${hm(back)}</b></div>
     <div class="tm-cell"><span>שקיעה</span><b>${sn.set}</b></div>`;
   const left = sn.setM - nm, isDay = d.getTime() === dd.getTime();
   document.getElementById('tmLeft').textContent = !isDay ? `${a.n}: ${esc(a.du)} · זריחה ${sn.rise}` : left > 0 ? `נשארו ${Math.floor(left / 60)} שעות ו-${left % 60} דקות של אור` : 'השמש כבר שקעה. אם אתם עדיין בשביל: פנס, שכבה חמה, ולאט.';
   document.getElementById('tmSos').href = `tel:${s.c === 'PE' ? '105' : '911'}`;
   document.getElementById('tmNav').href = gmaps(a.lat, a.lon);
-  document.getElementById('tmNote').textContent = `${a.why || ''} הזמנים מחושבים לפי השקיעה ומשך הטרק (${a.du}), עם מרווח ביטחון של שעה. בנקודת החזרה מסתובבים, גם אם עוד לא הגעתם ליעד.`;
+  document.getElementById('tmNote').textContent = `${a.why || ''} הזמנים מחושבים לפי השקיעה ומשך הטרק (${a.du}), עם מרווח ביטחון. אם בשעת ההסתובבות עוד לא הגעתם ליעד, חוזרים בכל זאת: הדרך חזרה לוקחת בערך חצי מהזמן.`;
 }
 document.addEventListener('click', e => { if (e.target.closest('[data-trekclose]')) closeTrek(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !document.getElementById('trek').hidden) closeTrek(); });
