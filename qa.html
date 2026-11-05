@@ -2943,14 +2943,17 @@ function GLL(ml){
       zoomControl:{ setPosition(){} }, attributionControl:{ setPrefix(){}, addAttribution(){} },
       whenReady(f){ api._ready ? f() : api._q.push(f); },
       fitBounds(b, op = {}){ const bb = toLLB(b); if (bb){ api._fit = [bb, { padding: pad(op.padding), maxZoom: op.maxZoom || 14, duration:0 }]; m.fitBounds(...api._fit); } return api; },
-      flyToBounds(b, op = {}){ const bb = toLLB(b); if (bb) m.fitBounds(bb, { padding: pad(op.padding), maxZoom: op.maxZoom || 14, duration: (op.duration || .9) * 1000, essential:true, pitch: api._3d ? 55 : 0 }); },
+      flyToBounds(b, op = {}){ const bb = toLLB(b); api._user = true; if (bb) m.fitBounds(bb, { padding: pad(op.padding), maxZoom: op.maxZoom || 14, duration: (op.duration || .9) * 1000, essential:true, pitch: api._3d ? 55 : 0 }); },
       flyTo(ll, z, op = {}){ m.flyTo({ center:[ll[1], ll[0]], zoom: z, duration: (op.duration || .9) * 1000, essential:true, pitch: api._3d ? 60 : 0 }); },
       invalidateSize(){ try { m.resize(); } catch(e){} }, removeLayer(){}, remove(){ try { m.remove(); } catch(e){} },
       setLook(kind){ if (kind === '3d'){ api._3d = !api._3d; apply3d(); syncBtns(); return; } if (kind === api._style) return; api._style = kind; api._ready = false; m.setStyle(GL_STYLES[kind]); attr.innerHTML = GL_ATTR[kind]; syncBtns(); } };
     const apply3d = () => api.whenReady(() => { try {
       if (api._3d){ if (!m.getSource('dem')) m.addSource('dem', GL_DEM); m.setTerrain({ source:'dem', exaggeration:1.35 }); m.easeTo({ pitch:62, duration:900 }); }
       else { m.setTerrain(null); m.easeTo({ pitch:0, bearing:0, duration:700 }); } } catch(e){ console.warn(e); } });
-    m.once('load', () => { m.resize(); if (api._fit) m.fitBounds(...api._fit); });
+    const refit = () => { try { m.resize(); if (api._fit && !api._user) m.fitBounds(...api._fit); } catch(e){} };
+    m.once('load', refit); m.once('idle', refit);
+    m.on('dragstart', () => api._user = true); m.on('zoomstart', e => { if (e && e.originalEvent) api._user = true; });
+    if (window.ResizeObserver){ let rw = 0, rh = 0; new ResizeObserver(([en]) => { const { width, height } = en.contentRect; if (Math.abs(width - rw) > 2 || Math.abs(height - rh) > 2){ rw = width; rh = height; refit(); } }).observe(el); }
     m.on('style.load', () => { api._ready = true; api._lines.forEach(l => l.paint(api)); api._q.splice(0).forEach(f => f()); if (api._3d) apply3d(); });
     // controls: style switcher + zoom/compass + attribution
     const mk = (cls, html) => { const d = document.createElement('div'); d.className = 'maplibregl-ctrl ' + cls; d.innerHTML = html; return d; };
