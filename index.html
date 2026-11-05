@@ -826,6 +826,7 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:color-mix(in srgb
 /* ===== stays & map vault ===== */
 .bnav{grid-template-columns:repeat(5,1fr)}
 .bnav button{font-size:11.5px}
+@media (max-width:560px){#syncTxt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.sync{padding:9px}.brandrow .iconbtn{width:40px;height:40px}}
 .fgrid4{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
 @media (max-width:900px){.fgrid4{grid-template-columns:repeat(2,minmax(0,1fr))}.fgrid4>:last-child:nth-child(odd){grid-column:1/-1}}
 .stiles{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -1140,6 +1141,127 @@ html.noscroll,html.noscroll body{overflow:hidden}
 .tile .lot{position:absolute;top:10px;inset-inline-end:10px;width:52px;height:52px;opacity:.9;pointer-events:none}
 .tile{position:relative}
 li.empty .lot{display:block;margin:0 auto 6px;width:72px;height:72px}
+
+/* ===== field kit ===== */
+.bnav{grid-template-columns:repeat(6,1fr)!important}
+.bnav button{font-size:11.5px}
+.fk-hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;padding:22px;border-radius:24px;background:radial-gradient(120% 140% at 100% 0%,color-mix(in srgb,var(--d1) 35%,#0b1418),#0b1418 60%);color:#fff;border:1px solid rgba(255,255,255,.12);box-shadow:var(--sh-card)}
+.fk-hero h3{margin:0;font:700 clamp(28px,7vw,40px)/1 var(--f-body)}
+.fk-hero p{margin:6px 0 0;color:rgba(255,255,255,.78);font-size:14px}
+.fk-go{all:unset;cursor:pointer;display:grid;place-items:center;width:84px;height:84px;border-radius:50%;background:var(--grad);color:#06121a;box-shadow:0 0 0 6px rgba(255,255,255,.08),0 12px 30px -8px color-mix(in srgb,var(--d1) 70%,transparent);font:800 14px var(--f-body);text-align:center;line-height:1.1}
+.fk-go svg{width:26px;height:26px;display:block;margin:0 auto 2px}
+.fk-go:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.fk-grid>*{min-width:0}
+.fk-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+@media (max-width:900px){.fk-grid{grid-template-columns:minmax(0,1fr)}}
+.fk-h{display:flex;align-items:center;gap:8px;margin:0 0 12px;font:700 19px var(--f-body)}
+.fk-h svg{width:20px;height:20px;color:var(--accent)}
+.suntrack{position:relative;height:96px;margin:6px 0 10px}
+.suntrack svg{width:100%;height:100%;overflow:visible}
+.sunrow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.sunrow div{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;border-radius:14px;background:var(--glass-strong);border:1px solid var(--line);text-align:center}
+.sunrow b{font:700 18px var(--f-mono);font-variant-numeric:tabular-nums}
+.sunrow span{font-size:11.5px;color:var(--muted)}
+.sunrow svg{width:16px;height:16px;color:var(--accent)}
+.sos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.sosbtn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:76px;border-radius:16px;text-decoration:none;color:#fff;background:linear-gradient(160deg,#d6453b,#a52a22);box-shadow:0 8px 20px -10px rgba(165,42,34,.8);text-align:center;padding:6px}
+.sosbtn b{font:800 26px/1 var(--f-mono)}
+.sosbtn span{font-size:12px;font-weight:600;opacity:.92}
+.sosbtn.alt{background:var(--glass-strong);color:var(--fg);border:1px solid var(--line);box-shadow:none}
+.sosbtn.alt b{font-size:18px}
+.sosbtn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.kv2{display:grid;grid-template-columns:minmax(0,1fr);gap:2px;font-size:14px;margin:14px 0 0}
+.kv2 dd+dt{margin-top:10px}
+.nw{white-space:nowrap}
+.kv2 dt{color:var(--muted);font-size:12.5px;font-weight:600}
+.kv2 dd{margin:0;overflow-wrap:anywhere}
+.clocks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.clock{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;background:var(--glass-strong);border:1px solid var(--line)}
+.clock svg.face{width:54px;height:54px;flex:none}
+.clock b{display:block;font:700 22px var(--f-mono);font-variant-numeric:tabular-nums;direction:ltr;text-align:right}
+.clock span{font-size:12.5px;color:var(--muted)}
+.phr{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.phr li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;align-items:center;padding:10px 2px;border-bottom:1px solid var(--line)}
+.phr li:last-child{border-bottom:0}
+.phr .es{font:600 16px var(--f-body);direction:ltr;text-align:right}
+.phr .tr{font-size:13px;color:var(--accent)}
+.phr .he{font-size:13.5px;color:var(--muted)}
+.say{all:unset;cursor:pointer;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent);grid-row:span 3}
+.say:focus-visible{outline:3px solid var(--accent)}
+.say.on{background:var(--accent);color:var(--on-accent);animation:pulse 1s ease-in-out infinite}
+.tips{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.tips li{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.55}
+.tips li svg{width:18px;height:18px;flex:none;margin-top:2px;color:var(--accent)}
+/* trek mode */
+.trek{position:fixed;inset:0;z-index:70;background:#000;color:#fff;display:flex;flex-direction:column;overflow-y:auto;padding:calc(14px + env(safe-area-inset-top,0px)) 18px calc(18px + env(safe-area-inset-bottom,0px));gap:16px;font-family:var(--f-body)}
+.trek header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.trek .tm-badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#7dffb0;padding:5px 11px;border:1px solid rgba(125,255,176,.4);border-radius:99px}
+.trek .tm-badge svg{width:15px;height:15px}
+.trek .tm-close{all:unset;cursor:pointer;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;border:2px solid #fff}
+.trek .tm-close:focus-visible,.trek button:focus-visible,.trek a:focus-visible{outline:3px solid #ffd27a;outline-offset:3px}
+.trek .tm-clock{font:700 clamp(64px,22vw,120px)/1 var(--f-mono);font-variant-numeric:tabular-nums;text-align:center;direction:ltr;letter-spacing:-.02em}
+.trek .tm-sub{text-align:center;color:#c9d6da;font-size:16px;margin-top:-6px}
+.trek select{font:700 18px var(--f-body);background:#111;color:#fff;border:2px solid #555;border-radius:14px;min-height:56px}
+.trek .tm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.trek .tm-cell{border:2px solid #333;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:4px}
+.trek .tm-cell span{font-size:14px;color:#c9d6da;font-weight:600}
+.trek .tm-cell b{font:800 34px/1 var(--f-mono);direction:ltr;text-align:right;font-variant-numeric:tabular-nums}
+.trek .tm-cell.warn{border-color:#ffd27a}.trek .tm-cell.warn b{color:#ffd27a}
+.trek .tm-cell.go{border-color:#7dffb0}.trek .tm-cell.go b{color:#7dffb0}
+.trek .tm-left{font:700 18px var(--f-body);text-align:center;padding:12px;border-radius:16px;background:#111}
+.trek .tm-acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.trek .tm-btn{all:unset;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;min-height:64px;border-radius:18px;border:2px solid #fff;font:800 17px var(--f-body);text-align:center;text-decoration:none;color:#fff}
+.trek .tm-btn.sos{background:#d6453b;border-color:#d6453b}
+.trek .tm-btn[aria-pressed=true]{background:#fff;color:#000}
+.trek .tm-btn svg{width:22px;height:22px}
+.trek .tm-note{font-size:14px;color:#c9d6da;line-height:1.6;margin:0}
+/* achievements */
+.ach{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}
+@media (max-width:560px){.badge2{padding:10px 6px}.badge2 .medal{width:46px;height:46px}.badge2 .medal svg{width:22px;height:22px}.badge2 b{font-size:12.5px}.badge2 small{font-size:11px}}
+.badge2{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 10px;border-radius:18px;text-align:center;background:var(--glass-strong);border:1px solid var(--line);min-width:0}
+.badge2 .medal{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:var(--line);color:var(--muted)}
+.badge2 .medal svg{width:28px;height:28px}
+.badge2 b{font-size:14px}
+.badge2 small{font-size:12px;color:var(--muted);line-height:1.4}
+.badge2.on .medal{background:radial-gradient(circle at 35% 30%,#fff6d6,#f2c14e 45%,#b8801f);color:#5a3a06;box-shadow:0 0 0 3px rgba(242,193,78,.25),0 8px 20px -8px rgba(184,128,31,.8)}
+.badge2.on{border-color:rgba(242,193,78,.5)}
+.badge2:not(.on){filter:grayscale(1);opacity:.75}
+.achbar{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.achbar .bar{flex:1}
+#confetti{position:fixed;inset:0;z-index:80;pointer-events:none}
+/* today card: local time + sun */
+.td-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:-4px}
+.td-meta .chip{color:var(--fg)}
+/* ===== accessibility ===== */
+.skip{position:fixed;top:-60px;right:12px;z-index:100;background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:700;text-decoration:none}
+.skip:focus{top:calc(10px + env(safe-area-inset-top,0px))}
+.a11y{position:fixed;inset:0;z-index:65;display:grid;place-items:end center;background:rgba(3,8,10,.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+@media (min-width:761px){.a11y{place-items:center}}
+.a11y .sheet{width:min(520px,100%);max-height:88vh;overflow-y:auto;background:var(--glass-strong);border:1px solid var(--glass-edge);border-radius:24px 24px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:0 -20px 60px rgba(0,0,0,.35);animation:sheetUp .35s var(--ease)}
+@media (min-width:761px){.a11y .sheet{border-radius:24px}}
+.a11y h2{margin:0 0 4px;font:700 22px var(--f-body);display:flex;align-items:center;gap:8px}
+.a11y .opt{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.a11y .opt:last-of-type{border-bottom:0}
+.a11y .opt b{display:block;font-size:15px}.a11y .opt small{color:var(--muted);font-size:12.5px}
+.seg{display:flex;gap:4px;padding:3px;border-radius:12px;background:var(--line)}
+.seg button{all:unset;cursor:pointer;min-width:40px;min-height:40px;display:grid;place-items:center;border-radius:9px;font-weight:700;padding:0 8px}
+.seg button[aria-pressed=true]{background:var(--fg);color:var(--bg)}
+.seg button:focus-visible,.sw:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.sw{all:unset;cursor:pointer;position:relative;width:52px;height:30px;border-radius:99px;background:var(--line);flex:none;transition:background .2s}
+.sw::after{content:"";position:absolute;top:3px;right:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:right .2s}
+.sw[aria-checked=true]{background:var(--ok)}
+.sw[aria-checked=true]::after{right:25px}
+:root[data-fs="l"] body{zoom:1.12}
+:root[data-fs="xl"] body{zoom:1.25}
+:root[data-ul="1"] a,:root[data-ul="1"] .linkbtn{text-decoration:underline!important;text-underline-offset:3px}
+:root[data-read="1"] body{letter-spacing:.02em;word-spacing:.08em;line-height:1.75}
+:root[data-read="1"] p,:root[data-read="1"] .why,:root[data-read="1"] .sv-why{line-height:1.85}
+:root[data-motion="reduce"] *,:root[data-motion="reduce"] *::before,:root[data-motion="reduce"] *::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+:root[data-contrast="high"]{--muted:var(--fg);--line:color-mix(in srgb,var(--fg) 45%,transparent);--glass:var(--bg);--glass-strong:var(--bg);--glass-edge:var(--fg);--aur-o:0;--grain-o:0}
+:root[data-contrast="high"] .glass,:root[data-contrast="high"] .acard,:root[data-contrast="high"] .badge2,:root[data-contrast="high"] .clock{backdrop-filter:none;-webkit-backdrop-filter:none;border-width:2px}
+:root[data-contrast="high"] .mesh,:root[data-contrast="high"] .a4,:root[data-contrast="high"] .bgrid{display:none}
+:root[data-contrast="high"] :focus-visible{outline-width:4px!important}
+:focus-visible{outline-offset:3px}
 </style>
 </head>
 <body>
@@ -1148,11 +1270,13 @@ li.empty .lot{display:block;margin:0 auto 6px;width:72px;height:72px}
 <div class="backdrop" aria-hidden="true"><i class="mesh"></i><i class="aur a1"></i><i class="aur a2"></i><i class="aur a3"></i><i class="a4"></i><i class="bgrid"></i><i class="grain"></i></div>
 
 <div class="app" dir="rtl" lang="he">
+<a class="skip" href="#mainContent">דילוג לתוכן הראשי</a>
 <header class="top">
   <div class="wrap">
     <div class="brandrow">
       <div class="brand">טיול החלומות<span class="brand-x"> של עידן ולורן</span><small class="ltr">Idan &amp; Lauren's Dream Trip</small></div>
       <span id="sync" class="sync" role="status"><span class="dot"></span><span id="syncTxt">מתחבר…</span></span>
+      <button id="a11yBtn" class="iconbtn" type="button" aria-haspopup="dialog" aria-label="הגדרות נגישות"><i data-lucide="accessibility"></i></button>
       <button id="soundBtn" class="iconbtn" type="button" aria-pressed="false" aria-label="צלילים כבויים. לחיצה להפעלה"><i data-lucide="volume-x"></i></button>
       <button id="themeBtn" class="iconbtn" type="button" aria-label="החלפת מצב כהה/בהיר"><i data-lucide="moon"></i></button>
     </div>
@@ -1160,6 +1284,7 @@ li.empty .lot{display:block;margin:0 auto 6px;width:72px;height:72px}
       <button class="tab" role="tab" data-tab="itinerary" aria-controls="p-itinerary"><i data-lucide="route"></i>מסלול</button>
       <button class="tab" role="tab" data-tab="adventures" aria-controls="p-adventures"><i data-lucide="mountain-snow"></i>הרפתקאות</button>
       <button class="tab" role="tab" data-tab="stays" aria-controls="p-stays"><i data-lucide="bed-double"></i>לינות</button>
+      <button class="tab" role="tab" data-tab="field" aria-controls="p-field"><i data-lucide="compass"></i>שטח</button>
       <button class="tab" role="tab" data-tab="budget" aria-controls="p-budget"><i data-lucide="wallet"></i>תקציב</button>
       <button class="tab" role="tab" data-tab="vault" aria-controls="p-vault"><i data-lucide="notebook-pen"></i>יומן וציוד</button>
     </nav>
@@ -1214,7 +1339,7 @@ li.empty .lot{display:block;margin:0 auto 6px;width:72px;height:72px}
 </section>
 
 
-<main class="wrap">
+<main class="wrap" id="mainContent" tabindex="-1">
   <!-- ITINERARY -->
   <section class="panel stack" id="p-itinerary" role="tabpanel" aria-label="מסלול וטיסות">
     <article class="glass tday" id="tday" aria-labelledby="tdTitle"></article>
@@ -1261,6 +1386,26 @@ li.empty .lot{display:block;margin:0 auto 6px;width:72px;height:72px}
   </section>
 
   <!-- BUDGET -->
+  <section class="panel stack" id="p-field" role="tabpanel" aria-label="ערכת שטח" hidden>
+    <div><h2 class="sec">ערכת שטח</h2><p class="sec-sub">כל מה שצריך בדרך, גם בלי קליטה: מצב טרק, שעות אור, חירום, שעונים, ספרדית וכסף.</p></div>
+    <div class="fk-hero th-ush" id="fkHero">
+      <div><h3>מצב טרק</h3><p>מסך שחור וחסכוני, טקסט ענק, שעת יציאה וחזרה לפי השקיעה, כפתורי חירום ושיתוף מיקום. עובד בלי קליטה.</p></div>
+      <button type="button" class="fk-go" data-trekmode aria-label="פתיחת מצב טרק"><span><i data-lucide="mountain"></i>יציאה</span></button>
+    </div>
+    <div class="fk-grid">
+      <section class="glass pad" aria-labelledby="fkSunH"><h3 class="fk-h" id="fkSunH"><i data-lucide="sunrise"></i>שעות אור</h3>
+        <div class="chips" id="fkSunStops" role="group" aria-label="בחירת יעד"></div>
+        <div class="row" style="margin-top:10px"><label class="sr" for="fkSunDate">תאריך</label><input type="date" id="fkSunDate" style="width:auto"></div>
+        <div id="fkSun" aria-live="polite"></div></section>
+      <section class="glass pad" aria-labelledby="fkSosH"><h3 class="fk-h" id="fkSosH"><i data-lucide="siren"></i>חירום</h3><div id="fkSos"></div></section>
+      <section class="glass pad" aria-labelledby="fkClkH"><h3 class="fk-h" id="fkClkH"><i data-lucide="clock"></i>שעונים</h3><div class="clocks" id="fkClocks"></div><p class="muted small" id="fkClkNote" style="margin:10px 0 0"></p></section>
+      <section class="glass pad" aria-labelledby="fkMoneyH"><h3 class="fk-h" id="fkMoneyH"><i data-lucide="hand-coins"></i>כסף וטיפים</h3><div class="chips" id="fkMoneyC" role="group" aria-label="בחירת מדינה"></div><ul class="tips" id="fkMoney" style="margin-top:12px"></ul></section>
+      <section class="glass pad" aria-labelledby="fkPhrH" style="grid-column:1/-1"><h3 class="fk-h" id="fkPhrH"><i data-lucide="languages"></i>ספרדית לטיול</h3>
+        <p class="muted small" style="margin:-6px 0 10px">לחצו על הרמקול כדי לשמוע את המשפט במבטא המקומי. ההשמעה עובדת גם בלי קליטה ברוב הטלפונים.</p>
+        <div class="chips" id="fkPhrC" role="group" aria-label="קטגוריה"></div><ul class="phr" id="fkPhr" style="margin-top:8px"></ul></section>
+    </div>
+  </section>
+
   <section class="panel stack" id="p-budget" role="tabpanel" aria-label="תקציב" hidden>
     <div><h2 class="sec">תקציב והוצאות</h2><p class="sec-sub">כל הסכומים מומרים לשקלים לפי השערים שלמטה. השערים מסונכרנים בין המכשירים ונשמרים גם במכשיר.</p></div>
     <div class="btiles" id="bTiles"></div>
@@ -1318,6 +1463,7 @@ li.empty .lot{display:block;margin:0 auto 6px;width:72px;height:72px}
 
   <!-- VAULT & NOTES -->
   <section class="panel stack" id="p-vault" role="tabpanel" aria-label="יומן וציוד" hidden>
+    <section class="glass pad" aria-labelledby="achH"><div class="achbar"><h3 class="fk-h" id="achH" style="margin:0"><i data-lucide="award"></i>הישגים בטיול</h3><div class="bar" style="--c:#f2c14e"><span id="achBar"></span></div><b class="mono" id="achCount"></b></div><div class="ach" id="ach"></div></section>
     <div><h2 class="sec">יומן וציוד</h2><p class="sec-sub">יומן המסע, ייצוא ליומן, עותק אופליין ורשימת הציוד. הלינות וקודי ההזמנה עברו לטאב ״לינות״.</p></div>
     <div class="chips" role="group" aria-label="קפיצה לחלק">
       <button class="chipbtn" type="button" data-scroll="vJournal"><i data-lucide="notebook-pen"></i>יומן מסע</button>
@@ -1367,13 +1513,17 @@ li.empty .lot{display:block;margin:0 auto 6px;width:72px;height:72px}
   <button type="button" role="tab" data-tab="itinerary"><i data-lucide="route"></i>מסלול</button>
   <button type="button" role="tab" data-tab="adventures"><i data-lucide="mountain-snow"></i>הרפתקאות</button>
   <button type="button" role="tab" data-tab="stays"><i data-lucide="bed-double"></i>לינות</button>
+  <button type="button" role="tab" data-tab="field"><i data-lucide="compass"></i>שטח</button>
   <button type="button" role="tab" data-tab="budget"><i data-lucide="wallet"></i>תקציב</button>
-  <button type="button" role="tab" data-tab="vault"><i data-lucide="notebook-pen"></i>יומן וציוד</button>
+  <button type="button" role="tab" data-tab="vault"><i data-lucide="notebook-pen"></i>יומן</button>
 </nav>
 <input type="file" accept="image/*" id="photoInput" class="sr" tabindex="-1" aria-hidden="true">
 </div>
 <div id="toast" class="toast" role="status" hidden></div>
 <div class="story-scrim" id="storyScrim" hidden></div>
+<div id="trek" class="trek" role="dialog" aria-modal="true" aria-label="מצב טרק" hidden></div>
+<div id="a11y" class="a11y" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="a11yH"></div></div>
+<canvas id="confetti" aria-hidden="true" hidden></canvas>
 <div id="story" class="story" role="dialog" aria-modal="true" aria-label="פרטי אטרקציה" hidden></div>
 <div id="offPill" class="offline-pill" role="status" hidden><i data-lucide="wifi-off"></i>אין קליטה · כל הנתונים זמינים במכשיר</div>
 
@@ -1670,13 +1820,13 @@ const PACK = [
 ];
 
 /* ---------- state ---------- */
-const state = { gear:{}, act:{}, pack:{}, custom:[], stays:{}, expenses:[], rates:{ ...DEFAULT_RATES }, flights:{}, journal:[], media:{ hero:null, acts:{} } };
+const state = { safety:{}, gear:{}, act:{}, pack:{}, custom:[], stays:{}, expenses:[], rates:{ ...DEFAULT_RATES }, flights:{}, journal:[], media:{ hero:null, acts:{} } };
 const ui = { fDest:'all', fDiff:'all', pkFilter:'all', jFilter:'all', layers:{ air:true, stay:true, trek:true, food:true, act:true }, mapStop:'all', selPin:null };
 let db = null, downloads = null, assets = null, editingStay = null, editingFlight = null, revealed = new Set(), confirmDel = null, confirmJ = null;
 const LS = 'dreamtrip-local-v1', CACHE = 'dreamtrip-cache-v1';
 function readLS(k){ try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch(e){ return null; } }
 function writeLS(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
-function absorb(v){ if (!v) return; Object.assign(state, v, { rates:{ ...DEFAULT_RATES, ...(v.rates || {}) }, media:{ hero:null, acts:{}, ...(v.media || {}) }, flights: v.flights || {}, journal: v.journal || [], gear: v.gear || {} }); }
+function absorb(v){ if (!v) return; Object.assign(state, v, { rates:{ ...DEFAULT_RATES, ...(v.rates || {}) }, media:{ hero:null, acts:{}, ...(v.media || {}) }, flights: v.flights || {}, journal: v.journal || [], gear: v.gear || {}, safety: v.safety || {} }); }
 let cacheT = 0;
 function saveCache(){ clearTimeout(cacheT); cacheT = setTimeout(() => { const snap = { ...state, savedAt: Date.now() }; writeLS(db ? CACHE : LS, snap); renderCacheNote(snap.savedAt); }, 400); }
 function renderCacheNote(ts){ const el = document.getElementById('cacheNote'); if (el && ts) el.textContent = `עותק של הנתונים נשמר גם במכשיר הזה (${new Date(ts).toLocaleString('he-IL',{dateStyle:'short',timeStyle:'short'})}), כך שהם מוצגים מיד גם כשהקליטה חלשה.`; }
@@ -2000,6 +2150,7 @@ function renderToday(){
       </div>
     </header>
     <div class="td-wx" id="tdWx">${I.s ? wxBadge(I.s) : ''}</div>
+    ${I.s ? (() => { const sn = sunTimes(d, I.s.center[0], I.s.center[1], tzOff(I.s)); return `<div class="td-meta"><span class="chip"><i data-lucide="sunrise"></i>זריחה <b class="mono">${sn.rise}</b></span><span class="chip"><i data-lucide="sunset"></i>שקיעה <b class="mono">${sn.set}</b></span><span class="chip"><i data-lucide="clock"></i>${isToday ? `עכשיו שם <b class="mono">${clockIn(TZ[I.s.id])}</b> · בישראל <b class="mono">${clockIn('Asia/Jerusalem')}</b>` : `הפרש מישראל: ${Math.abs(tzOff(I.s) - 2)} שעות אחורה`}</span></div>`; })() : ''}
     <div class="td-grid">
       <section class="td-box td-plan" aria-label="התוכנית">
         <span class="sc-k"><i data-lucide="flag"></i>התוכנית</span>
@@ -2580,11 +2731,11 @@ function renderHeroPhoto(){}
 
 /* ---------- render all ---------- */
 let raf = 0;
-function renderAll(){ cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { renderOverview(); renderToday(); renderFlights(); renderAdventures(); renderJournal(); renderStays(); renderEvents(); renderBudget(); renderPacking(); renderHeroPhoto(); buildMarkers(); gateAssets(); if (!document.getElementById('story').hidden) renderStory(); icons(); lottieScan(); }); }
+function renderAll(){ cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { renderOverview(); renderToday(); renderFlights(); renderAdventures(); renderJournal(); renderStays(); renderEvents(); renderBudget(); renderPacking(); renderHeroPhoto(); buildMarkers(); gateAssets(); if (!document.getElementById('story').hidden) renderStory(); renderAch(); renderField(); icons(); lottieScan(); }); }
 function icons(){ try { window.lucide && lucide.createIcons(); } catch(e){} }
 
 /* ---------- tabs ---------- */
-const TABS = ['itinerary','adventures','stays','budget','vault'];
+const TABS = ['itinerary','adventures','stays','field','budget','vault'];
 const LEGACY = { overview:'itinerary', flights:'itinerary', places:'adventures', packing:'vault' };
 function showTab(id, focus){
   id = LEGACY[id] || id; if (!TABS.includes(id)) id = 'itinerary';
@@ -2597,6 +2748,7 @@ function showTab(id, focus){
   requestAnimationFrame(() => {
     if (id === 'itinerary'){ paintHero(); initMap(); map && map.invalidateSize(); }
     if (id === 'stays') initStayMap();
+    if (id === 'field') renderField();
     if (id === 'adventures'){ watchAtmosphere(); }
     else { const cs = currentStop(); setTheme(document.body, ui.themePick || (cs || STOPS[0]).id); }
     if (id === 'adventures'){ observeMinis(); Object.values(miniMaps).forEach(x => x.m.invalidateSize()); }
@@ -3080,7 +3232,7 @@ let lottieReq = null;
 function lottieLib(){ return lottieReq || (lottieReq = new Promise((res, rej) => { if (window.lottie) return res(window.lottie); const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie_light.min.js'; s.onload = () => res(window.lottie); s.onerror = rej; document.head.appendChild(s); })); }
 function lottieScan(root = document){
   const els = [...root.querySelectorAll('[data-lottie]:not([data-lot-on])')]; if (!els.length) return;
-  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const still = reducedMotion();
   lottieLib().then(lt => els.forEach(el => { if (el.dataset.lotOn || !LOT[el.dataset.lottie]) return; el.dataset.lotOn = '1';
     const a = lt.loadAnimation({ container: el, renderer:'svg', loop: !still, autoplay: !still, animationData: JSON.parse(JSON.stringify(LOT[el.dataset.lottie])) });
     if (still) a.goToAndStop(20, true); })).catch(() => {});
@@ -3150,7 +3302,7 @@ function createGlobe(box, opts = {}){
     // orientation: start over South America
     const home = { yaw:-0.49, pitch:-0.38 };
     let yaw = -0.49, pitch = -0.38, vy = 0, drag = null, idleT = 0, active = null;
-    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const still = reducedMotion();
     const cnv = renderer.domElement;
     cnv.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY, yaw, pitch, moved:0, id:e.pointerId, t:performance.now() }; });
     addEventListener('pointermove', e => { if (!drag || e.pointerId !== drag.id) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.moved = Math.max(drag.moved, Math.abs(dx) + Math.abs(dy));
@@ -3220,6 +3372,272 @@ document.addEventListener('click', e => {
   if (b.dataset.goadv){ showTab('adventures'); setTimeout(() => document.getElementById('dest-' + b.dataset.goadv)?.scrollIntoView({ behavior:'smooth', block:'start' }), 150); }
 });
 
+
+/* ================= field kit ================= */
+const TZ = { ush:'America/Argentina/Ushuaia', cal:'America/Argentina/Rio_Gallegos', bri:'America/Argentina/Salta', bue:'America/Argentina/Buenos_Aires', cus:'America/Lima', lim:'America/Lima', mex:'America/Cancun' };
+const tzOff = s => ({ AR:-3, PE:-5, MX:-5 })[s.c];
+const clockIn = (tz) => { try { return new Intl.DateTimeFormat('he-IL', { timeZone: tz, hour:'2-digit', minute:'2-digit', hour12:false }).format(new Date()); } catch(e){ return '--:--'; } };
+function sunTimes(date, lat, lon, tz){
+  // NOAA-style solar calculation, returns local clock times for the given UTC offset
+  const rad = Math.PI / 180, d0 = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()), J = d0 / 864e5 + 2440587.5, n = Math.round(J - 2451545 + .0008);
+  const Js = n - lon / 360, M = (357.5291 + .98560028 * Js) % 360, C = 1.9148 * Math.sin(M * rad) + .02 * Math.sin(2 * M * rad) + .0003 * Math.sin(3 * M * rad);
+  const lam = (M + C + 180 + 102.9372) % 360, Jt = 2451545 + Js + .0053 * Math.sin(M * rad) - .0069 * Math.sin(2 * lam * rad);
+  const dec = Math.asin(Math.sin(lam * rad) * Math.sin(23.4397 * rad));
+  const hAng = h => { const c = (Math.sin(h * rad) - Math.sin(lat * rad) * Math.sin(dec)) / (Math.cos(lat * rad) * Math.cos(dec)); return c < -1 || c > 1 ? null : Math.acos(c) / rad; };
+  const at = (w, sign) => w == null ? null : new Date((Jt + sign * w / 360 - 2440587.5) * 864e5);
+  const fmt = dt => { if (!dt) return '—'; const m = ((dt.getUTCHours() * 60 + dt.getUTCMinutes() + tz * 60) % 1440 + 1440) % 1440; return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`; };
+  const mins = dt => dt ? ((dt.getUTCHours() * 60 + dt.getUTCMinutes() + tz * 60) % 1440 + 1440) % 1440 : null;
+  const w0 = hAng(-.833), wg = hAng(6), wc = hAng(-6), rise = at(w0, -1), set = at(w0, 1), gold = at(wg, 1), dawn = at(wc, -1), dusk = at(wc, 1), noon = new Date((Jt - 2440587.5) * 864e5);
+  return { rise: fmt(rise), set: fmt(set), gold: fmt(gold), dawn: fmt(dawn), dusk: fmt(dusk), noon: fmt(noon), riseM: mins(rise), setM: mins(set), goldM: mins(gold), dayLen: rise && set ? Math.round((set - rise) / 6e4) : null };
+}
+const hm = m => m == null ? '—' : `${String(Math.floor(((m % 1440) + 1440) % 1440 / 60)).padStart(2, '0')}:${String(((m % 60) + 60) % 60).padStart(2, '0')}`;
+const durMax = du => { const m = String(du).match(/(\d+(?:\.\d+)?)\s*(?:–|-)?\s*(\d+(?:\.\d+)?)?\s*ש/); if (m) return Number(m[2] || m[1]); if (/יום מלא/.test(du)) return 9; if (/חצי יום/.test(du)) return 5; return 4; };
+const FK = { sunStop:null, sunDate:null, money:null, phr:'basic' };
+function fieldStop(){ return currentStop() || stopOf(STOPS[0].id); }
+function renderField(){
+  if (document.getElementById('p-field').hidden && !FK.force) return;
+  const cs = fieldStop(); FK.sunStop = FK.sunStop || cs.id; FK.money = FK.money || cs.c;
+  setTheme(document.getElementById('fkHero'), cs.id);
+  // sun
+  const s = stopOf(FK.sunStop), dIn = document.getElementById('fkSunDate');
+  if (!FK.sunDate){ const t = today(); FK.sunDate = isoOf(t >= s.s && t < s.e ? t : s.s); }
+  dIn.value = FK.sunDate;
+  document.getElementById('fkSunStops').innerHTML = STOPS.map(x => `<button type="button" class="chipbtn" data-sunstop="${x.id}" data-c style="--c:${COUNTRY[x.c]}" aria-pressed="${x.id === FK.sunStop}">${esc(x.he)}</button>`).join('');
+  const d = isoDate(FK.sunDate), sn = sunTimes(d, s.center[0], s.center[1], tzOff(s));
+  const pos = m => m == null ? 0 : m / 1440 * 100, rx = pos(sn.riseM), sx = pos(sn.setM), nowM = (() => { const p = clockIn(TZ[s.id]).split(':'); return +p[0] * 60 + +p[1]; })();
+  const showNow = isoOf(today()) === FK.sunDate;
+  document.getElementById('fkSun').innerHTML = `
+    <div class="suntrack" aria-hidden="true"><svg viewBox="0 0 100 40" preserveAspectRatio="none">
+      <defs><linearGradient id="skyg" x1="0" x2="1"><stop offset="0" stop-color="#1b2a44"/><stop offset="${rx / 100}" stop-color="#ffb46b"/><stop offset=".5" stop-color="#ffe7a3"/><stop offset="${sx / 100}" stop-color="#ff7a59"/><stop offset="1" stop-color="#1b2a44"/></linearGradient></defs>
+      <line x1="0" y1="34" x2="100" y2="34" stroke="currentColor" stroke-opacity=".25" stroke-width=".4"/>
+      <path d="M${100 - rx} 34 Q ${100 - (rx + sx) / 2} ${-14} ${100 - sx} 34" fill="none" stroke="url(#skyg)" stroke-width="1.6" stroke-linecap="round"/>
+      ${showNow && nowM > sn.riseM && nowM < sn.setM ? (() => { const t = (nowM - sn.riseM) / (sn.setM - sn.riseM), x = (100 - rx) + ((100 - sx) - (100 - rx)) * t, y = 34 - 48 * t * (1 - t) * 2; return `<circle cx="${x}" cy="${y}" r="2.6" fill="#ffd27a"/>`; })() : ''}
+    </svg></div>
+    <div class="sunrow">
+      <div><i data-lucide="sunrise"></i><b>${sn.rise}</b><span>זריחה</span></div>
+      <div><i data-lucide="sun"></i><b>${sn.noon}</b><span>צהריים</span></div>
+      <div><i data-lucide="camera"></i><b>${sn.gold}</b><span>שעת זהב</span></div>
+      <div><i data-lucide="sunset"></i><b>${sn.set}</b><span>שקיעה</span></div>
+    </div>
+    <p class="muted small" style="margin:10px 0 0">${Math.floor(sn.dayLen / 60)} שעות ו-${sn.dayLen % 60} דקות של אור · דמדומים עד ${sn.dusk}. השעות מחושבות לפי מיקום היעד והשעון המקומי.</p>`;
+  // sos
+  const C = SOS[cs.c];
+  document.getElementById('fkSos').innerHTML = `
+    <div class="chips" role="group" aria-label="מדינה" style="margin-bottom:10px">${Object.entries(SOS).map(([k, v]) => `<button type="button" class="chipbtn" data-soscountry="${k}" aria-pressed="${k === (FK.sos || cs.c)}">${v.name}</button>`).join('')}</div>
+    ${sosHTML(FK.sos || cs.c)}`;
+  // clocks
+  const tzs = [['Asia/Jerusalem', 'ישראל'], [TZ[cs.id], cs.he]];
+  document.getElementById('fkClocks').innerHTML = tzs.map(([tz, nm]) => `<div class="clock">${clockFace(tz)}<div><b>${clockIn(tz)}</b><span>${esc(nm)}</span></div></div>`).join('');
+  document.getElementById('fkClkNote').textContent = `${cs.he} מאחורי ישראל ב-${Math.abs(tzOff(cs) - 2)} שעות. כדאי להתקשר הביתה בבוקר המקומי, כשבישראל זה אחר הצהריים.`;
+  // money
+  document.getElementById('fkMoneyC').innerHTML = Object.entries(MONEY).map(([k, v]) => `<button type="button" class="chipbtn" data-money="${k}" aria-pressed="${k === FK.money}">${v.name}</button>`).join('');
+  document.getElementById('fkMoney').innerHTML = MONEY[FK.money].tips.map(([ic, t]) => `<li><i data-lucide="${ic}"></i><span>${t}</span></li>`).join('');
+  // phrases
+  document.getElementById('fkPhrC').innerHTML = Object.entries(PHR).map(([k, v]) => `<button type="button" class="chipbtn" data-phr="${k}" aria-pressed="${k === FK.phr}">${v.name}</button>`).join('');
+  document.getElementById('fkPhr').innerHTML = PHR[FK.phr].list.map(([es, tr, he], i) => `<li><div><div class="es" lang="es">${esc(es)}</div><div class="tr">${esc(tr)}</div><div class="he">${esc(he)}</div></div><button type="button" class="say" data-say="${FK.phr}:${i}" aria-label="השמעה: ${esc(he)}"><i data-lucide="volume-2"></i></button></li>`).join('');
+  icons();
+}
+function clockFace(tz){
+  let h = 0, m = 0; try { const p = new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour:'2-digit', minute:'2-digit', hour12:false }).format(new Date()).split(':'); h = +p[0]; m = +p[1]; } catch(e){}
+  const a = (h % 12 + m / 60) * 30, b = m * 6, day = h >= 6 && h < 19;
+  return `<svg class="face" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="27" fill="${day ? 'var(--glass)' : '#0b1418'}" stroke="currentColor" stroke-opacity=".3"/>${[0,1,2,3,4,5,6,7,8,9,10,11].map(i => `<line x1="30" y1="6" x2="30" y2="${i % 3 ? 9 : 11}" stroke="${day ? 'currentColor' : '#e4eef1'}" stroke-opacity=".5" stroke-width="1.5" transform="rotate(${i * 30} 30 30)"/>`).join('')}<line x1="30" y1="30" x2="30" y2="17" stroke="${day ? 'currentColor' : '#e4eef1'}" stroke-width="3" stroke-linecap="round" transform="rotate(${a} 30 30)"/><line x1="30" y1="30" x2="30" y2="10" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" transform="rotate(${b} 30 30)"/><circle cx="30" cy="30" r="2.5" fill="var(--accent)"/></svg>`;
+}
+const SOS = {
+  AR:{ name:'ארגנטינה', nums:[['911','חירום כללי'],['107','אמבולנס'],['100','כיבוי אש'],['101','משטרה']], extra:[['+5491150503293','משטרת התיירים, בואנוס איירס','phone']],
+      emb:{ name:'שגרירות ישראל בבואנוס איירס', addr:'Av. de Mayo 701, Buenos Aires', phone:'+541137244525', phoneTxt:'+54 11 3724-4525', phoneLbl:'קונסוליה', url:'https://new.embassies.gov.il/argentina/en/contacts' } },
+  PE:{ name:'פרו', nums:[['105','משטרה'],['106','אמבולנס (SAMU)'],['116','כיבוי אש']], extra:[['911','חירום כללי (גם מנייד)','phone']],
+      emb:{ name:'שגרירות ישראל בלימה', addr:'Ca. Coronel Andrés Reyes 437, San Isidro, Lima', url:'https://new.embassies.gov.il/peru/en/contacts' } },
+  MX:{ name:'מקסיקו', nums:[['911','חירום: משטרה, אמבולנס, אש']], extra:[],
+      emb:{ name:'שגרירות ישראל במקסיקו סיטי', addr:'Sierra Madre 215, Lomas de Chapultepec, Ciudad de México', url:'https://new.embassies.gov.il/mexico/en/contacts' } } };
+function sosHTML(c){
+  const C = SOS[c], ins = (state.safety || {});
+  return `<div class="sos">${C.nums.map(([n, t]) => `<a class="sosbtn" href="tel:${n}"><b>${n}</b><span>${t}</span></a>`).join('')}${C.extra.map(([n, t]) => `<a class="sosbtn alt" href="tel:${n}"><b dir="ltr">${n.length > 6 ? 'חיוג' : n}</b><span>${t}</span></a>`).join('')}</div>
+    <dl class="kv2">
+      <dt>${C.emb.name}</dt><dd>${C.emb.addr}${C.emb.phone ? `<br>${C.emb.phoneLbl}: <a href="tel:${C.emb.phone}" class="nw"><bdi dir="ltr">${C.emb.phoneTxt}</bdi></a>` : ''}<br> <a href="${C.emb.url}" target="_blank" rel="noopener">כל הטלפונים באתר השגרירות</a></dd>
+      <dt>משרד החוץ, מוקד חירום</dt><dd><a href="tel:+97225303155" class="nw"><bdi dir="ltr">+972-2-530-3155</bdi></a> · 24/7</dd>
+      <dt>ביטוח נסיעות</dt><dd>${ins.company || ins.policy ? `${esc(ins.company || '')} ${ins.policy ? `· פוליסה <span class="mono">${esc(ins.policy)}</span>` : ''} ${ins.phone ? `· <a href="tel:${esc(ins.phone.replace(/[^\d+]/g, ''))}" dir="ltr">${esc(ins.phone)}</a>` : ''}` : '<span class="muted">עוד לא הוזן</span>'} <button type="button" class="linkbtn" data-insedit style="min-height:32px;margin-inline-start:6px"><i data-lucide="pencil"></i>${ins.company || ins.policy ? 'עריכה' : 'הוספה'}</button></dd>
+    </dl>
+    <div class="row" style="margin-top:12px"><button type="button" class="btn" data-shareloc><i data-lucide="share-2"></i>שליחת המיקום שלי</button></div>`;
+}
+const MONEY = {
+  AR:{ name:'ארגנטינה', tips:[['receipt','טיפ מקובל במסעדות: בערך 10%. בתפריט מופיע לפעמים "cubierto", דמי שולחן קבועים, וזה לא הטיפ.'],['credit-card','כרטיס אשראי מתקבל כמעט בכל מקום בערים. לפני הנסיעה כדאי לבדוק באפליקציה של חברת האשראי באיזה שער מחויבים, ולהשוות למזומן.'],['banknote','שטרות של 1,000 ו-2,000 פסו נגמרים מהר. כדאי להחזיק מזומן קטן לטיפים, למוניות ולשירותים בדרך לטרקים.'],['mountain','בכניסה לפארקים הלאומיים (טיירה דל פואגו, לוס גלסיארס) גובים דמי כניסה. לבדוק מראש אם משלמים במזומן או בכרטיס.']]},
+  PE:{ name:'פרו', tips:[['receipt','טיפ במסעדות: בערך 10% על שירות טוב. במדריכים ובסבלים בטרקים נהוג טיפ נפרד בסוף היום.'],['banknote','בשווקים בקוסקו ובכפרים משלמים במזומן ובשטרות קטנים. מותר להתמקח בשווקים, בנימוס.'],['landmark','סולס (PEN) הם המטבע. דולרים במצב טוב מתקבלים בחלק מהמקומות התיירותיים, אבל השער לרוב פחות טוב.'],['droplets','מים מהברז לא שותים. עדיף לקנות בקבוקים גדולים או להשתמש בבקבוק עם פילטר.']]},
+  MX:{ name:'מקסיקו', tips:[['receipt','טיפ (propina) במסעדות: 10%–15%. לבדוק בחשבון אם כבר כתוב "servicio incluido".'],['banknote','לשלם בפסו ולא בדולר: המחיר בדולרים בדרך כלל יקר יותר. בכספומט לסרב ל"המרה" שהמכשיר מציע.'],['waves','בסנוטות ובשמורות הים מבקשים קרם הגנה ידידותי לשונית, ולפעמים אוסרים קרם בכלל.'],['car-taxi-front','במוניות בקנקון ובפלאיה כדאי לסכם מחיר לפני הנסיעה, או להשתמש באפליקציה.']]} };
+const PHR = {
+  basic:{ name:'בסיס', list:[['Hola, ¿cómo estás?','אולה, קומו אסטאס?','שלום, מה שלומך?'],['Gracias, muy amable','גראסיאס, מוי אמאבלה','תודה, מאוד נחמד מצדך'],['Perdón, ¿habla inglés?','פרדון, אבלה אינגלס?','סליחה, אתה מדבר אנגלית?'],['No entiendo, ¿más despacio, por favor?','נו אנטיינדו, מאס דספאסיו פור פאבור?','לא הבנתי, אפשר לאט יותר?'],['¿Cuánto cuesta?','קואנטו קואסטה?','כמה זה עולה?'],['¿Dónde está el baño?','דונדה אסטה אל באניו?','איפה השירותים?']]},
+  food:{ name:'אוכל', list:[['Una mesa para dos, por favor','אונה מסה פארה דוס, פור פאבור','שולחן לשניים בבקשה'],['¿Qué nos recomienda?','קה נוס רקומיינדה?','מה אתה ממליץ לנו?'],['Sin picante, por favor','סין פיקאנטה, פור פאבור','בלי חריף בבקשה'],['La cuenta, por favor','לה קואנטה, פור פאבור','החשבון בבקשה'],['¿Aceptan tarjeta?','אספטאן טרחטה?','מקבלים כרטיס אשראי?'],['Un bife de chorizo, a punto','און ביפה דה צ׳וריסו, א פונטו','סטייק אנטריקוט, מדיום']]},
+  trek:{ name:'טרק', list:[['¿Dónde empieza el sendero?','דונדה אמפייסה אל סנדרו?','איפה מתחיל השביל?'],['¿Cuánto falta para llegar?','קואנטו פאלטה פארה ייגאר?','כמה עוד נשאר עד שמגיעים?'],['¿El sendero está abierto hoy?','אל סנדרו אסטה אביירטו אוי?','השביל פתוח היום?'],['¿Va a llover más tarde?','בה א יובר מאס טארדה?','הולך לרדת גשם אחר כך?'],['Estamos perdidos','אסטאמוס פרדידוס','הלכנו לאיבוד'],['Necesito descansar, me falta el aire','נססיטו דסקאנסאר, מה פאלטה אל איירה','אני צריך לנוח, חסר לי אוויר (גובה)']]},
+  sos:{ name:'חירום', list:[['¡Ayuda! Es una emergencia','איודה! אס אונה אמרחנסיה','הצילו! זה מקרה חירום'],['Llame a una ambulancia','יאמה א אונה אמבולנסיה','תזמינו אמבולנס'],['Necesito un médico','נססיטו און מדיקו','אני צריך רופא'],['Soy alérgico/a a…','סוי אלרחיקו/קה א…','אני אלרגי/ת ל…'],['Me robaron el celular','מה רובארון אל סלולר','גנבו לי את הטלפון'],['¿Dónde está el hospital más cercano?','דונדה אסטה אל אוספיטאל מאס סרקאנו?','איפה בית החולים הקרוב?']]},
+  move:{ name:'תחבורה', list:[['¿Me lleva a esta dirección?','מה ייבה א אסטה דירקסיון?','תיקח אותי לכתובת הזאת?'],['¿Cuánto sale hasta el centro?','קואנטו סאלה אסטה אל סנטרו?','כמה עולה עד המרכז?'],['¿A qué hora sale el bus?','א קה אורה סאלה אל בוס?','באיזו שעה יוצא האוטובוס?'],['Pare aquí, por favor','פארה אקי, פור פאבור','עצור כאן בבקשה'],['Vamos al aeropuerto','באמוס אל אאירופוארטו','אנחנו נוסעים לשדה התעופה']]} };
+let sayVoice = null;
+function say(text, c, btn){
+  if (!('speechSynthesis' in window)){ toast('השמעה לא נתמכת בדפדפן הזה'); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text), lang = { AR:'es-AR', PE:'es-PE', MX:'es-MX' }[c] || 'es-ES';
+  const vs = speechSynthesis.getVoices(), v = vs.find(x => x.lang === lang) || vs.find(x => x.lang && x.lang.startsWith('es-4')) || vs.find(x => x.lang && x.lang.startsWith('es'));
+  u.lang = v ? v.lang : lang; if (v) u.voice = v; u.rate = .88;
+  document.querySelectorAll('.say.on').forEach(b => b.classList.remove('on')); btn && btn.classList.add('on');
+  u.onend = u.onerror = () => btn && btn.classList.remove('on');
+  speechSynthesis.speak(u);
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-sunstop],[data-soscountry],[data-money],[data-phr],[data-say],[data-shareloc],[data-insedit],[data-trekmode]'); if (!b) return;
+  const ds = b.dataset;
+  if (ds.sunstop){ FK.sunStop = ds.sunstop; const s = stopOf(ds.sunstop); FK.sunDate = isoOf(s.s); renderField(); }
+  if (ds.soscountry){ FK.sos = ds.soscountry; renderField(); }
+  if (ds.money){ FK.money = ds.money; renderField(); }
+  if (ds.phr){ FK.phr = ds.phr; renderField(); }
+  if (ds.say){ const [k, i] = ds.say.split(':'); say(PHR[k].list[+i][0], fieldStop().c, b); }
+  if ('shareloc' in ds) shareLocation();
+  if ('insedit' in ds) editInsurance();
+  if ('trekmode' in ds) openTrek();
+});
+document.getElementById('fkSunDate').addEventListener('change', e => { if (e.target.value){ FK.sunDate = e.target.value; renderField(); } });
+function shareLocation(){
+  if (!navigator.geolocation){ toast('אין גישה למיקום במכשיר הזה'); return; }
+  toast('מאתר מיקום…');
+  navigator.geolocation.getCurrentPosition(p => {
+    const { latitude:la, longitude:lo, accuracy:ac } = p.coords, url = `https://maps.google.com/?q=${la.toFixed(5)},${lo.toFixed(5)}`, text = `המיקום שלי עכשיו (דיוק ~${Math.round(ac)} מ׳): ${url}`;
+    if (navigator.share) navigator.share({ title:'המיקום שלי', text }).catch(() => {});
+    else location.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
+  }, () => toast('לא הצלחתי לקבל מיקום. בדקו שהמיקום מופעל בהגדרות.'), { enableHighAccuracy:true, timeout:15000, maximumAge:60000 });
+}
+function editInsurance(){
+  const ins = state.safety || {}, el = document.getElementById('fkSos');
+  el.insertAdjacentHTML('beforeend', `<form class="fgrid" id="insForm" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-top:12px">
+    <div class="field"><label for="ins-company">חברת ביטוח</label><input id="ins-company" name="company" value="${esc(ins.company || '')}"></div>
+    <div class="field"><label for="ins-policy">מספר פוליסה</label><input id="ins-policy" name="policy" class="mono" dir="ltr" value="${esc(ins.policy || '')}"></div>
+    <div class="field c6"><label for="ins-phone">טלפון חירום של הביטוח</label><input id="ins-phone" name="phone" type="tel" dir="ltr" value="${esc(ins.phone || '')}" placeholder="+972…"></div>
+    <div class="row c6" style="grid-column:1/-1"><button class="btn pri" type="submit"><i data-lucide="check"></i>שמירה</button></div></form>`);
+  icons(); document.getElementById('ins-company').focus();
+}
+document.addEventListener('submit', e => { if (e.target.id !== 'insForm') return; e.preventDefault(); const fd = new FormData(e.target), v = {}; ['company','policy','phone'].forEach(k => v[k] = String(fd.get(k) || '').trim().slice(0, 80)); state.safety = v; setDoc('trip/safety', v); saveCache(); renderField(); toast('פרטי הביטוח נשמרו'); });
+setInterval(() => { if (!document.getElementById('p-field').hidden){ const c = document.getElementById('fkClocks'); if (c){ const cs = fieldStop(); c.innerHTML = [['Asia/Jerusalem','ישראל'],[TZ[cs.id], cs.he]].map(([tz, nm]) => `<div class="clock">${clockFace(tz)}<div><b>${clockIn(tz)}</b><span>${esc(nm)}</span></div></div>`).join(''); } } if (!document.getElementById('trek').hidden) trekTick(); }, 20000);
+
+/* ---------- trek mode ---------- */
+let wakeLock = null, TM = { act:null };
+function trekCandidates(){
+  const d = today(), I = dayInfo(d >= STOPS[0].s && d <= TRIP_END ? d : STOPS[0].s), s = I.s || STOPS[0];
+  const day = I.acts.filter(a => ['trek','ice','view'].includes(a.t));
+  const rest = ALL_ACTS.filter(a => (a.t === 'trek' || a.t === 'ice') && a.v !== 'skip' && !day.includes(a));
+  return [...day, ...rest];
+}
+function openTrek(){
+  const el = document.getElementById('trek'), list = trekCandidates(); TM.act = TM.act || (list[0] && list[0].id);
+  el.hidden = false; document.documentElement.classList.add('noscroll'); sfx('open');
+  el.innerHTML = `<header><span class="tm-badge"><i data-lucide="wifi-off"></i>עובד בלי קליטה</span><button type="button" class="tm-close" data-trekclose aria-label="יציאה ממצב טרק"><i data-lucide="x"></i></button></header>
+    <div><div class="tm-clock" id="tmClock"></div><div class="tm-sub" id="tmSub"></div></div>
+    <label class="sr" for="tmSel">בחירת טרק</label><select id="tmSel">${list.map(a => `<option value="${a.id}" ${a.id === TM.act ? 'selected' : ''}>${esc(stopOf(a.stop).he)} · ${esc(a.n)} (${esc(a.du)})</option>`).join('')}</select>
+    <div class="tm-grid" id="tmGrid"></div><div class="tm-left" id="tmLeft" aria-live="polite"></div>
+    <div class="tm-acts"><a class="tm-btn sos" id="tmSos" href="tel:911"><i data-lucide="phone"></i>חירום</a><button type="button" class="tm-btn" data-shareloc><i data-lucide="share-2"></i>שליחת מיקום</button>
+      <button type="button" class="tm-btn" id="tmWake" aria-pressed="false"><i data-lucide="sun"></i>מסך דלוק</button><a class="tm-btn" id="tmNav" target="_blank" rel="noopener"><i data-lucide="navigation"></i>ניווט להתחלה</a></div>
+    <p class="tm-note" id="tmNote"></p>`;
+  document.getElementById('tmSel').addEventListener('change', e => { TM.act = e.target.value; trekTick(); });
+  document.getElementById('tmWake').addEventListener('click', toggleWake);
+  trekTick(); icons(); document.querySelector('#trek .tm-close').focus();
+}
+function closeTrek(){ const el = document.getElementById('trek'); if (el.hidden) return; el.hidden = true; document.documentElement.classList.remove('noscroll'); if (wakeLock){ wakeLock.release().catch(() => {}); wakeLock = null; } }
+async function toggleWake(){
+  const b = document.getElementById('tmWake');
+  if (wakeLock){ await wakeLock.release().catch(() => {}); wakeLock = null; b.setAttribute('aria-pressed', 'false'); return; }
+  try { wakeLock = await navigator.wakeLock.request('screen'); b.setAttribute('aria-pressed', 'true'); wakeLock.addEventListener('release', () => { b.setAttribute('aria-pressed', 'false'); wakeLock = null; }); toast('המסך יישאר דלוק'); } catch(e){ toast('הטלפון לא מאפשר להשאיר את המסך דלוק מכאן'); }
+}
+function trekTick(){
+  const a = ALL_ACTS.find(x => x.id === TM.act); if (!a) return; const s = stopOf(a.stop), tz = TZ[s.id];
+  const now = clockIn(tz), nm = (() => { const p = now.split(':'); return +p[0] * 60 + +p[1]; })();
+  const dd = today(), d = dd >= s.s && dd < s.e ? dd : (a.day ? dayDate(s, a.day) : s.s), sn = sunTimes(d, a.lat, a.lon, tzOff(s));
+  const hrs = durMax(a.du), back = sn.setM - 30, start = Math.max(sn.riseM + 30, back - Math.round(hrs * 60) - 60), turn = back - Math.round(hrs * 60 / 2) - 15;
+  document.getElementById('tmClock').textContent = now;
+  document.getElementById('tmSub').textContent = `שעון מקומי · ${s.he} · ${wd(d)} ${fmtD(d)}`;
+  document.getElementById('tmGrid').innerHTML = `
+    <div class="tm-cell go"><span>לצאת לכל המאוחר</span><b>${hm(start)}</b></div>
+    <div class="tm-cell warn"><span>להסתובב לכל המאוחר</span><b>${hm(turn)}</b></div>
+    <div class="tm-cell"><span>להיות בחזרה עד</span><b>${hm(back)}</b></div>
+    <div class="tm-cell"><span>שקיעה</span><b>${sn.set}</b></div>`;
+  const left = sn.setM - nm, isDay = d.getTime() === dd.getTime();
+  document.getElementById('tmLeft').textContent = !isDay ? `${a.n}: ${esc(a.du)} · זריחה ${sn.rise}` : left > 0 ? `נשארו ${Math.floor(left / 60)} שעות ו-${left % 60} דקות של אור` : 'השמש כבר שקעה. אם אתם עדיין בשביל: פנס, שכבה חמה, ולאט.';
+  document.getElementById('tmSos').href = `tel:${s.c === 'PE' ? '105' : '911'}`;
+  document.getElementById('tmNav').href = gmaps(a.lat, a.lon);
+  document.getElementById('tmNote').textContent = `${a.why || ''} הזמנים מחושבים לפי השקיעה ומשך הטרק (${a.du}), עם מרווח ביטחון. אם בשעת ההסתובבות עוד לא הגעתם ליעד, חוזרים בכל זאת: הדרך חזרה לוקחת בערך חצי מהזמן.`;
+}
+document.addEventListener('click', e => { if (e.target.closest('[data-trekclose]')) closeTrek(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !document.getElementById('trek').hidden) closeTrek(); });
+
+/* ================= achievements ================= */
+const ACH = [
+  ['first', 'footprints', 'צעד ראשון', 'סימנו את ההרפתקה הראשונה כ"בוצע"', () => doneN() >= 1],
+  ['ice', 'snowflake', 'מלכי הקרח', 'הלכתם על קרחון פריטו מורנו', () => isDone('cal-t2')],
+  ['laguna', 'gem', 'טורקיז', 'הגעתם ללגונה אזמרלדה', () => isDone('ush-t1')],
+  ['five', 'mountain', 'חמישה טרקים', 'חמישה טרקים או קרחונים מאחוריכם', () => ALL_ACTS.filter(a => (a.t === 'trek' || a.t === 'ice') && isDone(a.id)).length >= 5],
+  ['raft', 'waves', 'נהר פראי', 'רפטינג בנהר מנסו', () => isDone('bri-t11')],
+  ['inca', 'landmark', 'בעקבות האינקה', 'מאצ׳ו פיצ׳ו בוצע', () => isDone('cus-t4')],
+  ['rainbow', 'rainbow', '5,000 מטר', 'הר הצבעים, בגובה הכי גבוה בטיול', () => isDone('cus-t6')],
+  ['sea', 'fish', 'מתחת למים', 'צלילה, סנוטות או צבי ים', () => ['mex-t1','mex-t27','mex-t15','mex-t11'].some(isDone)],
+  ['sky', 'parachute', 'בין העננים', 'צניחה חופשית', () => isDone('mex-t20')],
+  ['foodie', 'utensils', 'אכלנים', 'שלוש חוויות אוכל', () => ALL_ACTS.filter(a => a.t === 'food' && isDone(a.id)).length >= 3],
+  ['night', 'music', 'ציפורי לילה', 'יצאתם לבלות בלילה', () => ALL_ACTS.some(a => a.t === 'night' && isDone(a.id))],
+  ['packed', 'backpack', 'ארוזים', 'כל רשימת הציוד מסומנת', () => { const T = totals(); return T.packAll && T.packed === T.packAll; }],
+  ['writer', 'notebook-pen', 'כותבים היסטוריה', 'חמש רשומות ביומן המסע', () => (state.journal || []).length >= 5],
+  ['six', 'globe-2', 'שלוש מדינות', 'בוצעה הרפתקה בארגנטינה, בפרו ובמקסיקו', () => ['AR','PE','MX'].every(c => ALL_ACTS.some(a => stopOf(a.stop).c === c && isDone(a.id)))],
+];
+const isDone = id => state.act[id] === 'done', doneN = () => ALL_ACTS.filter(a => isDone(a.id)).length;
+let achKnown = null;
+function renderAch(){
+  const got = ACH.filter(x => { try { return x[4](); } catch(e){ return false; } }).map(x => x[0]);
+  document.getElementById('ach').innerHTML = ACH.map(([id, ic, t, d]) => `<div class="badge2 ${got.includes(id) ? 'on' : ''}" role="img" aria-label="${t}: ${d}. ${got.includes(id) ? 'הושג' : 'עוד לא הושג'}"><span class="medal"><i data-lucide="${ic}"></i></span><b>${t}</b><small>${d}</small></div>`).join('');
+  document.getElementById('achBar').style.width = (got.length / ACH.length * 100) + '%';
+  document.getElementById('achCount').textContent = `${got.length}/${ACH.length}`;
+  if (achKnown){ const fresh = got.filter(x => !achKnown.includes(x)); if (fresh.length){ const a = ACH.find(x => x[0] === fresh[0]); toast(`🏅 הישג חדש: ${a[2]}`); confetti(); sfx('done'); } }
+  achKnown = got;
+}
+function confetti(){
+  if (document.documentElement.dataset.motion === 'reduce' || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c = document.getElementById('confetti'), g = c.getContext('2d'); c.hidden = false; c.width = innerWidth * devicePixelRatio; c.height = innerHeight * devicePixelRatio; g.scale(devicePixelRatio, devicePixelRatio);
+  const cs = getComputedStyle(document.body), cols = [cs.getPropertyValue('--d1').trim() || '#4facfe', cs.getPropertyValue('--d2').trim() || '#00f2fe', '#f2c14e', '#ffffff', '#ff6e5a'];
+  const P = Array.from({ length: 140 }, () => ({ x: innerWidth / 2, y: innerHeight * .35, vx: (Math.random() - .5) * 14, vy: -Math.random() * 13 - 4, r: Math.random() * 6 + 3, a: Math.random() * 6, va: (Math.random() - .5) * .3, c: cols[Math.floor(Math.random() * cols.length)] }));
+  let t = 0; const step = () => { g.clearRect(0, 0, innerWidth, innerHeight); P.forEach(p => { p.vy += .35; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.a += p.va; g.save(); g.translate(p.x, p.y); g.rotate(p.a); g.fillStyle = p.c; g.fillRect(-p.r, -p.r / 2, p.r * 2, p.r); g.restore(); }); if (++t < 150) requestAnimationFrame(step); else { c.hidden = true; } };
+  step();
+}
+
+/* ================= accessibility settings ================= */
+const A11Y_KEY = 'dt-a11y';
+let A11Y = { fs:'m', contrast:'normal', motion:'auto', ul:'0', read:'0' };
+try { A11Y = { ...A11Y, ...JSON.parse(localStorage.getItem(A11Y_KEY) || '{}') }; } catch(e){}
+function applyA11y(){ const r = document.documentElement; r.dataset.fs = A11Y.fs; r.dataset.contrast = A11Y.contrast; r.dataset.ul = A11Y.ul; r.dataset.read = A11Y.read; if (A11Y.motion === 'reduce') r.dataset.motion = 'reduce'; else delete r.dataset.motion; try { localStorage.setItem(A11Y_KEY, JSON.stringify(A11Y)); } catch(e){} }
+applyA11y();
+let a11yFrom = null;
+function openA11y(){
+  const w = document.getElementById('a11y'), sh = w.querySelector('.sheet'); a11yFrom = document.activeElement;
+  const sw = (k, on, label, sub) => `<div class="opt"><div><b id="lbl-${k}">${label}</b><small>${sub}</small></div><button type="button" class="sw" role="switch" aria-checked="${on}" aria-labelledby="lbl-${k}" data-a11ysw="${k}"></button></div>`;
+  sh.innerHTML = `<div class="row between"><h2 id="a11yH"><i data-lucide="accessibility"></i>נגישות</h2><button type="button" class="iconbtn" data-a11yclose aria-label="סגירה"><i data-lucide="x"></i></button></div>
+    <p class="muted small" style="margin:0 0 6px">ההגדרות נשמרות במכשיר הזה.</p>
+    <div class="opt"><div><b id="lbl-fs">גודל טקסט</b><small>מגדיל את כל האפליקציה</small></div><div class="seg" role="group" aria-labelledby="lbl-fs">${[['m','א','רגיל'],['l','א+','גדול'],['xl','א++','גדול מאוד']].map(([k, t, n]) => `<button type="button" data-a11yfs="${k}" aria-pressed="${A11Y.fs === k}" aria-label="${n}">${t}</button>`).join('')}</div></div>
+    ${sw('contrast', A11Y.contrast === 'high', 'ניגודיות גבוהה', 'רקעים אטומים, טקסט וקווים חזקים יותר')}
+    ${sw('motion', A11Y.motion === 'reduce', 'עצירת אנימציות', 'בלי תנועה ברקע, בגלובוס ובמעברים')}
+    ${sw('ul', A11Y.ul === '1', 'הדגשת קישורים', 'קו תחתון לכל קישור')}
+    ${sw('read', A11Y.read === '1', 'ריווח קריא', 'יותר מרווח בין אותיות ושורות')}
+    ${sw('snd', SND, 'צלילים', 'משוב קולי עדין בלחיצות')}
+    <div class="row" style="margin-top:14px"><button type="button" class="btn" data-a11yreset><i data-lucide="rotate-ccw"></i>איפוס</button></div>`;
+  w.hidden = false; icons(); sh.querySelector('[data-a11yclose]').focus();
+}
+function closeA11y(){ document.getElementById('a11y').hidden = true; try { a11yFrom && a11yFrom.focus(); } catch(e){} }
+document.getElementById('a11yBtn').addEventListener('click', openA11y);
+document.getElementById('a11y').addEventListener('click', e => {
+  if (e.target.id === 'a11y' || e.target.closest('[data-a11yclose]')){ closeA11y(); return; }
+  const b = e.target.closest('[data-a11yfs],[data-a11ysw],[data-a11yreset]'); if (!b) return;
+  if (b.dataset.a11yfs) A11Y.fs = b.dataset.a11yfs;
+  if (b.dataset.a11ysw){ const k = b.dataset.a11ysw, on = b.getAttribute('aria-checked') !== 'true';
+    if (k === 'contrast') A11Y.contrast = on ? 'high' : 'normal'; else if (k === 'motion') A11Y.motion = on ? 'reduce' : 'auto'; else if (k === 'snd'){ document.getElementById('soundBtn').click(); } else A11Y[k] = on ? '1' : '0'; }
+  if ('a11yreset' in b.dataset) A11Y = { fs:'m', contrast:'normal', motion:'auto', ul:'0', read:'0' };
+  applyA11y(); const f = b.dataset.a11ysw || b.dataset.a11yfs; openA11y(); const again = document.querySelector(`#a11y [data-a11ysw="${f}"],#a11y [data-a11yfs="${f}"]`); again && again.focus();
+});
+document.addEventListener('keydown', e => {
+  const w = document.getElementById('a11y'); if (w.hidden) return;
+  if (e.key === 'Escape'){ closeA11y(); e.preventDefault(); }
+  if (e.key === 'Tab'){ const f = [...w.querySelectorAll('button')], first = f[0], last = f[f.length - 1]; if (e.shiftKey && document.activeElement === first){ last.focus(); e.preventDefault(); } else if (!e.shiftKey && document.activeElement === last){ first.focus(); e.preventDefault(); } }
+});
+const reducedMotion = () => document.documentElement.dataset.motion === 'reduce' || matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 /* ---------- boot ---------- */
 const cached = readLS(CACHE) || readLS(LS);
 if (cached){ absorb(cached); setSync('cached'); renderCacheNote(cached.savedAt); }
@@ -3237,6 +3655,7 @@ renderAll(); syncThemeIcon();
   const fail = e => { console.warn(e); if (e && (e.code === 'revoked' || e.code === 'not_granted')) setSync('cached'); };
   const got = () => { renderAll(); saveCache(); };
   db.doc('trip/activities').onSnapshot(s => { state.act = { ...((s.exists && s.data().status) || {}) }; got(); }, fail);
+  db.doc('trip/safety').onSnapshot(s => { state.safety = (s.exists && s.data()) || {}; got(); }, fail);
   db.doc('trip/gear').onSnapshot(s => { state.gear = { ...((s.exists && s.data().checked) || {}) }; got(); }, fail);
   db.doc('trip/packing').onSnapshot(s => { state.pack = { ...((s.exists && s.data().checked) || {}) }; got(); }, fail);
   db.doc('trip/media').onSnapshot(s => { const v = (s.exists && s.data()) || {}; state.media = { hero: v.hero || null, acts: { ...(v.acts || {}) } }; got(); }, fail);
