@@ -1243,7 +1243,7 @@ li.empty .lot{display:block;margin:0 auto 6px;width:72px;height:72px}
     <div class="twocol" id="ovNow"></div>
 
     <div class="row between"><div><h2 class="sec">לוח טיסות</h2><p class="sec-sub">שעון מקומי בכל שדה. הוסיפו מספר טיסה וקוד הזמנה בכל טיסה, והם יופיעו גם בעותק האופליין וביומן.</p></div>
-      <button class="btn" type="button" data-icsexport><i data-lucide="calendar-down"></i>ייצוא ליומן (.ics)</button></div>
+      <button class="btn" type="button" data-icsexport><i data-lucide="calendar-arrow-down"></i>ייצוא ליומן (.ics)</button></div>
     <div class="glass pad"><ol class="tl" id="flightTl"></ol>
       <div class="ftotal"><span class="muted">סה״כ מקטעים שתועדו</span><b class="mono" style="font-size:20px" dir="ltr">$2,771 USD</b></div>
     </div>
@@ -1351,7 +1351,7 @@ li.empty .lot{display:block;margin:0 auto 6px;width:72px;height:72px}
         <p class="muted small" id="cacheNote" style="margin:0"></p>
       </div>
       <div class="glass pad">
-        <div class="row between" style="margin-bottom:6px"><div class="row"><i data-lucide="calendar-plus"></i><b>ייצוא ליומן</b></div><button class="linkbtn" type="button" data-icsexport><i data-lucide="calendar-down"></i>הכל כקובץ .ics</button></div>
+        <div class="row between" style="margin-bottom:6px"><div class="row"><i data-lucide="calendar-plus"></i><b>ייצוא ליומן</b></div><button class="linkbtn" type="button" data-icsexport><i data-lucide="calendar-arrow-down"></i>הכל כקובץ .ics</button></div>
         <ul class="evlist" id="evList"></ul>
       </div>
     </div>
@@ -2935,6 +2935,7 @@ function GLL(ml){
   S.tileLayer = () => { const t = { on(){ return t; }, addTo(){ return t; } }; return t; };
   S.geoJSON = () => { const g = { addTo(){ return g; }, bringToBack(){} }; return g; };
   S.map = (el, o = {}) => {
+    if (typeof el === 'string') el = document.getElementById(el);
     const coarse = matchMedia('(pointer:coarse)').matches;
     const m = new ml.Map({ container: el, style: GL_STYLES.dark, center:[-66, -22], zoom:1.6, maxZoom: o.maxZoom || 17, minZoom:1, attributionControl:false, cooperativeGestures: coarse || o.scrollWheelZoom === false, dragRotate:true, pitchWithRotate:true, fadeDuration:150,
       locale:{ 'CooperativeGesturesHandler.WindowsHelpText':'Ctrl + גלילה כדי להתקרב', 'CooperativeGesturesHandler.MacHelpText':'⌘ + גלילה כדי להתקרב', 'CooperativeGesturesHandler.MobileHelpText':'גררו עם שתי אצבעות כדי להזיז את המפה' } });
