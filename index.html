@@ -1370,7 +1370,7 @@ li.empty .lot{display:block;margin:0 auto 6px;width:72px;height:72px}
     <div class="row between"><div><h2 class="sec">לוח טיסות</h2><p class="sec-sub">שעון מקומי בכל שדה. הוסיפו מספר טיסה וקוד הזמנה בכל טיסה, והם יופיעו גם בעותק האופליין וביומן.</p></div>
       <button class="btn" type="button" data-icsexport><i data-lucide="calendar-arrow-down"></i>ייצוא ליומן (.ics)</button></div>
     <div class="glass pad"><ol class="tl" id="flightTl"></ol>
-      <div class="ftotal"><span class="muted">סה״כ מקטעים שתועדו</span><b class="mono" style="font-size:20px" dir="ltr">$2,771 USD</b></div>
+      <div class="ftotal"><span class="muted">סה״כ מקטעים שתועדו</span><b class="mono" style="font-size:20px" dir="ltr">$4,888 USD</b></div>
     </div>
   </section>
 
@@ -1536,7 +1536,7 @@ const fmtD = d => `${d.getDate()}.${d.getMonth() + 1}`;
 const isoD = s => s ? s.split('-').reverse().slice(0, 2).map(Number).join('.') : '';
 const wd = d => d.toLocaleDateString('he-IL', { weekday: 'short' });
 const ils = n => '₪' + Math.round(n).toLocaleString('en-US');
-const COUNTRY = { AR: 'var(--ar)', PE: 'var(--pe)', MX: 'var(--mx)' };
+const COUNTRY = { AR: 'var(--ar)', PE: 'var(--pe)', MX: 'var(--mx)', IL: '#c6a14a' };
 const CNAME = { AR:'ארגנטינה', PE:'פרו', MX:'מקסיקו' };
 const gmaps = (lat, lon) => `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
 const blobUrl = id => window.dtAssetUrl(id);
@@ -1722,7 +1722,12 @@ const TYPE_ICON = { view:'binoculars', sport:'trophy', trek:'footprints', ice:'s
 const DIFF = { e:['קל','Easy','gauge'], m:['בינוני','Moderate','gauge'], x:['אקסטרים','Extreme','flame'] };
 const AIRPORTS = { USH:[-54.843,-68.296,'Ushuaia'], FTE:[-50.280,-72.053,'El Calafate'], BRC:[-41.151,-71.158,'Bariloche'], AEP:[-34.559,-58.416,'Buenos Aires Aeroparque'], CUZ:[-13.536,-71.939,'Cusco'], LIM:[-12.022,-77.114,'Lima'], CUN:[21.037,-86.877,'Cancun'] };
 
-const FLIGHTS = [
+const PRE_FLIGHTS = [
+  { id:'f0a', pre:true, d:D(1,22), f:'TLV', fc:'Tel Aviv', t:'MAD', tc:'Madrid', dep:'16:05', arr:'20:30', zf:2, zt:1, usd:1870, usdNote:'כולל המשך לבואנוס איירס', paid:'עידן', c:'IL' },
+  { id:'f0b', pre:true, d:D(1,22), f:'MAD', fc:'Madrid', t:'EZE', tc:'Buenos Aires Ezeiza', dep:'23:55', arr:'08:50', nd:1, zf:1, zt:-3, usd:0, usdNote:'כלול בכרטיס מתל אביב', paid:'עידן', c:'AR' },
+  { id:'f0c', pre:true, d:D(1,23), f:'EZE', fc:'Buenos Aires Ezeiza', t:'USH', tc:'Ushuaia', dep:'16:45', arr:'20:27', zf:-3, zt:-3, usd:247, paid:'לורן', c:'AR' },
+];
+const MAIN_FLIGHTS = [
   { id:'f1', d:D(1,29), f:'USH', fc:'Ushuaia', t:'FTE', tc:'El Calafate', dep:'17:40', arr:'19:00', zf:-3, zt:-3, usd:368, paid:'עידן', c:'AR' },
   { id:'f2', d:D(1,31), f:'FTE', fc:'El Calafate', t:'BRC', tc:'Bariloche', dep:'09:20', arr:'11:05', zf:-3, zt:-3, usd:600, c:'AR' },
   { id:'f3', d:D(2,5),  f:'BRC', fc:'Bariloche', t:'AEP', tc:'Buenos Aires', dep:'14:20', arr:null, estMin:140, zf:-3, zt:-3, usd:322, c:'AR' },
@@ -1730,13 +1735,14 @@ const FLIGHTS = [
   { id:'f5', d:D(2,16), f:'CUZ', fc:'Cusco', t:'LIM', tc:'Lima', dep:'12:00', arr:'13:50', zf:-5, zt:-5, usd:162, paid:'עידן', c:'PE' },
   { id:'f6', d:D(2,18), f:'LIM', fc:'Lima', t:'CUN', tc:'Cancun', dep:'11:00', arr:'17:00', zf:-5, zt:-5, usd:664, c:'MX' },
 ];
+const FLIGHTS = [...PRE_FLIGHTS, ...MAIN_FLIGHTS];
 const mins = t => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
-const dur = f => { if (!f.arr) return null; const m = (mins(f.arr) - f.zt * 60) - (mins(f.dep) - f.zf * 60); return `${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}`; };
+const dur = f => { if (!f.arr) return null; const m = (mins(f.arr) + (f.nd || 0) * 1440 - f.zt * 60) - (mins(f.dep) - f.zf * 60); return `${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}`; };
 const utc = (d, hm, z) => { const [h, m] = hm.split(':').map(Number); return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), h - z, m)); };
 const gstamp = dt => dt.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
 const ymd = s => s.replace(/-/g, '');
 const isoOf = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-const fTimes = f => { const st = utc(f.d, f.dep, f.zf); return [st, f.arr ? utc(f.d, f.arr, f.zt) : new Date(st.getTime() + f.estMin * 6e4)]; };
+const fTimes = f => { const st = utc(f.d, f.dep, f.zf); return [st, f.arr ? new Date(utc(f.d, f.arr, f.zt).getTime() + (f.nd || 0) * 864e5) : new Date(st.getTime() + f.estMin * 6e4)]; };
 function flightText(f){ const x = state.flights[f.id] || {}; return [`${f.f} → ${f.t}`, x.airline || x.number ? `${x.airline || ''} ${x.number || ''}`.trim() : '', x.pnr ? 'קוד הזמנה: ' + x.pnr : '', `המראה ${f.dep} (שעון מקומי)`, f.arr ? `נחיתה ${f.arr}` : 'שעת נחיתה לא ידועה, הוגדרה הערכה', f.conn ? 'כולל קונקשן' : '', `$${f.usd}`].filter(Boolean).join('\n'); }
 const flightTitle = f => { const x = state.flights[f.id] || {}; return `✈ ${f.fc} → ${f.tc}${x.number ? ' · ' + x.number : ''}`; };
 const STAY_PRESET = {
@@ -2056,7 +2062,7 @@ function paintHero(){}
 
 
 /* ---------- itinerary ---------- */
-const TRIP_START = new Date(2027, 0, 23, 0, 0, 0), TRIP_END = new Date(2027, 2, 4, 23, 59, 59);
+const TRIP_START = new Date(Date.UTC(2027, 0, 22, 14, 5)), TRIP_END = new Date(2027, 2, 4, 23, 59, 59);
 let cdTimer = 0, cdLastMin = -1;
 function renderCountdown(){
   const now = new Date(), pad = n => String(n).padStart(2, '0');
@@ -2229,21 +2235,24 @@ function wxBlock(s){
     <div class="cond"><span class="chip"><i data-lucide="thermometer"></i>${esc(s.wx)}</span>${s.cond.map(([ic, t]) => `<span class="chip"><i data-lucide="${ic}"></i>${esc(t)}</span>`).join('')}</div>`;
 }
 const estArr = f => { if (f.arr || !f.estMin) return f.arr || ''; const m = mins(f.dep) + f.estMin + (f.zt - f.zf) * 60; return `${String(Math.floor(m / 60) % 24).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`; };
-const durTxt = f => { const m = f.arr ? (mins(f.arr) - f.zt * 60) - (mins(f.dep) - f.zf * 60) : f.estMin; if (!m) return ''; const h = Math.floor(m / 60), r = m % 60; return `${h ? h + ' ש׳' : ''}${h && r ? ' ' : ''}${r ? r + ' ד׳' : ''}`; };
+const durTxt = f => { const m = f.arr ? (mins(f.arr) + (f.nd || 0) * 1440 - f.zt * 60) - (mins(f.dep) - f.zf * 60) : f.estMin; if (!m) return ''; const h = Math.floor(m / 60), r = m % 60; return `${h ? h + ' ש׳' : ''}${h && r ? ' ' : ''}${r ? r + ' ד׳' : ''}`; };
 function legHTML(f){
   const d = durTxt(f), arr = estArr(f);
   return `<div class="leg" aria-label="${esc(f.fc)} ${f.dep} אל ${esc(f.tc)} ${arr}">
     <div class="ap"><div class="code">${f.f}</div><div class="city">${esc(f.fc)}</div><div class="t">${f.dep}</div></div>
     <div class="mid"><span>${d ? (f.arr ? '' : 'כ-') + d : ''}</span><div class="ln"><i data-lucide="plane"></i></div><span>${f.conn ? 'עם קונקשן' : 'ישירה'}</span></div>
-    <div class="ap"><div class="code">${f.t}</div><div class="city">${esc(f.tc)}</div><div class="t">${arr ? (f.arr ? arr : `<span title="שעת נחיתה משוערת" dir="ltr">~${arr}</span>`) : '—'}</div></div>
+    <div class="ap"><div class="code">${f.t}</div><div class="city">${esc(f.tc)}</div><div class="t">${arr ? (f.arr ? arr + (f.nd ? '<sup title="למחרת" style="font-size:.7em;opacity:.8">+1</sup>' : '') : `<span title="שעת נחיתה משוערת" dir="ltr">~${arr}</span>`) : '—'}</div></div>
   </div>`;
 }
 function renderFlights(){
   if (editingFlight && document.querySelector(`[data-fform="${editingFlight}"]`)) return;
   const nf = nextFlight();
-  const items = [`<li class="stay" style="--c:var(--ar)"><span class="node"></span><b style="color:var(--fg)">23.1 · נחיתה באושואיה</b> · 6 לילות</li>`];
-  FLIGHTS.forEach((f, i) => {
-    const stop = STOPS[i + 1], x = state.flights[f.id] || {};
+  const items = [];
+  FLIGHTS.forEach(f => {
+    const i = MAIN_FLIGHTS.indexOf(f), stop = i >= 0 ? STOPS[i + 1] : null, x = state.flights[f.id] || {};
+    if (i === 0) items.push(`<li class="stay" style="--c:var(--ar)"><span class="node"></span><b style="color:var(--fg)">23.1 · נחיתה באושואיה</b> · 6 לילות</li>`);
+    if (f.id === 'f0b') items.push(`<li class="stay" style="--c:#c6a14a"><span class="node"></span>עצירה במדריד · 3 ש׳ 25 ד׳</li>`);
+    if (f.id === 'f0c') items.push(`<li class="stay" style="--c:var(--ar)"><span class="node"></span>נחיתה בעזייסה ב-08:50 · המתנה של 8 ש׳ באותו שדה</li>`);
     const det = editingFlight === f.id
       ? `<form class="fform" data-fform="${f.id}" autocomplete="off">
           <div class="field"><label for="ff-airline">חברת תעופה</label><input id="ff-airline" name="airline" value="${esc(x.airline || '')}" placeholder="Aerolíneas Argentinas"></div>
@@ -2255,7 +2264,7 @@ function renderFlights(){
       <article class="glass pad fcard" aria-label="טיסה מ-${f.fc} ל-${f.tc}, ${fmtD(f.d)}">
         <div class="fdate"><b class="num">${f.d.getDate()}</b><span>${f.d.toLocaleDateString('he-IL',{month:'short'})} · ${wd(f.d)}</span></div>
         ${legHTML(f)}
-        <div class="price"><b dir="ltr">$${f.usd}</b></div>
+        <div class="price">${f.usd ? `<b dir="ltr">$${f.usd.toLocaleString('en-US')}</b>` : '<b>כלול</b>'}${f.usdNote ? `<span class="muted small">${f.usdNote}</span>` : ''}</div>
         ${nf === f || f.paid ? `<div class="fbadges">${nf === f ? '<span class="badge next-tag">הבאה בתור</span>' : ''}${f.paid ? `<span class="badge paid"><i data-lucide="check"></i>שולם ע״י ${f.paid}</span>` : ''}</div>` : ''}
         ${det}
         ${!f.arr ? '<p class="fnote"><i data-lucide="info"></i>שעת הנחיתה משוערת. הוסיפו את מספר הטיסה כשיהיה.</p>' : ''}
