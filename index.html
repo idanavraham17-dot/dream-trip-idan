@@ -1233,8 +1233,8 @@ li.empty .lot{display:block;margin:0 auto 6px;width:72px;height:72px}
 .td-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:-4px}
 .td-meta .chip{color:var(--fg)}
 /* ===== accessibility ===== */
-.skip{position:fixed;top:-60px;right:12px;z-index:100;background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:700;text-decoration:none}
-.skip:focus{top:calc(10px + env(safe-area-inset-top,0px))}
+.skip{position:fixed;top:-60px;transform:translateY(-200%);right:12px;z-index:100;background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:700;text-decoration:none}
+.skip:focus{top:calc(10px + env(safe-area-inset-top,0px));transform:none}
 .a11y{position:fixed;inset:0;z-index:65;display:grid;place-items:end center;background:rgba(3,8,10,.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
 @media (min-width:761px){.a11y{place-items:center}}
 .a11y .sheet{width:min(520px,100%);max-height:88vh;overflow-y:auto;background:var(--glass-strong);border:1px solid var(--glass-edge);border-radius:24px 24px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:0 -20px 60px rgba(0,0,0,.35);animation:sheetUp .35s var(--ease)}
@@ -2266,8 +2266,8 @@ function renderFlights(){
       <article class="glass pad fcard" aria-label="טיסה מ-${f.fc} ל-${f.tc}, ${fmtD(f.d)}">
         <div class="fdate"><b class="num">${f.d.getDate()}</b><span>${f.d.toLocaleDateString('he-IL',{month:'short'})} · ${wd(f.d)}</span></div>
         ${legHTML(f)}
-        <div class="price">${f.usd ? `<b dir="ltr">$${f.usd.toLocaleString('en-US')}</b>` : '<b>כלול</b>'}${f.usdNote ? `<span class="muted small">${f.usdNote}</span>` : ''}</div>
-        ${nf === f || f.paid ? `<div class="fbadges">${nf === f ? '<span class="badge next-tag">הבאה בתור</span>' : ''}${f.paid ? `<span class="badge paid"><i data-lucide="check"></i>שולם ע״י ${f.paid}</span>` : ''}</div>` : ''}
+        <div class="price">${f.usd ? `<b dir="ltr">$${f.usd.toLocaleString('en-US')}</b>` : '<b>כלול</b>'}</div>
+        ${nf === f || f.paid || f.usdNote ? `<div class="fbadges">${nf === f ? '<span class="badge next-tag">הבאה בתור</span>' : ''}${f.paid ? `<span class="badge paid"><i data-lucide="check"></i>שולם ע״י ${f.paid}</span>` : ''}${f.usdNote ? `<span class="badge"><i data-lucide="ticket"></i>${f.usdNote}</span>` : ''}</div>` : ''}
         ${det}
         ${!f.arr ? '<p class="fnote"><i data-lucide="info"></i>שעת הנחיתה משוערת. הוסיפו את מספר הטיסה כשיהיה.</p>' : ''}
         <div class="acts">${editingFlight === f.id ? '' : `<button type="button" class="linkbtn" data-fedit="${f.id}"><i data-lucide="${x.number || x.pnr ? 'pencil' : 'ticket'}"></i>${x.number || x.pnr ? 'עריכה' : 'פרטים'}</button>`}<a class="linkbtn" href="${gcalFlight(f)}" target="_blank" rel="noopener"><i data-lucide="calendar-plus"></i>ליומן</a><button type="button" class="linkbtn" data-mapfly="${i >= 0 ? STOPS[i].id : (f.t === 'USH' ? 'ush' : 'all')}"><i data-lucide="map"></i>במפה</button></div>
