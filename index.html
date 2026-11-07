@@ -1721,6 +1721,8 @@ const stopOf = id => STOPS.find(s => s.id === id);
 const TYPE_ICON = { view:'binoculars', sport:'trophy', trek:'footprints', ice:'snowflake', water:'waves', ride:'bike', food:'utensils', night:'music', city:'landmark', air:'wind', bird:'bird' };
 const DIFF = { e:['קל','Easy','gauge'], m:['בינוני','Moderate','gauge'], x:['אקסטרים','Extreme','flame'] };
 const AIRPORTS = { USH:[-54.843,-68.296,'Ushuaia'], FTE:[-50.280,-72.053,'El Calafate'], BRC:[-41.151,-71.158,'Bariloche'], AEP:[-34.559,-58.416,'Buenos Aires Aeroparque'], CUZ:[-13.536,-71.939,'Cusco'], LIM:[-12.022,-77.114,'Lima'], CUN:[21.037,-86.877,'Cancun'] };
+const EXTRA_AP = { TLV:[32.011,34.887,'Tel Aviv Ben Gurion'], MAD:[40.498,-3.568,'Madrid Barajas'], EZE:[-34.822,-58.536,'Buenos Aires Ezeiza'] };
+const apName = c => (AIRPORTS[c] || EXTRA_AP[c] || [0,0,c])[2];
 
 const PRE_FLIGHTS = [
   { id:'f0a', pre:true, d:D(1,22), f:'TLV', fc:'Tel Aviv', t:'MAD', tc:'Madrid', dep:'16:05', arr:'20:30', zf:2, zt:1, usd:1870, usdNote:'כולל המשך לבואנוס איירס', paid:'עידן', c:'IL' },
@@ -1770,13 +1772,13 @@ const stayMapsUrl = (s, v) => `https://www.google.com/maps/search/?api=1&query=$
 const isoDate = x => new Date(x + 'T00:00:00');
 function stayDates(s){ const v = stayOf(s.id); return [v.checkIn || isoOf(s.s), v.checkOut || isoOf(s.e)]; }
 function stayText(s){ const v = stayOf(s.id); return [v.name, v.address, v.code ? 'קוד הזמנה: ' + v.code : '', v.platform ? 'דרך ' + v.platform : ''].filter(Boolean).join('\n'); }
-function gcalFlight(f){ const [st, en] = fTimes(f); return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(flightTitle(f))}&dates=${gstamp(st)}/${gstamp(en)}&details=${encodeURIComponent(flightText(f))}&location=${encodeURIComponent(AIRPORTS[f.f][2] + ' Airport (' + f.f + ')')}`; }
+function gcalFlight(f){ const [st, en] = fTimes(f); return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(flightTitle(f))}&dates=${gstamp(st)}/${gstamp(en)}&details=${encodeURIComponent(flightText(f))}&location=${encodeURIComponent(apName(f.f) + ' Airport (' + f.f + ')')}`; }
 function gcalStay(s){ const v = stayOf(s.id), [a, b] = stayDates(s); return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('🛏 ' + (v.name || 'לינה ב' + s.he))}&dates=${ymd(a)}/${ymd(b)}&details=${encodeURIComponent(stayText(s))}&location=${encodeURIComponent(v.address || s.en)}`; }
 function buildICS(){
   const e = t => String(t).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
   const fold = l => { const out = []; let cur = ''; for (const ch of l){ if (new TextEncoder().encode(cur + ch).length > 73){ out.push(cur); cur = ' ' + ch; } else cur += ch; } out.push(cur); return out.join('\r\n'); };
   const now = gstamp(new Date()), L = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Dream Trip//Idan & Lauren//HE','CALSCALE:GREGORIAN','X-WR-CALNAME:טיול החלומות'];
-  FLIGHTS.forEach(f => { const [st, en] = fTimes(f); L.push('BEGIN:VEVENT', `UID:${f.id}@dreamtrip`, `DTSTAMP:${now}`, `DTSTART:${gstamp(st)}`, `DTEND:${gstamp(en)}`, `SUMMARY:${e(flightTitle(f))}`, `DESCRIPTION:${e(flightText(f))}`, `LOCATION:${e(AIRPORTS[f.f][2] + ' Airport (' + f.f + ')')}`, 'BEGIN:VALARM', 'TRIGGER:-PT3H', 'ACTION:DISPLAY', 'DESCRIPTION:טיסה בעוד 3 שעות', 'END:VALARM', 'END:VEVENT'); });
+  FLIGHTS.forEach(f => { const [st, en] = fTimes(f); L.push('BEGIN:VEVENT', `UID:${f.id}@dreamtrip`, `DTSTAMP:${now}`, `DTSTART:${gstamp(st)}`, `DTEND:${gstamp(en)}`, `SUMMARY:${e(flightTitle(f))}`, `DESCRIPTION:${e(flightText(f))}`, `LOCATION:${e(apName(f.f) + ' Airport (' + f.f + ')')}`, 'BEGIN:VALARM', 'TRIGGER:-PT3H', 'ACTION:DISPLAY', 'DESCRIPTION:טיסה בעוד 3 שעות', 'END:VALARM', 'END:VEVENT'); });
   STAYS.forEach(s => { const v = stayOf(s.id), [a, b] = stayDates(s); L.push('BEGIN:VEVENT', `UID:stay-${s.id}@dreamtrip`, `DTSTAMP:${now}`, `DTSTART;VALUE=DATE:${ymd(a)}`, `DTEND;VALUE=DATE:${ymd(b)}`, `SUMMARY:${e('🛏 ' + (v.name || 'לינה ב' + s.he))}`, `DESCRIPTION:${e(stayText(s))}`, `LOCATION:${e(v.address || s.en)}`, 'TRANSP:TRANSPARENT', 'END:VEVENT'); });
   L.push('END:VCALENDAR');
   return L.map(fold).join('\r\n');
@@ -2268,7 +2270,7 @@ function renderFlights(){
         ${nf === f || f.paid ? `<div class="fbadges">${nf === f ? '<span class="badge next-tag">הבאה בתור</span>' : ''}${f.paid ? `<span class="badge paid"><i data-lucide="check"></i>שולם ע״י ${f.paid}</span>` : ''}</div>` : ''}
         ${det}
         ${!f.arr ? '<p class="fnote"><i data-lucide="info"></i>שעת הנחיתה משוערת. הוסיפו את מספר הטיסה כשיהיה.</p>' : ''}
-        <div class="acts">${editingFlight === f.id ? '' : `<button type="button" class="linkbtn" data-fedit="${f.id}"><i data-lucide="${x.number || x.pnr ? 'pencil' : 'ticket'}"></i>${x.number || x.pnr ? 'עריכה' : 'פרטים'}</button>`}<a class="linkbtn" href="${gcalFlight(f)}" target="_blank" rel="noopener"><i data-lucide="calendar-plus"></i>ליומן</a><button type="button" class="linkbtn" data-mapfly="${STOPS[i].id}"><i data-lucide="map"></i>במפה</button></div>
+        <div class="acts">${editingFlight === f.id ? '' : `<button type="button" class="linkbtn" data-fedit="${f.id}"><i data-lucide="${x.number || x.pnr ? 'pencil' : 'ticket'}"></i>${x.number || x.pnr ? 'עריכה' : 'פרטים'}</button>`}<a class="linkbtn" href="${gcalFlight(f)}" target="_blank" rel="noopener"><i data-lucide="calendar-plus"></i>ליומן</a><button type="button" class="linkbtn" data-mapfly="${i >= 0 ? STOPS[i].id : (f.t === 'USH' ? 'ush' : 'all')}"><i data-lucide="map"></i>במפה</button></div>
       </article></li>`);
     if (stop) items.push(`<li class="stay" style="--c:${COUNTRY[stop.c]}"><span class="node"></span>${nights(stop)} לילות ב${esc(stop.he)}${stop.id === 'mex' ? ' · עד 4.3' : ''}</li>`);
   });
