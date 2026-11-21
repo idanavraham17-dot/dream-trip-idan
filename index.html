@@ -1051,6 +1051,34 @@ html.noscroll,html.noscroll body{overflow:hidden}
 .sv-act:focus-visible{outline:3px solid #fff}
 .sv-credit{font-size:10.5px;opacity:.6;direction:ltr;text-align:right}
 .sv-why{margin:0;font-size:14.5px;line-height:1.6;opacity:.92}
+.alb-msg{margin:0;font-size:13px;opacity:.75}
+.sv-stats{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.sv-stats span{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;padding:5px 9px;border-radius:10px;background:rgba(255,255,255,.1)}
+.sv-stats svg{width:14px;height:14px;opacity:.8}
+.alb{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.alb-i{all:unset;cursor:pointer;aspect-ratio:1;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.08)}
+.alb-i img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s var(--ease)}
+.alb-i:hover img{transform:scale(1.06)}
+.alb-i:focus-visible{outline:3px solid #fff;outline-offset:1px}
+.alb-sk{aspect-ratio:1;border-radius:10px;background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.14),rgba(255,255,255,.06));background-size:200% 100%;animation:albsk 1.2s linear infinite}
+@keyframes albsk{to{background-position:-200% 0}}
+.sv-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.sv-link{display:flex;align-items:center;justify-content:center;gap:6px;min-height:42px;border-radius:12px;background:rgba(255,255,255,.12);color:inherit;text-decoration:none;font-size:13px;font-weight:600}
+.sv-link svg{width:16px;height:16px}
+.lb{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.94);display:flex;align-items:center;justify-content:center;touch-action:pan-y}
+.lb[hidden]{display:none}
+.lb img{max-width:100%;max-height:84vh;object-fit:contain}
+.lb-x,.lb-n{all:unset;cursor:pointer;position:absolute;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.14);color:#fff}
+.lb-x{top:calc(12px + env(safe-area-inset-top,0px));left:12px}
+.lb-n{top:50%;transform:translateY(-50%)}.lb-n.prev{right:10px}.lb-n.next{left:10px}
+.lb-x:focus-visible,.lb-n:focus-visible{outline:3px solid #fff}
+.lb-cap{position:absolute;bottom:calc(14px + env(safe-area-inset-bottom,0px));inset-inline:12px;display:flex;justify-content:space-between;gap:10px;color:#fff;font-size:12px;opacity:.85}
+.lb-cap a{color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tapopen{cursor:pointer}
+.moreb{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border-radius:12px;font-size:13px;font-weight:600;background:var(--chip,rgba(0,0,0,.06));border:1px solid var(--line,rgba(0,0,0,.1))}
+.moreb svg{width:16px;height:16px}
+.moreb:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
 @media (min-width:761px){.story{inset:4vh calc(50% - 230px);border-radius:28px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.6)}.story-scrim{position:fixed;inset:0;z-index:59;background:rgba(3,8,10,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}}
 /* dark map */
 #map.darkmap{background:#0b1418}
@@ -2451,9 +2479,10 @@ function actCard(a){
     <div class="abody">
       <div class="ameta"><i data-lucide="${TYPE_ICON[a.t]}"></i>${{trek:'טרק',ice:'קרח וקרחונים',water:'מים',ride:'רכיבה / שטח',food:'אוכל',night:'ערב ובילוי',city:'עיר ותרבות',air:'אוויר ואדרנלין',bird:'טבע וחיות',view:'תצפית',sport:'ספורט וחוויה'}[a.t]}${a.area ? `<span class="areachip">${esc(a.area)}</span>` : ''}</div>
       ${a.st ? `<div class="rate"><span class="stars" role="img" aria-label="דירוג ${a.st} מתוך 5">${'★'.repeat(a.st)}<span class="off">${'★'.repeat(5 - a.st)}</span></span><span class="verd v-${a.v}"><i data-lucide="${VERD[a.v][1]}"></i>${VERD[a.v][0]}</span></div>` : ''}
-      ${a.en ? `<h4 class="he">${esc(a.n)}<small class="ltr">${esc(a.en)}</small></h4>` : `<h4>${esc(a.n)}</h4>`}
+      ${a.en ? `<h4 class="he tapopen" data-story="${a.id}">${esc(a.n)}<small class="ltr">${esc(a.en)}</small></h4>` : `<h4 class="tapopen" data-story="${a.id}">${esc(a.n)}</h4>`}
       ${a.why ? `<p class="why"><b>כמה כדאי לעשות:</b> ${esc(a.why)}</p>` : ''}
       <div class="afoot"><button type="button" class="st ${st}" data-act="${a.id}" aria-label="${esc(a.n)}: ${lbl}. לחיצה לשינוי סטטוס"><i data-lucide="${ic}"></i>${lbl}</button>
+        <button type="button" class="moreb" data-story="${a.id}" aria-label="מסלול ותמונות: ${esc(a.n)}"><i data-lucide="images"></i>מסלול ותמונות</button>
         ${a.nomap ? '' : `<button type="button" class="sq" data-mappin="${a.id}" aria-label="הצגת ${esc(a.n)} במפה"><i data-lucide="map-pin"></i></button>`}</div>
     </div>
   </article>`;
@@ -2975,6 +3004,153 @@ function gearOf(a){
 }
 const TYPE_HE = { trek:'טרק', ice:'קרח וקרחונים', water:'מים', ride:'רכיבה / שטח', food:'אוכל', night:'ערב ובילוי', city:'עיר ותרבות', air:'אוויר ואדרנלין', bird:'טבע וחיות', view:'תצפית', sport:'ספורט וחוויה' };
 const SV = { list:[], i:0, from:null };
+const ROUTE = {
+  'ush-t1':{ d:'יוצאים מחניון על כביש 3, כ-20 דק׳ נסיעה מהעיר. הולכים ביער לנגה, חוצים עמק של ביצות כבול (יש קטעים עם קרשים, אבל רוב הדרך בוצית) ומגיעים לאגם ירוק-טורקיז מתחת לקרחון אוחו דל אלבינו. בדרך יש סכרים של בונים.', k:[['ruler','כ-9 ק״מ הלוך-חזור'],['trending-up','כ-250 מ׳ עלייה'],['map-pin','התחלה: חניון לגונה אזמרלדה, כביש 3']], q:['Laguna Esmeralda Tierra del Fuego'], fb:'לגונה אזמרלדה אושואיה' },
+  'ush-t2':{ d:'מסלול קצר וקל באזור אושואיה עם אגם בצבע טורקיז. לא מצאתי נתונים מדויקים על נקודת ההתחלה והאורך, אז כדאי לשאול במשרד התיירות או לבדוק ב-Wikiloc לפני היציאה.', k:[['clock','1–2 ש׳']], q:['Laguna Turquesa Ushuaia'], fb:'לגונה טורקיזה אושואיה' },
+  'ush-t3':{ d:'מתחילים בסוף עמק אנדורה, כ-15 דק׳ מהעיר. החלק הראשון ביער ובביצות כבול, ואחריו עלייה תלולה על סלעים עד לגונה שגושי קרח צפים בה, ממש מתחת לקרחון וינסיגרה. אפשר להמשיך עוד קצת עד לשפת הקרחון עצמו.', k:[['ruler','כ-12 ק״מ הלוך-חזור'],['trending-up','כ-650 מ׳ עלייה'],['map-pin','התחלה: Valle de Andorra']], q:['Glaciar Vinciguerra','Laguna de los Témpanos'], fb:'לגונה הקפואה וינסיגרה אושואיה' },
+  'ush-t4':{ d:'עלייה תלולה וארוכה מעמק טיירה מאיור אל אגם קטן ואוכף מתחת לפסגות של חמשת האחים, עם תצפית על תעלת ביגל. חלק מהדרך בלי שביל מסומן, ולכן מומלץ עם מדריך.', k:[['trending-up','כ-1,000 מ׳ עלייה'],['clock','8–10 ש׳'],['alert-triangle','מומלץ עם מדריך']], q:['Monte Cinco Hermanos'], fb:'חמשת האחים אושואיה' },
+  'ush-t5':{ d:'לא מצאתי מידע אמין על המסלול הזה בשם הזה. כדאי לברר במשרד התיירות באושואיה לפני שמכניסים אותו לתוכנית.', k:[['clock','4–6 ש׳']], fb:'טרק אושואיה כבשים' },
+  'ush-t6':{ d:'הפארק נמצא כ-12 ק״מ מערבית לעיר. המסלול הכי יפה הוא השביל החופי (Senda Costera), כ-8 ק״מ לאורך החוף מבאיה אנסנדה עד אגם רוקה. מי שרוצה אתגר יכול לעלות להר גואנקו, עלייה תלולה עם תצפית מעולה. הכביש מסתיים בבאיה לפטאיה, הקצה הדרומי של כביש 3.', k:[['ruler','שביל החוף: כ-8 ק״מ בכיוון אחד'],['trending-up','הר גואנקו: כ-970 מ׳ עלייה'],['ticket','כניסה בתשלום']], q:['Parque Nacional Tierra del Fuego','Bahía Lapataia'], fb:'פארק טיירה דל פואגו אושואיה' },
+  'ush-t7':{ d:'נוסעים במונית לסוף הכביש מעל העיר ועולים ברגל בשביל מסומן עד תצפית על הקרחון ועל העיר ותעלת ביגל. העלייה מתמשכת אבל לא טכנית.', k:[['trending-up','כ-500 מ׳ עלייה'],['map-pin','התחלה: סוף דרך Luis Martial']], q:['Glaciar Martial'], fb:'קרחון מרסיאל אושואיה' },
+  'cal-t1':{ d:'טיול ערב לאורך השדרה הראשית של העיר, עם דוכני אומנים, חנויות שוקולד ומסעדות.', k:[['map-pin','Av. del Libertador']], q:['El Calafate Avenida del Libertador'], fb:'אל קלפטה שוק אומנים' },
+  'cal-t2':{ d:'נוסעים כשעה ורבע מאל קלפטה. קודם הולכים על המרפסות מול חזית הקרחון ומחכים לראות גושי קרח נופלים למים. אחר כך שטים לצד השני ויוצאים להליכה על הקרח עם נעלי מסמרים: במיני-טרקינג כשעה וחצי על הקרח, וב-Big Ice כשלוש וחצי שעות.', k:[['ruler','כ-4 ק״מ מרפסות'],['clock','מיני-טרקינג: כ-1.5 ש׳ על הקרח'],['map-pin','80 ק״מ מאל קלפטה']], q:['Perito Moreno Glacier','Perito Moreno minitrekking'], fb:'פריטו מורנו מיני טרקינג' },
+  'cal-t3':{ d:'שמורת עופות בקצה העיר, עם שביל מעגלי ליד אגם. רואים פלמינגו, ברבורים שחורי צוואר ועוד הרבה ציפורים.', k:[['ruler','כ-2.5 ק״מ מעגלי'],['trending-up','שטוח']], q:['Reserva Laguna Nimez'], fb:'לגונה נימז אל קלפטה' },
+  'bri-t1':{ d:'נסיעה על כביש 40 מברילוצ׳ה דרך וייה לה אנגוסטורה עד סן מרטין דה לוס אנדס, לאורך שורה של אגמים: קוריינטוסו, אספחו, וייארינו, פאלקנר, לאקאר ועוד. עוצרים בתצפיות ובחופים. כדאי לשכור רכב.', k:[['ruler','כ-200 ק״מ בכיוון אחד'],['clock','יום מלא']], q:['Ruta de los Siete Lagos','Lago Falkner'], fb:'דרך שבעת האגמים ברילוצ׳ה' },
+  'bri-t2':{ d:'מתחילים מקולוניה סוויסה ועולים לאורך נחל ביער, ובסוף קטע תלול על סלעים עד בקתת ההרים "רפוחיו איטליה" ליד לגונה נגרה, אגם כהה בין צוקים. אפשר לאכול בבקתה ולחזור באותה דרך.', k:[['ruler','כ-18 ק״מ הלוך-חזור'],['trending-up','כ-850 מ׳ עלייה'],['map-pin','התחלה: Colonia Suiza']], q:['Laguna Negra Bariloche','Refugio Italia Manfredo Segre'], fb:'לגונה נגרה רפוחיו איטליה ברילוצ׳ה' },
+  'bri-t3':{ d:'הליכה קצרה ביער בפארק לאו לאו, עם עלייה קלה לתצפית על המלון המפורסם ועל האגמים. אפשר לשלב עם מפרץ ויה טקול וחוף ברוסיה.', k:[['clock','2–3 ש׳'],['trending-up','עלייה קלה'],['map-pin','Circuito Chico, כ-25 ק״מ מהעיר']], q:['Llao Llao Bariloche','Cerro Llao Llao'], fb:'לאו לאו ברילוצ׳ה' },
+  'bri-t4':{ d:'טיפוס תלול מקולוניה סוויסה ביער ואחר כך על רכס פתוח, עם תצפית 360° על נאואל ואפי ועל ההרים. קשה פיזית אבל לא טכני.', k:[['trending-up','כ-1,000 מ׳ עלייה'],['clock','5–6 ש׳'],['map-pin','התחלה: Colonia Suiza']], q:['Cerro Goye'], fb:'הר גויה ברילוצ׳ה' },
+  'bri-t5':{ d:'לא מצאתי מספיק מידע אמין על המסלול הזה. כדאי לברר במקום לפני שמכניסים לתוכנית.', k:[], fb:'צ׳רו קרבון ברילוצ׳ה' },
+  'bri-t6':{ d:'פארק אתגרים על הר אוטו: מגלשת הרים (אלפיין קוסטר), אומגות ורכבל. עולים במונית או באוטובוס מהעיר.', k:[['clock','2–3 ש׳'],['map-pin','Cerro Otto']], q:['Piedras Blancas Cerro Otto'], fb:'פיידרס בלנקס ברילוצ׳ה' },
+  'bri-t7':{ d:'רכבל כיסאות קצר (או עלייה תלולה ברגל בכחצי שעה) לפסגת הר קמפנריו, אחת התצפיות הכי מצולמות בארגנטינה: אגמים, איים ויער מכל הכיוונים. הכי יפה לקראת השקיעה.', k:[['clock','1–2 ש׳'],['map-pin','קמ׳ 17.5 בשדרת Bustillo']], q:['Cerro Campanario Bariloche'], fb:'צ׳רו קמפנריו ברילוצ׳ה' },
+  'bri-t8':{ d:'רכבל גונדולות מקמ׳ 5 לפסגת הר אוטו, עם תצפית על העיר והאגם, בית קפה מסתובב ושבילים קצרים למעלה.', k:[['clock','2–3 ש׳'],['map-pin','קמ׳ 5 בדרך Pioneros']], q:['Teleférico Cerro Otto','Cerro Otto Bariloche'], fb:'רכבל צ׳רו אוטו ברילוצ׳ה' },
+  'bri-t9':{ d:'בית קפה בפסגת הר אוטו שמסתובב לאט סביב עצמו, ככה שבזמן קפה ועוגה רואים את כל הנוף. מגיעים עם הרכבל של הר אוטו.', k:[['clock','כ-1 ש׳'],['map-pin','פסגת Cerro Otto']], q:['Confitería Giratoria Cerro Otto'], fb:'בית קפה מסתובב צ׳רו אוטו' },
+  'bri-t10':{ d:'פארק חבלים ואומגות ביער. יש כמה מפעילים באזור, אז כדאי לבדוק ביקורות עדכניות לפני שבוחרים.', k:[['clock','2–3 ש׳']], fb:'אומגה קנופי ברילוצ׳ה' },
+  'bri-t11':{ d:'נוסעים כשעה וחצי דרומה מברילוצ׳ה. רפטינג של 2–3 שעות בנהר מנסו התחתון, דרגה III–IV, בנוף של יער וקניונים, כמעט עד הגבול עם צ׳ילה. רוב החבילות כוללות אסאדו בסוף.', k:[['clock','יום מלא, כ-2.5 ש׳ על המים'],['waves','דרגה III–IV'],['map-pin','כ-80 ק״מ מברילוצ׳ה']], q:['Río Manso Argentina','Rafting Río Manso'], fb:'רפטינג ריו מנסו ברילוצ׳ה' },
+  'bri-t12':{ d:'שיט באגם נאואל ואפי לפוארטו בלסט והליכה קצרה למפל לוס קנטרוס.', k:[['clock','7–8 ש׳']], q:['Cascada Los Cántaros','Puerto Blest'], fb:'פוארטו בלסט ברילוצ׳ה' },
+  'bri-t13':{ d:'מוזיאון קטן על ההיסטוריה של השוקולד בברילוצ׳ה, עם טעימות. נמצא ברחוב הראשי.', k:[['clock','כ-1 ש׳'],['map-pin','רחוב Mitre']], fb:'מוזיאון השוקולד ברילוצ׳ה' },
+  'bri-t14':{ d:'ערב אסאדו ביתי. לתאם מראש שעה ומקום.', k:[['clock','ערב']], fb:'אסאדו ברילוצ׳ה' },
+  'bri-t15':{ d:'פריז׳ה (מסעדת בשרים) פופולרית במרכז. כדאי להזמין מקום או להגיע מוקדם, בסביבות 20:00.', k:[['clock','ערב']], fb:'אלטו אל פואגו ברילוצ׳ה' },
+  'bri-t16':{ d:'פריז׳ה מוכרת במרכז העיר, מנות גדולות ומחירים טובים. בדרך כלל יש תור בערב.', k:[['clock','ערב']], fb:'אל בוליצ׳ה דה אלברטו ברילוצ׳ה' },
+  'bue-t1':{ d:'הכיכר ההיסטורית של העיר, עם הבית הוורוד, הקתדרלה והקבילדו. נקודת התחלה טובה לסיבוב רגלי במרכז.', k:[['clock','כ-1 ש׳'],['map-pin','מרכז העיר (Microcentro)']], q:['Plaza de Mayo Buenos Aires'], fb:'פלאזה דה מאיו בואנוס איירס' },
+  'bue-t2':{ d:'ארמון הנשיאות. בסופי שבוע יש סיורים חינמיים בפנים, אבל צריך להירשם מראש באתר הממשלה.', k:[['clock','1–1.5 ש׳'],['ticket','סיור חינם בהרשמה']], q:['Casa Rosada'], fb:'קאסה רוסדה סיור' },
+  'bue-t3':{ d:'הרחוב הצבעוני של שכונת הנמל, עם רקדני טנגו ואמנים, ליד אצטדיון בוקה ג׳וניורס. כדאי להישאר באזור התיירותי ולחזור במונית.', k:[['clock','כ-2 ש׳'],['alert-triangle','להישאר באזור התיירותי']], q:['Caminito La Boca','La Bombonera'], fb:'קמיניטו לה בוקה' },
+  'bue-t4':{ d:'שכונת הנמל המחודשת: מחסנים לבנים שהפכו למסעדות, הליכה לאורך התעלות וגשר האישה.', k:[['clock','כ-2 ש׳']], q:['Puerto Madero','Puente de la Mujer'], fb:'פורטו מדרו בואנוס איירס' },
+  'bue-t5':{ d:'ביום ראשון רחוב דפנסה הופך לשוק ענק של עתיקות, אומנים ומופעי רחוב, מפלאזה דה מאיו עד כיכר דורגו. בערב יש שם טנגו ברחוב.', k:[['clock','2–3 ש׳'],['calendar-days','בימי ראשון']], q:['Feria de San Telmo','Plaza Dorrego'], fb:'שוק סן טלמו יום ראשון' },
+  'bue-t6':{ d:'השכונה של חיי הלילה: ברים, מסעדות, חנויות מעצבים וגרפיטי. ערב מתחיל כאן מאוחר, ארוחה ב-21:00 ומועדונים אחרי חצות.', k:[['clock','ערב-לילה']], q:['Palermo Soho'], fb:'פלרמו סוהו חיי לילה' },
+  'bue-t7':{ d:'הגן היפני הגדול מחוץ ליפן, עם אגם וגשרים, והגן הבוטני הסמוך בפלרמו. עצירה רגועה באמצע היום.', k:[['clock','כ-2 ש׳'],['ticket','כניסה בתשלום לגן היפני']], q:['Jardín Japonés Buenos Aires'], fb:'הגן היפני בואנוס איירס' },
+  'bue-t8':{ d:'כמה רחובות של מסעדות וחנויות אסייתיות בבלגרנו.', k:[['clock','כ-1 ש׳']], q:['Barrio Chino Buenos Aires'], fb:'צ׳יינה טאון בואנוס איירס' },
+  'bue-t9':{ d:'מרוצי סוסים במסלול ההיסטורי של פלרמו.', k:[['clock','כ-2 ש׳']], q:['Hipódromo de Palermo'], fb:'מרוצי סוסים פלרמו' },
+  'bue-t10':{ d:'מעבורת של כשעה מבואנוס איירס לעיירה קולוניאלית באורוגוואי. צריך דרכון.', k:[['clock','יום מלא']], q:['Colonia del Sacramento'], fb:'קולוניה אורוגוואי טיול יום' },
+  'bue-t11':{ d:'רכבת לטיגרה (כשעה מהמרכז) ושיט בתעלות של הדלתא, בין בתים על כלונסאות. אפשר גם בשוק של טיגרה.', k:[['clock','חצי יום'],['map-pin','Tigre, כ-30 ק״מ צפונה']], q:['Tigre Delta Paraná'], fb:'טיגרה שיט דלתא' },
+  'bue-t12':{ d:'משחק ליגה באצטדיון, הכי מומלץ בבומבונרה של בוקה או במונומנטל של ריבר. כרטיסים לתיירים כמעט רק דרך חבילות מאורגנות שכוללות הסעה וליווי. להזמין מראש.', k:[['clock','כ-3 ש׳'],['ticket','דרך חבילה מאורגנת']], q:['La Bombonera','Estadio Monumental River Plate'], fb:'משחק כדורגל בואנוס איירס כרטיסים' },
+  'cus-t1':{ d:'הכיכר המרכזית של קוסקו, עם הקתדרלה וכנסיית לה קומפניה. מכאן הולכים לסן בלאס ולרחוב הקיר האינקה (Hatun Rumiyoc).', k:[['clock','1–2 ש׳']], q:['Plaza de Armas Cusco'], fb:'פלאזה דה ארמס קוסקו' },
+  'cus-t2':{ d:'השוק המקומי הכי מפורסם: מיצים טריים, דוכני אוכל, פירות שלא ראיתם אף פעם. קניון ריאל פלאזה נמצא בהמשך.', k:[['clock','כ-2 ש׳']], q:['Mercado de San Pedro Cusco'], fb:'שוק סן פדרו קוסקו' },
+  'cus-t3':{ d:'שוק זול ועמוס לציוד, בגדים וחשמל. טוב להשלמת ציוד לפני טרק. לשמור על התיק.', k:[['clock','1–2 ש׳']], fb:'שוק אל מולינו קוסקו' },
+  'cus-t4':{ d:'יום 1: נוסעים למעבר אברה מלגה (4,300 מ׳) ויורדים באופניים כ-50 ק״מ בכביש, ואחר הצהריים רפטינג (בפברואר הוא לפעמים מבוטל בגלל זרם חזק). יום 2: הליכה על קטע של שביל האינקה בין מטעים עד סנטה תרזה ומעיינות חמים. יום 3: אומגות והליכה של כ-10 ק״מ לאורך מסילת הרכבת לאגואס קליינטס. יום 4: עולים למאצ׳ו פיצ׳ו מוקדם בבוקר ברגל או באוטובוס, וחוזרים ברכבת.', k:[['ruler','כ-45 ק״מ הליכה בסך הכול'],['trending-up','נקודה הכי גבוהה: 4,300 מ׳'],['clock','4 ימים']], q:['Machu Picchu','Aguas Calientes Peru','Abra Málaga'], fb:'אינקה ג׳ונגל טרק' },
+  'cus-t5':{ d:'סיור יום מאורגן בעמק: שוק ואתר פיסאק, טרסות העיגולים של מוראי, בריכות המלח של מאראס והמבצר באויאנטאיטמבו. יוצאים בסביבות 07:00 וחוזרים בערב.', k:[['clock','יום מלא'],['ticket','לקנות כרטיס תיירות (Boleto Turístico)']], q:['Moray Peru','Salineras de Maras','Ollantaytambo','Pisac ruins'], fb:'העמק הקדוש מאראס מוראי' },
+  'cus-t6':{ d:'יוצאים מקוסקו בסביבות 04:00 ונוסעים כשלוש שעות עד תחילת השביל בגובה כ-4,600 מ׳. מטפסים לאט לתצפית על ההר הצבעוני בגובה 5,036 מ׳. אפשר להוסיף את העמק האדום, עוד כשעה. מי שמתקשה יכול לעלות חלק מהדרך על סוס.', k:[['ruler','כ-10 ק״מ הלוך-חזור'],['trending-up','כ-450 מ׳ עלייה, עד 5,036 מ׳'],['clock','יום מלא']], q:['Vinicunca','Rainbow Mountain Peru'], fb:'הר הצבעים פרו' },
+  'cus-t7':{ d:'נסיעה ארוכה לאזור קרחון קלקאיה, ממסת הקרח הטרופית הגדולה בעולם, והליכה בגובה מעל 5,000 מ׳ למערות הקרח. לא מצאתי פרטים מדויקים על המסלול, אז כדאי לשאול את המפעיל.', k:[['trending-up','מעל 5,000 מ׳'],['clock','יום מלא']], q:['Quelccaya Ice Cap'], fb:'מערות קרח קלקאיה' },
+  'cus-t8':{ d:'יום 1: מסוראיפמפה לאגם הומנטאי. יום 2: מעבר סלקנטאי בגובה 4,630 מ׳, היום הכי קשה, כ-22 ק״מ. יום 3: ירידה לג׳ונגל ולסנטה תרזה. יום 4: מאצ׳ו פיצ׳ו. בעונת הגשמים המסלול נסגר לפעמים, אז לבדוק לפני.', k:[['ruler','כ-70 ק״מ בסך הכול'],['trending-up','עד 4,630 מ׳'],['clock','4 ימים']], q:['Salkantay','Humantay Lake'], fb:'טרק סלקנטאי' },
+  'lim-t1':{ d:'מרכזי קניות במירפלורס. טוב ליום שקט או לקניות לפני מקסיקו.', k:[['clock','1–2 ש׳']], fb:'קניות לימה מירפלורס' },
+  'lim-t5':{ d:'פארק עם 13 מזרקות מוארות ומופע מים, אורות ולייזרים בערב. הכי שווה אחרי החשכה.', k:[['clock','כ-2 ש׳ בערב'],['map-pin','Parque de la Reserva']], q:['Circuito Mágico del Agua'], fb:'מופע מזרקות לימה' },
+  'lim-t6':{ d:'מוזיאון אינטראקטיבי של אשליות אופטיות, טוב לתמונות מצחיקות.', k:[['clock','כ-1 ש׳']], fb:'מוזיאון אשליות לימה' },
+  'lim-t7':{ d:'הליכה לאורך הטיילת על הצוקים מעל האוקיינוס: פארק האהבה, מרכז הקניות לרקומאר בתוך הצוק, ובערב שקיעה מעל הים. אפשר להמשיך לשכונת בארנקו הבוהמיינית.', k:[['clock','חצי יום'],['ruler','כ-3 ק״מ טיילת']], q:['Malecón de Miraflores','Larcomar','Parque del Amor Lima'], fb:'מירפלורס טיילת לימה' },
+  'lim-t8':{ d:'שיט מנמל קאיאו ליד איים של עופות ים, ואז קופצים למים עם חליפה ושוחים ליד מאות אריות ים סקרנים. יוצאים בבוקר.', k:[['clock','כ-4 ש׳'],['map-pin','יציאה מנמל Callao']], q:['Islas Palomino','Sea lions Callao'], fb:'שחייה עם אריות ים לימה' },
+  'lim-t11':{ d:'לא מצאתי מידע על המקום הזה בשם הזה. כדאי לברר לפני.', k:[], fb:'טרולי פארק לימה' },
+  'mex-t1':{ d:'קורס צלילה בסיסי של 3 ימים בקוזומל: תיאוריה ובריכה, ואחר כך 4 צלילות בים באחד משוניות האלמוגים היפות בעולם. מגיעים במעבורת מפלאיה דל כרמן.', k:[['clock','3 ימים'],['map-pin','קוזומל, מעבורת מפלאיה']], q:['Cozumel reef','Palancar reef'], fb:'קורס צלילה קוזומל' },
+  'mex-t2':{ d:'מועדון-מופע עם אקרובטים, הופעות מחקות ומסיבה עד הבוקר, באזור המלונות של קנקון. כדאי לקנות כרטיס מראש.', k:[['clock','לילה'],['map-pin','Zona Hotelera']], q:['Coco Bongo Cancún'], fb:'קוקו בונגו קנקון' },
+  'mex-t4':{ d:'שוק מזכרות ומסעדות מקומיות במרכז קנקון, זול יותר מאזור המלונות. להתמקח.', k:[['clock','כ-2 ש׳']], q:['Mercado 28 Cancún'], fb:'מרקדו 28 קנקון' },
+  'mex-t6':{ d:'שיעור גלישה למתחילים בחוף צ׳אק מול באזור המלונות. הגלים בקנקון בדרך כלל קטנים, אז זה טוב ללימוד.', k:[['clock','כ-2 ש׳']], q:['Playa Chac Mool Cancún'], fb:'שיעור גלישה קנקון' },
+  'mex-t7':{ d:'שחייה עם דולפינים בפארק בקנקון. כדאי לבדוק ביקורות ואת תנאי החיות לפני שמזמינים.', k:[['clock','1–2 ש׳']], fb:'שחייה עם דולפינים קנקון' },
+  'mex-t8':{ d:'פארק ענק של טבע ותרבות מאיה: נהרות תת-קרקעיים לשחייה, חיות, ובערב מופע גדול על ההיסטוריה של מקסיקו. ליום שלם, מהבוקר עד אחרי המופע.', k:[['clock','יום מלא'],['map-pin','כ-10 דק׳ מפלאיה דל כרמן']], q:['Xcaret'], fb:'שקארט פארק' },
+  'mex-t9':{ d:'שיט מקנקון או מאיסלה מוחרס לאי שמורת טבע, עם שנורקלינג בשונית בדרך ואלפי ציפורים על האי. מספר המבקרים ביום מוגבל, אז להזמין מראש.', k:[['clock','יום מלא']], q:['Isla Contoy'], fb:'איסלה קונטוי' },
+  'mex-t10':{ d:'אי בלי מכוניות צפונית לקנקון: מים רדודים, ערסלים, כרישי לוויתן בעונה (לא בפברואר) ושקיעות. מגיעים ברכב או אוטובוס לצ׳יקילה ומשם במעבורת.', k:[['clock','1–2 לילות'],['map-pin','מעבורת מצ׳יקילה']], q:['Holbox'], fb:'הולבוש' },
+  'mex-t11':{ d:'צלילה או שנורקלינג מעל מאות פסלים תת-ימיים שהפכו לשונית, בין קנקון לאיסלה מוחרס.', k:[['clock','2–3 ש׳']], q:['Museo Subacuático de Arte','MUSA Cancun'], fb:'מוזיאון תת ימי קנקון' },
+  'mex-t12':{ d:'שחייה עם דולפינים באיסלה מוחרס. כדאי לבדוק ביקורות ואת תנאי החיות לפני שמזמינים.', k:[['clock','1–2 ש׳']], fb:'שחייה עם דולפינים איסלה מוחרס' },
+  'mex-t13':{ d:'שוכרים גולף-קאר ומקיפים את האי כולו בכמה שעות: חוף נורטה, פונטה סור, חופים קטנים ובתי קפה בדרך.', k:[['ruler','האי כ-7 ק״מ אורך'],['clock','חצי יום']], q:['Isla Mujeres','Playa Norte Isla Mujeres'], fb:'גולף קאר איסלה מוחרס' },
+  'mex-t14':{ d:'הקצה הדרומי של איסלה מוחרס: צוקים מעל הים, גן פסלים ושרידי מקדש מאיה קטן. מקום מעולה לזריחה.', k:[['clock','כ-1 ש׳']], q:['Punta Sur Isla Mujeres'], fb:'פונטה סור איסלה מוחרס' },
+  'mex-t15':{ d:'מפרץ רגוע בין פלאיה לטולום שבו צבי ים ירוקים אוכלים עשב ים ליד החוף. שנורקלינג עם מדריך, באזור מסומן.', k:[['clock','2–3 ש׳'],['map-pin','כ-35 דק׳ מפלאיה']], q:['Akumal turtle','Akumal Bay'], fb:'שחייה עם צבים אקומל' },
+  'mex-t16':{ d:'רכיבה על סוסים בג׳ונגל ועל החוף. יש כמה מפעילים, אז לבדוק ביקורות.', k:[['clock','2–3 ש׳']], fb:'רכיבה על סוסים פלאיה דל כרמן' },
+  'mex-t17':{ d:'העיר העתיקה של המאיה עם הפירמידה של קוקולקן, אחד משבעת פלאי העולם החדשים. כשלוש שעות נסיעה מקנקון. כדאי להגיע בפתיחה, לפני החום והקבוצות, ולשלב סנוטה איק קיל בדרך.', k:[['clock','יום מלא'],['map-pin','כ-3 ש׳ מקנקון']], q:['Chichén Itzá','El Castillo Chichén Itzá'], fb:'צ׳יצ׳ן איצה טיול' },
+  'mex-t18':{ d:'אתר מאיה בתוך הג׳ונגל. שוכרים אופניים בכניסה ורוכבים בין המבנים עד הפירמידה נוחוצ׳ מול. בשנים האחרונות אסור לטפס עליה, לבדוק לפני.', k:[['clock','חצי יום'],['map-pin','כ-45 דק׳ מטולום']], q:['Nohoch Mul Cobá','Cobá ruins'], fb:'קובה פירמידה' },
+  'mex-t19':{ d:'מרכז קניות פתוח וטיילת בפלאיה דל כרמן, ליד השדרה החמישית.', k:[['clock','1–2 ש׳']], q:['Playa del Carmen'], fb:'פלאיה דל כרמן קניות' },
+  'mex-t20':{ d:'צניחת טנדם מגובה כ-3,000 מ׳ עם נחיתה על החוף בפלאיה דל כרמן. משך הזמן תלוי במזג האוויר, אז לא לקבוע ביום האחרון.', k:[['clock','חצי יום']], fb:'צניחה חופשית פלאיה דל כרמן' },
+  'mex-t21':{ d:'הליכה ושחייה עם קסדה ופנס בתוך מערה תת-קרקעית עם נהר ונטיפים, ליד פלאיה. סיור מודרך בקבוצות קטנות.', k:[['clock','3–4 ש׳'],['map-pin','כ-10 דק׳ מפלאיה']], q:['Río Secreto'], fb:'ריו סקרטו מערה' },
+  'mex-t22':{ d:'פארק מים טבעי בשפך נהר לים: שנורקלינג, ציפה על נהר, קפיצות ואומגות. ההכל כלול באוכל ובציוד.', k:[['clock','יום מלא']], q:['Xel-Há'], fb:'של-הא פארק' },
+  'mex-t23':{ d:'פארק אתגרים בג׳ונגל: 14 אומגות, רכבי אמפיבי, חתירה ושחייה במערות. לבוא בבוקר כדי להספיק הכול.', k:[['clock','יום מלא']], q:['Xplor Park'], fb:'אקספלור פארק' },
+  'mex-t24':{ d:'סיור טרקטורונים בדרכי עפר בג׳ונגל, בדרך כלל עם עצירה לשחייה בסנוטה.', k:[['clock','3–4 ש׳']], fb:'טרקטורונים פלאיה דל כרמן' },
+  'mex-t26':{ d:'רחוב הולכי הרגל הראשי של פלאיה דל כרמן: מסעדות, ברים וחנויות. הכי חי בערב.', k:[['clock','ערב'],['ruler','כ-3 ק״מ']], q:['Quinta Avenida Playa del Carmen'], fb:'השדרה החמישית פלאיה דל כרמן' },
+  'mex-t27':{ d:'סנוטות הן בולענים מלאי מים צלולים בג׳ונגל. דוס אוחוס וגראן סנוטה ליד טולום מתאימים לשנורקלינג בין נטיפים ומערות. לבוא בבוקר לפני הקבוצות.', k:[['clock','יום מלא'],['map-pin','אזור טולום']], q:['Dos Ojos cenote','Gran Cenote Tulum'], fb:'סנוטות טולום' }
+};
+
+const ALB = {};
+function albKey(id){ return 'dt-alb2-' + id; }
+async function commons(params){
+  const u = 'https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&prop=imageinfo&iiprop=url|extmetadata|size&iiurlwidth=640&iiextmetadatafilter=Artist|LicenseShortName&' + params;
+  const r = await fetch(u); if (!r.ok) throw new Error('commons ' + r.status);
+  const j = await r.json(); return Object.values((j.query && j.query.pages) || {}).sort((a, b) => (a.index || 0) - (b.index || 0));
+}
+const ALB_BAD = /\b(map|mapa|plano|logo|flag|bandera|escudo|diagram|chart|coat of arms|locator|svg|pdf)\b/i;
+function albPick(pages){
+  return pages.map(p => { const ii = p.imageinfo && p.imageinfo[0]; if (!ii || !ii.thumburl) return null;
+      if (ALB_BAD.test(p.title) || ii.width < 500 || /\.(svg|pdf|tif|tiff|gif)$/i.test(p.title)) return null;
+      const md = ii.extmetadata || {}, by = String((md.Artist && md.Artist.value) || '').replace(/<[^>]+>/g, '').trim().slice(0, 60);
+      return { t:p.title, th:ii.thumburl, big:ii.thumburl.replace(/\/\d+px-/, '/1280px-'), pg:ii.descriptionurl, by, lic:(md.LicenseShortName && md.LicenseShortName.value) || '' }; })
+    .filter(Boolean);
+}
+async function loadAlbum(a){
+  if (ALB[a.id]) return ALB[a.id];
+  try { const c = JSON.parse(localStorage.getItem(albKey(a.id)) || 'null'); if (c && c.length) return (ALB[a.id] = c); } catch(e){}
+  const R = ROUTE[a.id] || {}, out = [], seen = new Set(), add = l => l.forEach(x => { if (!seen.has(x.t) && out.length < 15){ seen.add(x.t); out.push(x); } });
+  for (const q of (R.q || [])){
+    try { add(albPick(await commons('generator=search&gsrnamespace=6&gsrlimit=' + (R.q.length > 1 ? 8 : 15) + '&gsrsearch=' + encodeURIComponent(q + ' filetype:bitmap')))); } catch(e){}
+  }
+  if (R.q && out.length < 6 && !a.nomap && a.lat){
+    try { add(albPick(await commons('generator=geosearch&ggsnamespace=6&ggslimit=15&ggsradius=1500&ggscoord=' + a.lat + '|' + a.lon))); } catch(e){}
+  }
+  ALB[a.id] = out; try { if (out.length) localStorage.setItem(albKey(a.id), JSON.stringify(out)); } catch(e){}
+  return out;
+}
+function commLinks(a){
+  const R = ROUTE[a.id] || {}, s = stopOf(a.stop), he = R.fb || (a.n + ' ' + s.he), en = (a.en || a.n).split('·')[0].trim() + ' ' + (s.en || '').split('·')[0].trim(), E = encodeURIComponent;
+  return [['facebook','פייסבוק','https://www.facebook.com/search/posts/?q=' + E(he)],
+    ['instagram','אינסטגרם','https://www.instagram.com/explore/search/keyword/?q=' + E(en)],
+    ['youtube','יוטיוב','https://www.youtube.com/results?search_query=' + E(en)],
+    ['image','גוגל תמונות','https://www.google.com/search?tbm=isch&q=' + E(en)]]
+    .map(([ic, l, u]) => `<a class="sv-link" href="${u}" target="_blank" rel="noopener"><i data-lucide="${ic}"></i>${l}</a>`).join('');
+}
+function albumHTML(list){
+  if (!list.length) return '<p class="alb-msg">לא מצאתי תמונות חופשיות למקום הזה. נסו את הקישורים למטה.</p>';
+  return `<div class="alb">${list.map((x, i) => `<button type="button" class="alb-i" data-lb="${i}" aria-label="תמונה ${i + 1} מתוך ${list.length}"><img src="${x.th}" alt="" loading="lazy" onerror="this.parentNode.remove()"></button>`).join('')}</div>`;
+}
+async function fillAlbum(a){
+  const box = document.getElementById('svAlbum'); if (!box) return;
+  if (!(ROUTE[a.id] || {}).q){ box.closest('.sv-box').remove(); return; }
+  if (!navigator.onLine && !ALB[a.id] && !localStorage.getItem(albKey(a.id))){ box.innerHTML = '<p class="alb-msg">האלבום ייטען כשיהיה אינטרנט.</p>'; return; }
+  const list = await loadAlbum(a);
+  if (SV.list[SV.i] !== a) return;
+  box.innerHTML = albumHTML(list); const n = document.getElementById('svAlbN'); if (n) n.textContent = list.length ? '· ' + list.length + ' תמונות' : '';
+}
+const LB = { list:[], i:0 };
+function openLB(list, i){ LB.list = list; LB.i = i; let el = document.getElementById('lb');
+  if (!el){ el = document.createElement('div'); el.id = 'lb'; el.className = 'lb'; el.setAttribute('role','dialog'); el.setAttribute('aria-modal','true'); el.setAttribute('aria-label','אלבום תמונות'); document.body.appendChild(el);
+    el.addEventListener('click', e => { const t = e.target.closest('[data-lbgo],[data-lbx]'); if (t){ if (t.dataset.lbx !== undefined) closeLB(); else lbGo(+t.dataset.lbgo); } else if (e.target === el) closeLB(); });
+    let x0 = null; el.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive:true });
+    el.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 50) lbGo(dx > 0 ? 1 : -1); }, { passive:true }); }
+  el.hidden = false; renderLB(); el.querySelector('[data-lbx]').focus(); }
+function closeLB(){ const el = document.getElementById('lb'); if (el) el.hidden = true; }
+function lbGo(d){ LB.i = (LB.i + d + LB.list.length) % LB.list.length; renderLB(); }
+function renderLB(){ const el = document.getElementById('lb'), x = LB.list[LB.i];
+  el.innerHTML = `<button type="button" class="lb-x" data-lbx aria-label="סגירה"><i data-lucide="x"></i></button>
+    <img src="${x.big}" alt="" onerror="this.onerror=null;this.src='${x.th}'">
+    <button type="button" class="lb-n prev" data-lbgo="-1" aria-label="הקודמת"><i data-lucide="chevron-right"></i></button>
+    <button type="button" class="lb-n next" data-lbgo="1" aria-label="הבאה"><i data-lucide="chevron-left"></i></button>
+    <div class="lb-cap"><span>${LB.i + 1}/${LB.list.length}</span><a href="${x.pg}" target="_blank" rel="noopener" class="ltr">${esc(x.by || 'Wikimedia Commons')}${x.lic ? ' · ' + esc(x.lic) : ''}</a></div>`;
+  icons(); }
+document.addEventListener('keydown', e => { const el = document.getElementById('lb'); if (!el || el.hidden) return;
+  if (e.key === 'Escape'){ e.stopImmediatePropagation(); closeLB(); } else if (e.key === 'ArrowLeft') lbGo(1); else if (e.key === 'ArrowRight') lbGo(-1); }, true);
+document.addEventListener('click', e => { const t = e.target.closest('#svAlbum [data-lb]'); if (!t) return; const a = SV.list[SV.i]; openLB(ALB[a.id] || [], +t.dataset.lb); });
+
 function openStory(id){
   const a = ALL_ACTS.find(x => x.id === id); if (!a) return;
   SV.list = stopOf(a.stop).acts.filter(x => x.v !== 'skip' || x.id === id);
@@ -2984,6 +3160,7 @@ function openStory(id){
   renderStory(); document.querySelector('#story .sv-close')?.focus();
 }
 function closeStory(){
+  closeLB();
   const el = document.getElementById('story'); if (el.hidden) return;
   el.hidden = true; document.getElementById('storyScrim').hidden = true; document.documentElement.classList.remove('noscroll');
   try { SV.from && SV.from.focus({ preventScroll:true }); } catch(e){}
@@ -3018,6 +3195,9 @@ function renderStory(){
           <div class="sv-v"><b>${d[0]}</b> <span style="opacity:.7" class="ltr">${d[1]}</span></div></div>
         <div class="sv-box"><div class="sv-k"><i data-lucide="sunrise"></i>הזמן הכי טוב</div><div class="sv-v">${esc(bestTime(a))}</div></div>
         ${a.why ? `<div class="sv-box full"><div class="sv-k"><i data-lucide="sparkles"></i>למה ללכת</div><p class="sv-why">${esc(a.why)}</p></div>` : ''}
+        ${ROUTE[a.id] ? `<div class="sv-box full"><div class="sv-k"><i data-lucide="route"></i>המסלול בקצרה</div><p class="sv-why">${esc(ROUTE[a.id].d)}</p>${ROUTE[a.id].k.length ? `<div class="sv-stats">${ROUTE[a.id].k.map(([ic, t]) => `<span><i data-lucide="${ic}"></i>${esc(t)}</span>`).join('')}</div>` : ''}</div>` : ''}
+        <div class="sv-box full"><div class="sv-k"><i data-lucide="images"></i>אלבום מהשטח <span id="svAlbN"></span></div><div id="svAlbum"><div class="alb">${'<i class="alb-sk"></i>'.repeat(6)}</div></div></div>
+        <div class="sv-box full"><div class="sv-k"><i data-lucide="users"></i>מה מטיילים מספרים</div><div class="sv-links">${commLinks(a)}</div></div>
         <div class="sv-box full"><div class="sv-k"><i data-lucide="backpack"></i>ציוד ליום הזה · ${gDone}/${gear.length}</div>
           <ul class="sv-gear">${gear.map((x, i) => `<li><label><input type="checkbox" data-gear="${a.id}:${i}" ${g[a.id + ':' + i] ? 'checked' : ''}><span>${esc(x)}</span></label></li>`).join('')}</ul></div>
       </div>
@@ -3030,7 +3210,7 @@ function renderStory(){
     </div>`;
   const sh = el.querySelector('.sv-sheet'); if (top) { sh.style.animation = 'none'; sh.scrollTop = top; }
   el.querySelector('.sv-bg img').onerror = e => { e.target.src = thumb(a); };
-  icons();
+  icons(); fillAlbum(a);
 }
 document.addEventListener('click', e => {
   const t = e.target.closest('[data-story],[data-svclose],[data-svgo],#storyScrim,#story [data-mappin]'); if (!t) return;
