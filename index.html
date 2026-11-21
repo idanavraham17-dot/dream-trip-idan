@@ -3077,7 +3077,7 @@ const ROUTE = {
   'mex-t20':{ d:'צניחת טנדם מגובה כ-3,000 מ׳ עם נחיתה על החוף בפלאיה דל כרמן. משך הזמן תלוי במזג האוויר, אז לא לקבוע ביום האחרון.', k:[['clock','חצי יום']], fb:'צניחה חופשית פלאיה דל כרמן' },
   'mex-t21':{ d:'הליכה ושחייה עם קסדה ופנס בתוך מערה תת-קרקעית עם נהר ונטיפים, ליד פלאיה. סיור מודרך בקבוצות קטנות.', k:[['clock','3–4 ש׳'],['map-pin','כ-10 דק׳ מפלאיה']], q:['Río Secreto'], fb:'ריו סקרטו מערה' },
   'mex-t22':{ d:'פארק מים טבעי בשפך נהר לים: שנורקלינג, ציפה על נהר, קפיצות ואומגות. ההכל כלול באוכל ובציוד.', k:[['clock','יום מלא']], q:['Xel-Há'], fb:'של-הא פארק' },
-  'mex-t23':{ d:'פארק אתגרים בג׳ונגל: 14 אומגות, רכבי אמפיבי, חתירה ושחייה במערות. לבוא בבוקר כדי להספיק הכול.', k:[['clock','יום מלא']], q:['Xplor Park'], fb:'אקספלור פארק' },
+  'mex-t23':{ d:'פארק אתגרים בג׳ונגל: 14 אומגות, רכבי אמפיבי, חתירה ושחייה במערות. לבוא בבוקר כדי להספיק הכול.', k:[['clock','יום מלא']], fb:'אקספלור פארק' },
   'mex-t24':{ d:'סיור טרקטורונים בדרכי עפר בג׳ונגל, בדרך כלל עם עצירה לשחייה בסנוטה.', k:[['clock','3–4 ש׳']], fb:'טרקטורונים פלאיה דל כרמן' },
   'mex-t26':{ d:'רחוב הולכי הרגל הראשי של פלאיה דל כרמן: מסעדות, ברים וחנויות. הכי חי בערב.', k:[['clock','ערב'],['ruler','כ-3 ק״מ']], q:['Quinta Avenida Playa del Carmen'], fb:'השדרה החמישית פלאיה דל כרמן' },
   'mex-t27':{ d:'סנוטות הן בולענים מלאי מים צלולים בג׳ונגל. דוס אוחוס וגראן סנוטה ליד טולום מתאימים לשנורקלינג בין נטיפים ומערות. לבוא בבוקר לפני הקבוצות.', k:[['clock','יום מלא'],['map-pin','אזור טולום']], q:['Dos Ojos cenote','Gran Cenote Tulum'], fb:'סנוטות טולום' }
@@ -3090,7 +3090,7 @@ async function commons(params){
   const r = await fetch(u); if (!r.ok) throw new Error('commons ' + r.status);
   const j = await r.json(); return Object.values((j.query && j.query.pages) || {}).sort((a, b) => (a.index || 0) - (b.index || 0));
 }
-const ALB_BAD = /\b(map|mapa|plano|logo|flag|bandera|escudo|diagram|chart|coat of arms|locator|svg|pdf)\b/i;
+const ALB_BAD = /\b(map|mapa|plano|logo|flag|bandera|escudo|diagram|chart|coat of arms|locator|svg|pdf|sentinel|landsat|satellite|route \d+)\b/i;
 function albPick(pages){
   return pages.map(p => { const ii = p.imageinfo && p.imageinfo[0]; if (!ii || !ii.thumburl) return null;
       if (ALB_BAD.test(p.title) || ii.width < 500 || /\.(svg|pdf|tif|tiff|gif)$/i.test(p.title)) return null;
